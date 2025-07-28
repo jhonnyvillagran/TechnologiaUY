@@ -304,6 +304,7 @@
             height: 250px;
             position: relative;
             background-color: var(--darker);
+            overflow: hidden;
         }
         
         .carousel-container {
@@ -321,6 +322,45 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--primary);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .carousel-btn.prev { left: 10px; }
+        .carousel-btn.next { right: 10px; }
+
+        .carousel-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+        }
+        
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background-color: var(--primary);
         }
 
         .product-info {
@@ -718,7 +758,7 @@
         </div>
     </div>
 
-    <!-- Panel de Datos de Envío (antes auth-overlay) -->
+    <!-- Panel de Datos de Envío -->
     <div class="details-overlay" id="details-overlay">
         <div class="details-panel">
             <div class="details-header">
@@ -726,7 +766,6 @@
                 <button class="close-details" id="close-details">&times;</button>
             </div>
             <div class="details-content">
-                <!-- Formulario Único para Datos de Envío -->
                 <form id="shipping-form">
                     <div class="form-group">
                         <label for="shipping-name">Nombre Completo:</label>
@@ -766,7 +805,7 @@
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR7zyKdQpDkjfgIpsF-sxwBJLRj7L0j0GC21AKgFx7tSY_aAwaCZMIL-GdaPCzrhLj/exec';
 
         let products = [];
-        let customerDetails = null; // Almacenará los datos del cliente para la sesión actual
+        let customerDetails = null;
         let cart = [];
 
         // DOM Elements
@@ -799,11 +838,10 @@
         async function saveShippingDetails(e) {
             e.preventDefault();
             const details = {
-                action: 'registerUser', // La acción en el script sigue siendo registrar un usuario
+                action: 'registerUser',
                 name: document.getElementById('shipping-name').value,
                 email: document.getElementById('shipping-email').value,
-                // No guardamos contraseña en el lado del cliente
-                password: 'NOT_SET', // El script puede ignorar esto o guardarlo, pero no lo usamos
+                password: 'NOT_SET',
                 cedula: document.getElementById('shipping-cedula').value,
                 direccion: document.getElementById('shipping-direccion').value,
                 agencia: document.getElementById('shipping-agencia').value
@@ -812,18 +850,11 @@
             showNotification('Guardando tus datos...', 'warning');
             
             try {
-                // Enviamos los datos a Google Sheets para tener un registro
                 await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(details) });
-                
-                // Guardamos los datos localmente para la compra actual
                 customerDetails = details;
-                
                 showNotification('Datos guardados. Finalizando compra...', 'success');
                 closeDetailsForm();
-                
-                // Procedemos inmediatamente a WhatsApp
                 redirectToWhatsApp();
-
             } catch (error) { 
                 showNotification('No se pudieron guardar los datos. Inténtalo de nuevo.', 'error');
             }
@@ -835,11 +866,31 @@
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
-                const firstImage = (product.images && product.images[0]) ? product.images[0] : '';
+                
+                // =========== INICIO DE CORRECCIÓN DEL CARRUSEL ===========
+                let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`; // Default
+                
+                if (product.images && product.images.length > 0 && product.images[0]) {
+                    carouselHTML = `
+                        <div class="carousel-container" id="carousel-container-${product.id}">
+                            ${product.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${product.name}"></div>`).join('')}
+                        </div>
+                    `;
+                    // Solo añadir botones y puntos si hay más de una imagen
+                    if (product.images.length > 1) {
+                        carouselHTML += `
+                            <button class="carousel-btn prev" onclick="changeSlide('${product.id}', -1)"><i class="fas fa-chevron-left"></i></button>
+                            <button class="carousel-btn next" onclick="changeSlide('${product.id}', 1)"><i class="fas fa-chevron-right"></i></button>
+                            <div class="carousel-nav" id="carousel-nav-${product.id}">
+                                ${product.images.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="currentSlide('${product.id}', ${index})"></div>`).join('')}
+                            </div>
+                        `;
+                    }
+                }
 
                 productCard.innerHTML = `
                     <div class="product-carousel">
-                        ${firstImage ? `<div class="carousel-container"><div class="carousel-slide"><img src="${firstImage}" alt="${product.name}"></div></div>` : `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`}
+                        ${carouselHTML}
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
@@ -851,7 +902,13 @@
                             </button>
                         </div>
                     </div>`;
+                // =========== FIN DE CORRECCIÓN DEL CARRUSEL ===========
+
                 productsContainer.appendChild(productCard);
+                // Inicializar carrusel si es necesario
+                if (product.images && product.images.length > 1) {
+                    initializeCarousel(product.id);
+                }
             });
             document.querySelectorAll('.btn-add-cart').forEach(button => {
                 button.addEventListener('click', () => addToCart(button.dataset.id));
@@ -887,6 +944,49 @@
                     </div>`;
             }).join('');
             cartTotal.textContent = total.toFixed(2);
+        }
+
+        // --- FUNCIONES DEL CARRUSEL RESTAURADAS ---
+        const activeCarousels = {}; // Para manejar los intervalos de cada carrusel
+
+        function initializeCarousel(productId) {
+            // Limpiar intervalo anterior si existe para este carrusel
+            if (activeCarousels[productId]) {
+                clearInterval(activeCarousels[productId]);
+            }
+            // Empezar un nuevo intervalo
+            activeCarousels[productId] = setInterval(() => {
+                changeSlide(productId, 1);
+            }, 5000); // Cambia cada 5 segundos
+        }
+
+        function changeSlide(productId, direction) {
+            const container = document.getElementById(`carousel-container-${productId}`);
+            const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
+            if (!container || dots.length === 0) return;
+            
+            let currentIndex = Array.from(dots).findIndex(dot => dot.classList.contains('active'));
+            let nextIndex = currentIndex + direction;
+
+            if (nextIndex >= dots.length) {
+                nextIndex = 0;
+            } else if (nextIndex < 0) {
+                nextIndex = dots.length - 1;
+            }
+            currentSlide(productId, nextIndex);
+        }
+
+        function currentSlide(productId, index) {
+            const container = document.getElementById(`carousel-container-${productId}`);
+            const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
+            if (!container || !dots[index]) return;
+
+            container.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+
+            // Reiniciar el intervalo para que no cambie inmediatamente después de un clic manual
+            initializeCarousel(productId);
         }
 
         // --- UI & Helper Functions ---
@@ -940,17 +1040,14 @@
                 showNotification('Tu carrito está vacío.', 'warning');
                 return;
             }
-            // Si no tenemos los datos del cliente, pedirlos.
             if (!customerDetails) {
                 showDetailsForm();
             } else {
-                // Si ya los tenemos, ir directo a WhatsApp.
                 redirectToWhatsApp();
             }
         }
 
         function redirectToWhatsApp() {
-            // Esta función ahora depende de que 'checkout' la llame
             if (!customerDetails) {
                  showNotification('Por favor, completa tus datos de envío.', 'error');
                  showDetailsForm();
@@ -985,14 +1082,9 @@
         closeCart.addEventListener('click', () => cartOverlay.classList.remove('active'));
         cartItems.addEventListener('click', handleCartActions);
         
-        // El botón de checkout inicia el proceso
         checkoutBtn.addEventListener('click', checkout);
-        
-        // El icono de usuario también abre el formulario de datos
         userBtn.addEventListener('click', showDetailsForm);
         closeDetails.addEventListener('click', closeDetailsForm);
-        
-        // El formulario de envío ahora llama a la función de guardar
         shippingForm.addEventListener('submit', saveShippingDetails);
 
     </script>
