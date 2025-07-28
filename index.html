@@ -3,812 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechnologiaUY - Tienda Gamer</title>
+    <!-- SEO Meta Tags -->
+    <title>TechnologiaUY - Tienda Gamer en Uruguay</title>
+    <meta name="description" content="La mejor tienda de tecnología y componentes gamer en Uruguay. Envíos rápidos a todo el país desde Rivera. Aceptamos múltiples formas de pago.">
+    <meta name="keywords" content="gamer, uruguay, pc, componentes, perifericos, tecnologia, rivera, envios, tienda online">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Variables de colores estilo gamer con neones */
         :root {
-            --primary: #00f7ff;
-            --primary-dark: #00c6cc;
-            --secondary: #ff00c8;
-            --accent: #ff8c00;
-            --dark: #0a0a14;
-            --darker: #05050a;
-            --light: #f0f0f0;
-            --success: #00ff9d;
-            --warning: #ffcc00;
-            --danger: #ff0055;
-            --transition: all 0.3s ease;
-            --shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-            --shadow-lg: 0 0 20px rgba(0, 247, 255, 0.7);
-            --border-radius: 8px;
-            --bg-primary: #0a0a14;
-            --bg-secondary: #121220;
-            --text-primary: #f0f0f0;
-            --text-secondary: #a0a0c0;
+            --primary: #00f7ff; --primary-dark: #00c6cc; --secondary: #ff00c8; --accent: #ff8c00; --dark: #0a0a14;
+            --darker: #05050a; --light: #f0f0f0; --success: #00ff9d; --warning: #ffcc00; --danger: #ff0055;
+            --transition: all 0.3s ease; --shadow: 0 0 10px rgba(0, 247, 255, 0.5); --shadow-lg: 0 0 20px rgba(0, 247, 255, 0.7);
+            --border-radius: 8px; --bg-primary: #0a0a14; --bg-secondary: #121220; --text-primary: #f0f0f0; --text-secondary: #a0a0c0;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text-primary); background-color: var(--bg-primary); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
 
-        /* Reset y base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* General View Class */
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--bg-primary);
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        .btn { display: inline-block; padding: 12px 24px; border: none; border-radius: var(--border-radius); cursor: pointer; font-weight: 600; transition: var(--transition); text-align: center; font-size: 1rem; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: 0.5s; }
+        .btn:hover::before { left: 100%; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--dark); border: 1px solid var(--primary); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .header { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(10, 10, 20, 0.95); box-shadow: var(--shadow); z-index: 1000; padding: 15px 0; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 247, 255, 0.3); }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 10px rgba(0, 247, 255, 0.5); }
+        .nav ul { display: flex; gap: 30px; }
+        .nav a { font-weight: 600; position: relative; padding: 5px 0; color: var(--text-primary); transition: color 0.3s; }
+        .nav a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(0, 247, 255, 0.7); }
+        .nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: var(--transition); }
+        .nav a:hover::after { width: 100%; }
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .cart-btn, .user-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; position: relative; color: var(--text-primary); transition: var(--transition); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0, 247, 255, 0.3); }
+        .cart-btn:hover, .user-btn:hover { color: var(--dark); background: linear-gradient(135deg, var(--primary), var(--primary-dark)); transform: scale(1.1); box-shadow: var(--shadow-lg); }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; font-size: 0.7rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid var(--dark); }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            text-align: center;
-            font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--dark);
-            border: 1px solid var(--primary);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(10, 10, 20, 0.95);
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            padding: 15px 0;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
-        }
-
-        .header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-        }
-
-        .nav ul {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav a {
-            font-weight: 600;
-            position: relative;
-            padding: 5px 0;
-            color: var(--text-primary);
-            transition: color 0.3s;
-        }
-
-        .nav a:hover {
-            color: var(--primary);
-            text-shadow: 0 0 8px rgba(0, 247, 255, 0.7);
-        }
-
-        .nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: var(--transition);
-        }
-
-        .nav a:hover::after {
-            width: 100%;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .cart-btn, .user-btn {
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            position: relative;
-            color: var(--text-primary);
-            transition: var(--transition);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0, 247, 255, 0.3);
-        }
-
-        .cart-btn:hover, .user-btn:hover {
-            color: var(--dark);
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            transform: scale(1.1);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border: 1px solid var(--dark);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(10, 10, 20, 0.9), rgba(10, 10, 20, 0.95)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            margin-top: 70px;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            padding: 0 20px;
-            z-index: 2;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(0, 247, 255, 0.7);
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            font-weight: 500;
-            color: var(--light);
-        }
+        .main-content { padding-top: 80px; }
+        .hero { height: 100vh; background: linear-gradient(rgba(10, 10, 20, 0.9), rgba(10, 10, 20, 0.95)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; color: white; margin-top: -80px; position: relative; }
+        .hero-content { max-width: 800px; padding: 0 20px; z-index: 2; }
+        .hero-title { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 0 0 15px rgba(0, 247, 255, 0.7); font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-subtitle { font-size: 1.5rem; margin-bottom: 30px; font-weight: 500; color: var(--light); }
         
-        /* Products Section */
-        .products {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            position: relative;
-            color: var(--text-primary);
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid rgba(0, 247, 255, 0.2);
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .product-carousel {
-            height: 250px;
-            position: relative;
-            background-color: var(--darker);
-            overflow: hidden;
-        }
+        /* Banner rotativo de productos destacados */
+        .featured-banner { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; height: 120px; background: rgba(18, 18, 32, 0.9); border-radius: var(--border-radius); border: 1px solid rgba(0, 247, 255, 0.3); overflow: hidden; z-index: 3; }
+        .banner-container { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .banner-slide { min-width: 100%; height: 100%; display: flex; align-items: center; padding: 20px; gap: 20px; }
+        .banner-product-image { width: 80px; height: 80px; object-fit: cover; border-radius: var(--border-radius); flex-shrink: 0; }
+        .banner-product-info { flex: 1; }
+        .banner-product-title { font-size: 1.2rem; font-weight: 600; color: var(--primary); margin-bottom: 5px; }
+        .banner-product-price { font-size: 1.1rem; color: var(--success); font-weight: 700; }
+        .banner-product-description { font-size: 0.9rem; color: var(--text-secondary); }
         
-        .carousel-container {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease;
-        }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; position: relative; color: var(--text-primary); font-weight: 700; text-shadow: 0 0 10px rgba(0, 247, 255, 0.5); padding-top: 80px;}
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
         
-        .carousel-slide {
-            min-width: 100%;
-            height: 100%;
-        }
+        .info-section { padding: 80px 0; background: var(--bg-secondary); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
+        .info-card { background: var(--dark); padding: 30px; border-radius: var(--border-radius); border: 1px solid rgba(0, 247, 255, 0.2); transition: var(--transition); }
+        .info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .info-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .info-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--light); }
+        .info-card p, .info-card ul { color: var(--text-secondary); line-height: 1.8; }
+        .info-card li { margin-bottom: 5px; }
+
+        .products { padding: 80px 0; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: var(--bg-secondary); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(0, 247, 255, 0.2); display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .product-carousel { height: 250px; position: relative; background-color: var(--darker); overflow: hidden; }
+        .carousel-container { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .carousel-slide { min-width: 100%; height: 100%; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 2; }
+        .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+        .carousel-nav { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2; }
+        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; }
+        .carousel-dot.active { background-color: var(--primary); }
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 1.3rem; margin-bottom: 10px; }
+        .product-description { color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem; min-height: 60px; }
+        .product-price { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-top: auto; padding-top: 15px; }
         
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        /* Product Detail View */
+        #product-detail-view .container { padding: 40px 0; }
+        .product-detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; }
+        .product-detail-title { font-size: 2.8rem; margin-bottom: 15px; color: var(--primary); }
+        .product-detail-price { font-size: 2rem; color: var(--success); font-weight: bold; margin-bottom: 20px; }
+        .product-detail-description { color: var(--text-secondary); margin-bottom: 30px; line-height: 1.7; }
+        .product-detail-actions .btn { width: 100%; font-size: 1.2rem; }
+        .back-to-products { display: inline-block; margin-bottom: 30px; color: var(--primary); }
 
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: var(--primary);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .carousel-btn.prev { left: 10px; }
-        .carousel-btn.next { right: 10px; }
-
-        .carousel-nav {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 2;
-        }
+        /* Generic Page View (Terms, Policy, FAQ) */
+        .page-view { padding: 40px 0; }
+        .page-content { background: var(--bg-secondary); padding: 40px; border-radius: var(--border-radius); border: 1px solid rgba(0,247,255,0.2); }
+        .page-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); }
+        .page-content p, .page-content ul { margin-bottom: 15px; line-height: 1.8; color: var(--text-secondary); }
+        .page-content li { margin-left: 20px; list-style: disc; }
         
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-        }
-
-        .carousel-dot.active {
-            background-color: var(--primary);
-        }
-
-        .product-info {
-            padding: 20px;
-        }
-
-        .product-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .product-description {
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            min-height: 60px;
-        }
-
-        .product-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        /* Cart Overlay */
-        .cart-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: flex-end;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .cart-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .cart {
-            background: var(--bg-primary);
-            width: 100%;
-            max-width: 450px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            box-shadow: -5px 0 25px rgba(0, 247, 255, 0.3);
-            border-left: 1px solid rgba(0, 247, 255, 0.3);
-        }
-
-        .cart-overlay.active .cart {
-            transform: translateX(0);
-        }
-
-        .cart-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-cart {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: var(--text-primary);
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 15px;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 247, 255, 0.1);
-            align-items: center;
-        }
-
-        .cart-item-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            flex-shrink: 0;
-        }
-
-        .cart-item-details {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        /* FAQ Styles */
+        .faq-item { margin-bottom: 20px; border: 1px solid rgba(0, 247, 255, 0.2); border-radius: var(--border-radius); overflow: hidden; }
+        .faq-question { background: var(--dark); padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
+        .faq-question:hover { background: rgba(0, 247, 255, 0.1); }
+        .faq-question h4 { color: var(--primary); font-size: 1.1rem; margin: 0; }
+        .faq-icon { color: var(--primary); transition: transform 0.3s ease; }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: var(--bg-secondary); }
+        .faq-answer.active { padding: 20px; max-height: 200px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
         
-        .cart-item-info {
-             display: flex;
-             justify-content: space-between;
-             align-items: flex-start;
-        }
-
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .cart-item-price {
-            color: var(--primary);
-            font-weight: 700;
-        }
+        /* Cart & User Details Overlays */
+        .cart-overlay, .details-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .cart-overlay { justify-content: flex-end; }
+        .details-overlay { align-items: center; justify-content: center; }
+        .cart-overlay.active, .details-overlay.active { opacity: 1; visibility: visible; }
+        .cart { background: var(--bg-primary); width: 100%; max-width: 450px; height: 100%; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; box-shadow: -5px 0 25px rgba(0, 247, 255, 0.3); border-left: 1px solid rgba(0, 247, 255, 0.3); }
+        .cart-overlay.active .cart { transform: translateX(0); }
+        .cart-header { padding: 20px; border-bottom: 1px solid rgba(0, 247, 255, 0.3); display: flex; justify-content: space-between; align-items: center; }
+        .close-cart { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-primary); }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px solid rgba(0, 247, 255, 0.1); align-items: center; }
+        .cart-item-image { width: 80px; height: 80px; object-fit: cover; border-radius: var(--border-radius); flex-shrink: 0; }
+        .cart-item-details { flex: 1; display: flex; flex-direction: column; }
+        .cart-item-info { display: flex; justify-content: space-between; align-items: flex-start; }
+        .cart-item-title { font-weight: 600; margin-bottom: 5px; }
+        .cart-item-price { color: var(--primary); font-weight: 700; }
+        .remove-item { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; margin-left: 10px; }
+        .cart-item-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .quantity-btn { width: 30px; height: 30px; border: 2px solid; background: var(--bg-secondary); cursor: pointer; border-radius: 50%; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .quantity-btn.decrease { border-color: var(--danger); color: var(--danger); }
+        .quantity-btn.decrease:hover { background: var(--danger); color: white; }
+        .quantity-btn.increase { border-color: var(--success); color: var(--success); }
+        .quantity-btn.increase:hover { background: var(--success); color: var(--dark); }
+        .cart-footer { padding: 20px; border-top: 1px solid rgba(0, 247, 255, 0.3); }
+        .cart-total { font-size: 1.3rem; margin-bottom: 20px; text-align: right; font-weight: 700; }
+        .whatsapp-info { background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; border-radius: var(--border-radius); padding: 15px; margin-bottom: 20px; }
+        .whatsapp-info p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; text-align: center; }
+        .whatsapp-info i { color: #25D366; margin-right: 8px; }
         
-        .remove-item {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            font-size: 1rem;
-            margin-left: 10px;
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .quantity-btn {
-            width: 25px;
-            height: 25px;
-            border: 1px solid rgba(0, 247, 255, 0.3);
-            background: var(--bg-secondary);
-            cursor: pointer;
-            border-radius: 50%;
-        }
-
-        .cart-footer {
-            padding: 20px;
-            border-top: 1px solid rgba(0, 247, 255, 0.3);
-        }
-
-        .cart-total {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            text-align: right;
-            font-weight: 700;
-        }
+        .details-panel { background: var(--bg-primary); width: 100%; max-width: 420px; border-radius: var(--border-radius); transform: scale(0.8); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0, 247, 255, 0.3); border: 1px solid rgba(0, 247, 255, 0.3); margin: 20px; }
+        .details-overlay.active .details-panel { transform: scale(1); }
+        .details-header { padding: 20px; background: linear-gradient(90deg, var(--dark), #1a1a2e); display: flex; justify-content: space-between; align-items: center; }
+        .close-details { background: none; border: none; font-size: 2rem; cursor: pointer; color: white; }
+        .details-content { padding: 30px; max-height: 80vh; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-group input { width: 100%; padding: 12px 15px; border: 1px solid rgba(0, 247, 255, 0.3); border-radius: var(--border-radius); background: var(--bg-secondary); color: var(--text-primary); }
+        .form-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(0, 247, 255, 0.2); }
         
-        /* User Details Overlay */
-        .details-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
+        .about { padding: 80px 0; background: var(--bg-secondary); }
+        .about-content { text-align: center; max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;}
+        .about-content p { margin-bottom: 20px; }
+        .about-content span { color: var(--primary); font-weight: 600; }
 
-        .details-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .details-panel {
-            background: var(--bg-primary);
-            width: 100%;
-            max-width: 420px;
-            border-radius: var(--border-radius);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-            box-shadow: 0 20px 50px rgba(0, 247, 255, 0.3);
-            border: 1px solid rgba(0, 247, 255, 0.3);
-            margin: 20px;
-        }
+        .footer { background: var(--dark); padding: 40px 0 20px; text-align: center; border-top: 1px solid rgba(0,247,255,0.2); }
+        .footer-links { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; }
+        .footer-links a { color: var(--text-secondary); transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
 
-        .details-overlay.active .details-panel {
-            transform: scale(1);
-        }
-
-        .details-header {
-            padding: 20px;
-            background: linear-gradient(90deg, var(--dark), #1a1a2e);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-details {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: white;
-        }
-
-        .details-content {
-            padding: 30px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid rgba(0, 247, 255, 0.3);
-            border-radius: var(--border-radius);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .form-group input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 247, 255, 0.2);
-        }
-
-        /* About Section */
-        .about {
-            padding: 80px 0;
-            background: var(--bg-secondary);
-            text-align: center;
-        }
-        
-        /* Footer y otros */
-        .footer {
-            background: var(--dark);
-            padding: 20px 0;
-            text-align: center;
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--success);
-            color: var(--dark);
-            padding: 15px 25px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 3000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
+        .notification { position: fixed; bottom: 20px; right: 20px; background-color: var(--success); color: var(--dark); padding: 15px 25px; border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 3000; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
         .notification.show { opacity: 1; transform: translateY(0); }
         .notification.error { background-color: var(--danger); color: white; }
         .notification.warning { background-color: var(--warning); color: var(--dark); }
 
-        .placeholder {
-            color: #64748b;
-            text-align: center;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
+        .placeholder { color: #64748b; text-align: center; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
         .placeholder i { font-size: 2rem; margin-bottom: 10px; }
+        
+        /* Floating WhatsApp Button */
+        .whatsapp-fab { position: fixed; bottom: 25px; left: 25px; z-index: 1001; }
+        .whatsapp-fab a { display: flex; align-items: center; justify-content: center; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.4); font-size: 2.5rem; transition: all 0.3s ease; }
+        .whatsapp-fab a:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 6px 16px rgba(0,0,0,0.5); }
+        .whatsapp-fab .tooltip { position: absolute; left: 75px; top: 50%; transform: translateY(-50%); background-color: var(--darker); color: var(--light); padding: 8px 15px; border-radius: var(--border-radius); white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; border: 1px solid rgba(0,247,255,0.3); }
+        .whatsapp-fab:hover .tooltip { opacity: 1; visibility: visible; }
+        @keyframes vibrate { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+        .whatsapp-fab a { animation: vibrate 0.5s ease-in-out infinite; animation-delay: 5s; }
+        .whatsapp-fab:hover a { animation: none; }
 
-        /* Responsive */
+
         @media (max-width: 768px) {
             .nav ul { display: none; }
             .hero-title { font-size: 2.5rem; }
             .hero-subtitle { font-size: 1.2rem; }
-            .section-title { font-size: 2rem; }
+            .section-title { font-size: 2rem; padding-top: 60px; }
+            .product-detail-layout { grid-template-columns: 1fr; gap: 20px; }
             .cart { max-width: 100%; }
-        }
-
-        @media (max-width: 480px) {
-            .details-content {
-                padding: 20px;
-            }
-            .cart-item {
-                gap: 10px;
-            }
-            .cart-item-image {
-                width: 60px;
-                height: 60px;
-            }
-            .cart-item-title {
-                font-size: 0.9rem;
-            }
-            .cart-item-price {
-                font-size: 0.9rem;
-            }
+            .details-panel { margin: 10px; max-width: calc(100% - 20px); }
+            .featured-banner { width: 95%; height: 100px; bottom: 30px; }
+            .banner-slide { padding: 15px; gap: 15px; }
+            .banner-product-image { width: 60px; height: 60px; }
+            .banner-product-title { font-size: 1rem; }
+            .banner-product-price { font-size: 1rem; }
+            .banner-product-description { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="logo">
-                <h1>Technologia<span>UY</span></h1>
+                <h1>TechnologiaUY</h1>
             </div>
             <nav class="nav">
                 <ul>
                     <li><a href="#inicio">Inicio</a></li>
                     <li><a href="#productos">Productos</a></li>
                     <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#/faq">FAQ</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
-                <button class="cart-btn" id="cart-btn">
+                <button class="user-btn" id="user-btn" aria-label="Datos de usuario">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="cart-btn" id="cart-btn" aria-label="Carrito de compras">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
-                </button>
-                <button class="user-btn" id="user-btn" title="Ingresar datos de envío">
-                    <i class="fas fa-user-edit"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <h2 class="hero-title">TECNOLOGÍA AL MÁXIMO</h2>
-            <p class="hero-subtitle">Los mejores productos tecnológicos al mejor precio en Uruguay</p>
-            <div>
-                <a href="#productos" class="btn btn-primary">Ver Productos</a>
+    <main class="main-content" id="main-container">
+        <div id="main-view" class="view active">
+            <section class="hero" id="inicio">
+                <div class="hero-content">
+                    <h2 class="hero-title">TECNOLOGÍA AL MÁXIMO</h2>
+                    <p class="hero-subtitle">Los mejores productos tecnológicos al mejor precio en Uruguay</p>
+                    <a href="#productos" class="btn btn-primary">Ver Productos</a>
+                </div>
+                <div class="featured-banner" id="featured-banner">
+                    <div class="banner-container" id="banner-container">
+                        <!-- Banner slides will be loaded here -->
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <div class="container">
+                     <div class="info-grid">
+                        <div class="info-card">
+                            <i class="fas fa-shipping-fast"></i>
+                            <h3>Envíos Rápidos a Todo Uruguay</h3>
+                            <p>Los envíos salen todos los días, de lunes a sábado. <strong>¡Sin monto mínimo de compra!</strong> Los pedidos pagos antes de las 16:00 se despachan el mismo día.</p>
+                        </div>
+                        <div class="info-card">
+                             <i class="fas fa-credit-card"></i>
+                             <h3>Formas de Pago Flexibles</h3>
+                             <p>Para tu comodidad, aceptamos pagos por: Prex, Oca Blue, Mi Dinero, Mercado Pago y transferencia bancaria.</p>
+                        </div>
+                         <div class="info-card">
+                             <i class="fas fa-headset"></i>
+                             <h3>Atención Personalizada</h3>
+                             <p><strong>Lunes a Viernes:</strong> 09:30 a 19:00<br><strong>Sábados:</strong> 09:30 a 13:00. ¡Consúltanos por la agencia de envío de tu preferencia!</p>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <section class="about" id="nosotros">
+                <div class="container">
+                    <h2 class="section-title">Sobre TechnologiaUY</h2>
+                    <div class="about-content">
+                        <p>
+                            Somos una empresa uruguaya con sede en <span>Rivera</span>, apasionada por la tecnología y dedicada a la importación y venta de componentes y periféricos de alta calidad.
+                            Nuestra misión es simple: hacer que la última tecnología sea accesible para todos en Uruguay, ofreciendo precios competitivos y un servicio al cliente excepcional.
+                        </p>
+                        <p>
+                            Creemos en la transparencia y la confianza. Por eso, gestionamos nuestros envíos con la máxima eficiencia y ofrecemos una amplia variedad de métodos de pago para adaptarnos a tus necesidades.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="products" id="productos">
+                <div class="container">
+                    <h2 class="section-title">Nuestros Productos</h2>
+                    <div class="products-grid" id="products-container">
+                        <!-- Product cards will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Product Detail View -->
+        <div id="product-detail-view" class="view">
+            <!-- Product detail content will be loaded here -->
+        </div>
+
+        <!-- FAQ View -->
+        <div id="faq-view" class="view">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="container page-view">
+                <a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a>
+                <div class="page-content">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cuáles son los métodos de pago disponibles?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Aceptamos múltiples formas de pago para tu comodidad: Prex, Oca Blue, Mi Dinero, Mercado Pago y transferencia bancaria. Todos los pagos deben ser confirmados antes del envío del producto.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cómo funciona el proceso de compra?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Es muy simple: agrega productos a tu carrito, completa tus datos de envío y procede al checkout. Al finalizar, serás redirigido a WhatsApp donde confirmaremos tu pedido y coordinaremos el pago y envío de manera personalizada.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Realizan envíos a todo Uruguay?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sí, realizamos envíos a todo el territorio uruguayo sin monto mínimo de compra. Trabajamos con agencias como Mirtrans, Correo, Turil, Nuñez, DAC, UES o la de tu preferencia. Los envíos salen de lunes a sábado.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cuánto tiempo tarda en llegar mi pedido?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Los pedidos con pago confirmado antes de las 16:00 hs se despachan el mismo día. El tiempo de entrega depende de la agencia elegida y el destino, generalmente entre 1-3 días hábiles para Montevideo y 2-5 días para el interior.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Ofrecen garantía en los productos?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Todos nuestros productos cuentan con garantía del fabricante. En caso de problemas, nos hacemos cargo de la gestión de garantía. Contáctanos por WhatsApp para cualquier inconveniente.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Puedo cambiar o cancelar mi pedido?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Puedes modificar o cancelar tu pedido antes de que sea despachado. Una vez confirmado el pago y enviado el producto, no es posible realizar cambios. Contáctanos inmediatamente por WhatsApp si necesitas hacer modificaciones.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cómo puedo hacer seguimiento de mi pedido?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Una vez despachado tu pedido, te enviaremos el número de seguimiento por WhatsApp. Podrás rastrear tu paquete directamente en el sitio web de la agencia de envío correspondiente.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="about" id="nosotros">
-        <div class="container">
-            <h2 class="section-title">Sobre TechnologiaUY</h2>
-            <p style="text-align: center; max-width: 800px; margin: 0 auto;">
-                Somos una empresa uruguaya basada en <span style="color:var(--primary); font-weight: 600;">Rivera</span> especializada en la importación 
-                y venta de productos tecnológicos de alta calidad. Nuestro compromiso es ofrecer tecnología accesible para todos.
-            </p>
-        </div>
-    </section>
-
-    <!-- Productos Section -->
-    <section class="products" id="productos">
-        <div class="container">
-            <h2 class="section-title">Nuestros Productos</h2>
-            <div class="products-grid" id="products-container">
-                <!-- Los productos se cargarán aquí dinámicamente -->
+        <!-- Terms and Conditions View -->
+        <div id="terms-view" class="view">
+            <h2 class="section-title">Términos y Condiciones</h2>
+            <div class="container page-view">
+                 <a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a>
+                <div class="page-content">
+                    <h3>1. General</h3>
+                    <p>Al acceder y realizar un pedido en TechnologiaUY, usted confirma que está de acuerdo y sujeto a los términos de servicio contenidos en los Términos y Condiciones que se describen a continuación. Estos términos se aplican a todo el sitio web y a cualquier correo electrónico u otro tipo de comunicación entre usted y TechnologiaUY.</p>
+                    <h3>2. Productos y Precios</h3>
+                    <p>Todos los productos y precios están sujetos a cambios sin previo aviso. Los precios se muestran en Pesos Uruguayos (UYU) a menos que se indique lo contrario. Nos reservamos el derecho de modificar o descontinuar un producto sin previo aviso en cualquier momento.</p>
+                    <h3>3. Pagos</h3>
+                    <p>Aceptamos múltiples métodos de pago, incluyendo Prex, Oca Blue, Mi Dinero, Mercado Pago y transferencias bancarias. El pago debe ser completado antes del envío del producto. La confirmación del pago puede demorar según el método elegido.</p>
+                    <h3>4. Envíos</h3>
+                    <p>Realizamos envíos a todo el territorio uruguayo. Los pedidos con pago confirmado antes de las 16:00 hs de lunes a sábado se despachan en el mismo día. Los costos de envío son responsabilidad del cliente, a menos que se especifique una promoción. Las agencias disponibles son Mirtrans, Correo, Turil, Nuñez, DAC, UES o la de preferencia del cliente.</p>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- Carrito de Compras -->
+        <!-- Privacy Policy View -->
+        <div id="privacy-view" class="view">
+            <h2 class="section-title">Política de Privacidad</h2>
+            <div class="container page-view">
+                <a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a>
+                <div class="page-content">
+                     <h3>1. Información que Recopilamos</h3>
+                     <p>Recopilamos información que usted nos proporciona directamente al realizar un pedido o completar el formulario de envío. Esto incluye: nombre, dirección de correo electrónico, cédula de identidad, dirección de envío y agencia de preferencia.</p>
+                     <h3>2. Cómo Usamos su Información</h3>
+                     <p>La información recopilada se utiliza exclusivamente para los siguientes propósitos:</p>
+                     <ul>
+                        <li>Procesar y gestionar su pedido.</li>
+                        <li>Coordinar el envío de sus productos.</li>
+                        <li>Comunicarnos con usted sobre su compra y para la confirmación vía WhatsApp.</li>
+                        <li>No compartimos su información personal con terceros para fines de marketing.</li>
+                     </ul>
+                      <h3>3. Seguridad de los Datos</h3>
+                     <p>Nos comprometemos a proteger la seguridad de su información personal. Utilizamos una conexión segura a través de Google Apps Script para el manejo de datos y no almacenamos información sensible de pago en nuestros servidores.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- END VIEWS CONTAINER -->
+
     <div class="cart-overlay" id="cart-overlay">
         <div class="cart">
-            <div class="cart-header">
-                <h3>Tu Carrito</h3>
-                <button class="close-cart" id="close-cart">&times;</button>
-            </div>
+            <div class="cart-header"><h3>Tu Carrito</h3><button class="close-cart" id="close-cart">&times;</button></div>
             <div class="cart-items" id="cart-items"></div>
             <div class="cart-footer">
-                <div class="cart-total">
-                    <strong>Total: $<span id="cart-total">0.00</span></strong>
+                <div class="whatsapp-info">
+                    <p><i class="fab fa-whatsapp"></i> Al finalizar la compra serás redirigido a WhatsApp para confirmar tu pedido de forma segura y personalizada.</p>
                 </div>
-                <div class="cart-actions">
-                    <button class="btn btn-primary" id="checkout-btn" style="width:100%;">Proceder al Pago</button>
-                </div>
+                <div class="cart-total"><strong>Total: $<span id="cart-total">0.00</span></strong></div>
+                <div class="cart-actions"><button class="btn btn-primary" id="checkout-btn" style="width:100%;">Proceder al Pago</button></div>
             </div>
         </div>
     </div>
 
-    <!-- Panel de Datos de Envío -->
     <div class="details-overlay" id="details-overlay">
         <div class="details-panel">
-            <div class="details-header">
-                <h3>Completa tus Datos de Envío</h3>
-                <button class="close-details" id="close-details">&times;</button>
-            </div>
+            <div class="details-header"><h3>Completa tus Datos de Envío</h3><button class="close-details" id="close-details">&times;</button></div>
             <div class="details-content">
                 <form id="shipping-form">
-                    <div class="form-group">
-                        <label for="shipping-name">Nombre Completo:</label>
-                        <input type="text" id="shipping-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-email">Email:</label>
-                        <input type="email" id="shipping-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-cedula">Cédula de Identidad:</label>
-                        <input type="text" id="shipping-cedula" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-direccion">Dirección Completa:</label>
-                        <input type="text" id="shipping-direccion" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-agencia">Agencia de Envío:</label>
-                        <input type="text" id="shipping-agencia" required>
-                    </div>
+                    <div class="form-group"><label for="shipping-name">Nombre Completo:</label><input type="text" id="shipping-name" required></div>
+                    <div class="form-group"><label for="shipping-email">Email:</label><input type="email" id="shipping-email" required></div>
+                    <div class="form-group"><label for="shipping-cedula">Cédula de Identidad:</label><input type="text" id="shipping-cedula" required></div>
+                    <div class="form-group"><label for="shipping-direccion">Dirección Completa:</label><input type="text" id="shipping-direccion" required></div>
+                    <div class="form-group"><label for="shipping-agencia">Agencia de Envío:</label><input type="text" id="shipping-agencia" required></div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar y Proceder al Pago</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
+            <div class="footer-links">
+                <a href="#/terminos">Términos y Condiciones</a>
+                <a href="#/privacidad">Política de Privacidad</a>
+                <a href="#/faq">Preguntas Frecuentes</a>
+            </div>
             <p>© 2023 TechnologiaUY. Todos los derechos reservados.</p>
         </div>
     </footer>
+    
+    <div class="whatsapp-fab">
+        <a href="https://wa.me/59895596779?text=Hola,%20quisiera%20hacer%20una%20consulta%20sobre%20un%20producto." target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <span class="tooltip">¿Tienes dudas? ¡Escríbenos!</span>
+    </div>
 
     <script>
-        // URL del Script de Google Sheets (YA INTEGRADA)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR7zyKdQpDkjfgIpsF-sxwBJLRj7L0j0GC21AKgFx7tSY_aAwaCZMIL-GdaPCzrhLj/exec';
 
         let products = [];
         let customerDetails = null;
         let cart = [];
+        const activeCarousels = {};
+        let bannerInterval;
 
         // DOM Elements
+        const mainContainer = document.getElementById('main-container');
+        const views = document.querySelectorAll('.view');
         const productsContainer = document.getElementById('products-container');
         const cartBtn = document.getElementById('cart-btn');
         const cartOverlay = document.getElementById('cart-overlay');
@@ -821,14 +490,28 @@
         const closeDetails = document.getElementById('close-details');
         const shippingForm = document.getElementById('shipping-form');
         const checkoutBtn = document.getElementById('checkout-btn');
+        const productDetailView = document.getElementById('product-detail-view');
+        const bannerContainer = document.getElementById('banner-container');
 
-        // --- Core Functions ---
+        // --- Core Functions & Data Persistence ---
+        function saveCartToLocalStorage() {
+            localStorage.setItem('technologiaUYCart', JSON.stringify(cart));
+        }
+
+        function loadCartFromLocalStorage() {
+            const savedCart = localStorage.getItem('technologiaUYCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+        }
+        
         async function fetchProducts() {
             try {
                 const response = await fetch(SCRIPT_URL);
                 if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
                 products = await response.json();
-                renderProducts();
+                handleRouteChange(); // Render content based on current URL hash
+                initializeFeaturedBanner(); // Initialize banner after products are loaded
             } catch (error) {
                 showNotification('Error al cargar productos.', 'error');
                 productsContainer.innerHTML = "<p>No se pudieron cargar los productos.</p>";
@@ -838,12 +521,8 @@
         async function saveShippingDetails(e) {
             e.preventDefault();
             const details = {
-                action: 'registerUser',
-                name: document.getElementById('shipping-name').value,
-                email: document.getElementById('shipping-email').value,
-                password: 'NOT_SET',
-                cedula: document.getElementById('shipping-cedula').value,
-                direccion: document.getElementById('shipping-direccion').value,
+                action: 'registerUser', name: document.getElementById('shipping-name').value, email: document.getElementById('shipping-email').value,
+                password: 'NOT_SET', cedula: document.getElementById('shipping-cedula').value, direccion: document.getElementById('shipping-direccion').value,
                 agencia: document.getElementById('shipping-agencia').value
             };
             
@@ -860,72 +539,170 @@
             }
         }
         
+        // --- Featured Banner Functions ---
+        function initializeFeaturedBanner() {
+            if (products.length === 0) return;
+            
+            // Get featured products (first 5 products)
+            const featuredProducts = products.slice(0, 5);
+            
+            bannerContainer.innerHTML = featuredProducts.map(product => {
+                const imageUrl = (product.images && product.images[0]) ? product.images[0] : 'https://via.placeholder.com/80';
+                return `
+                    <div class="banner-slide">
+                        <img src="${imageUrl}" class="banner-product-image" alt="${product.name}">
+                        <div class="banner-product-info">
+                            <div class="banner-product-title">${product.name}</div>
+                            <div class="banner-product-price">$${parseFloat(product.price).toFixed(2)}</div>
+                            <div class="banner-product-description">${product.description.substring(0, 50)}...</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Start banner rotation
+            let currentBannerIndex = 0;
+            bannerInterval = setInterval(() => {
+                currentBannerIndex = (currentBannerIndex + 1) % featuredProducts.length;
+                bannerContainer.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+            }, 4000);
+        }
+        
+        // --- FAQ Functions ---
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-answer').classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+        
+        // --- Routing and View Management ---
+        function handleRouteChange() {
+            const hash = location.hash || '#';
+            views.forEach(view => view.classList.remove('active'));
+            window.scrollTo(0, 0);
+
+            if (hash.startsWith('#/producto/')) {
+                const productId = hash.split('/')[2];
+                renderProductDetail(productId);
+                productDetailView.classList.add('active');
+            } else if (hash === '#/terminos') {
+                document.getElementById('terms-view').classList.add('active');
+            } else if (hash === '#/privacidad') {
+                document.getElementById('privacy-view').classList.add('active');
+            } else if (hash === '#/faq') {
+                document.getElementById('faq-view').classList.add('active');
+            } else {
+                renderProducts(); // Render product grid on the main page
+                document.getElementById('main-view').classList.add('active');
+                updateMetaTags(); // Reset meta tags to default
+            }
+        }
+
         // --- Render Functions ---
         function renderProducts() {
             productsContainer.innerHTML = '';
             products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                
-                // =========== INICIO DE CORRECCIÓN DEL CARRUSEL ===========
-                let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`; // Default
-                
+                const productCardLink = document.createElement('a');
+                productCardLink.href = `#/producto/${product.id}`;
+                productCardLink.className = 'product-card';
+                productCardLink.setAttribute('aria-label', `Ver detalles de ${product.name}`);
+
+                let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
                 if (product.images && product.images.length > 0 && product.images[0]) {
-                    carouselHTML = `
-                        <div class="carousel-container" id="carousel-container-${product.id}">
-                            ${product.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${product.name}"></div>`).join('')}
-                        </div>
-                    `;
-                    // Solo añadir botones y puntos si hay más de una imagen
-                    if (product.images.length > 1) {
-                        carouselHTML += `
-                            <button class="carousel-btn prev" onclick="changeSlide('${product.id}', -1)"><i class="fas fa-chevron-left"></i></button>
-                            <button class="carousel-btn next" onclick="changeSlide('${product.id}', 1)"><i class="fas fa-chevron-right"></i></button>
-                            <div class="carousel-nav" id="carousel-nav-${product.id}">
-                                ${product.images.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="currentSlide('${product.id}', ${index})"></div>`).join('')}
-                            </div>
-                        `;
-                    }
+                     carouselHTML = `<div class="carousel-container">${product.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${product.name}" loading="lazy"></div>`).join('')}</div>`;
                 }
 
-                productCard.innerHTML = `
-                    <div class="product-carousel">
-                        ${carouselHTML}
-                    </div>
+                productCardLink.innerHTML = `
+                    <div class="product-carousel">${carouselHTML}</div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
-                        <div class="product-price">$${parseFloat(product.price).toFixed(2)}</div>
-                        <div class="product-actions">
-                            <button class="btn btn-primary btn-add-cart" data-id="${product.id}">
-                                <i class="fas fa-shopping-cart"></i> Agregar
-                            </button>
+                        <div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-description">${product.description}</p>
                         </div>
+                        <div class="product-price">$${parseFloat(product.price).toFixed(2)}</div>
                     </div>`;
-                // =========== FIN DE CORRECCIÓN DEL CARRUSEL ===========
-
-                productsContainer.appendChild(productCard);
-                // Inicializar carrusel si es necesario
-                if (product.images && product.images.length > 1) {
-                    initializeCarousel(product.id);
-                }
-            });
-            document.querySelectorAll('.btn-add-cart').forEach(button => {
-                button.addEventListener('click', () => addToCart(button.dataset.id));
+                productsContainer.appendChild(productCardLink);
             });
         }
         
+        function renderProductDetail(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) {
+                productDetailView.innerHTML = `<div class="container"><h2 class="section-title">Producto no encontrado</h2><a href="#">Volver a la tienda</a></div>`;
+                return;
+            }
+
+            updateMetaTags(product);
+
+            let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+            if (product.images && product.images.length > 0 && product.images[0]) {
+                carouselHTML = `
+                    <div class="carousel-container" id="carousel-container-${product.id}">
+                        ${product.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${product.name}"></div>`).join('')}
+                    </div>
+                `;
+                if (product.images.length > 1) {
+                    carouselHTML += `
+                        <button class="carousel-btn prev" onclick="changeSlide('${product.id}', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-btn next" onclick="changeSlide('${product.id}', 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="carousel-nav" id="carousel-nav-${product.id}">
+                            ${product.images.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="currentSlide('${product.id}', ${index})"></div>`).join('')}
+                        </div>
+                    `;
+                }
+            }
+
+            productDetailView.innerHTML = `
+                <div class="container">
+                     <a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a Productos</a>
+                     <div class="product-detail-layout">
+                        <div class="product-carousel">${carouselHTML}</div>
+                        <div class="product-detail-info">
+                            <h2 class="product-detail-title">${product.name}</h2>
+                            <div class="product-detail-price">$${parseFloat(product.price).toFixed(2)}</div>
+                            <p class="product-detail-description">${product.description}</p>
+                            <div class="product-detail-actions">
+                                <button class="btn btn-primary btn-add-cart-detail" data-id="${product.id}">
+                                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                                </button>
+                            </div>
+                        </div>
+                     </div>
+                </div>`;
+
+            if (product.images && product.images.length > 1) {
+                initializeCarousel(product.id);
+            }
+            
+            document.querySelector('.btn-add-cart-detail').addEventListener('click', (e) => {
+                addToCart(e.target.closest('button').dataset.id);
+            });
+        }
+
         function updateCart() {
+            saveCartToLocalStorage();
             cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p style="text-align:center; padding: 20px;">Tu carrito está vacío</p>';
+                cartItems.innerHTML = '<p class="placeholder">Tu carrito está vacío</p>';
                 cartTotal.textContent = '0.00';
                 return;
             }
             let total = 0;
             cartItems.innerHTML = cart.map(item => {
                 total += item.price * item.quantity;
-                const itemImage = (item.images && item.images[0]) ? item.images[0] : '';
+                const itemImage = (item.images && item.images[0]) ? item.images[0] : 'https://via.placeholder.com/80';
                 return `
                     <div class="cart-item" data-id="${item.id}">
                         <img src="${itemImage}" class="cart-item-image" alt="${item.name}">
@@ -946,50 +723,29 @@
             cartTotal.textContent = total.toFixed(2);
         }
 
-        // --- FUNCIONES DEL CARRUSEL RESTAURADAS ---
-        const activeCarousels = {}; // Para manejar los intervalos de cada carrusel
-
+        // --- Carousel, UI & Helper Functions ---
         function initializeCarousel(productId) {
-            // Limpiar intervalo anterior si existe para este carrusel
-            if (activeCarousels[productId]) {
-                clearInterval(activeCarousels[productId]);
-            }
-            // Empezar un nuevo intervalo
-            activeCarousels[productId] = setInterval(() => {
-                changeSlide(productId, 1);
-            }, 5000); // Cambia cada 5 segundos
+            if (activeCarousels[productId]) clearInterval(activeCarousels[productId]);
+            activeCarousels[productId] = setInterval(() => changeSlide(productId, 1), 5000);
         }
-
         function changeSlide(productId, direction) {
             const container = document.getElementById(`carousel-container-${productId}`);
             const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
             if (!container || dots.length === 0) return;
-            
             let currentIndex = Array.from(dots).findIndex(dot => dot.classList.contains('active'));
-            let nextIndex = currentIndex + direction;
-
-            if (nextIndex >= dots.length) {
-                nextIndex = 0;
-            } else if (nextIndex < 0) {
-                nextIndex = dots.length - 1;
-            }
+            let nextIndex = (currentIndex + direction + dots.length) % dots.length;
             currentSlide(productId, nextIndex);
         }
-
         function currentSlide(productId, index) {
             const container = document.getElementById(`carousel-container-${productId}`);
             const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
             if (!container || !dots[index]) return;
-
             container.style.transform = `translateX(-${index * 100}%)`;
             dots.forEach(dot => dot.classList.remove('active'));
             dots[index].classList.add('active');
-
-            // Reiniciar el intervalo para que no cambie inmediatamente después de un clic manual
             initializeCarousel(productId);
         }
 
-        // --- UI & Helper Functions ---
         function addToCart(productId) {
             const product = products.find(p => p.id == productId);
             if (!product) return;
@@ -1004,20 +760,17 @@
         }
 
         function handleCartActions(e) {
-            const target = e.target;
-            const itemEl = target.closest('.cart-item');
+            const itemEl = e.target.closest('.cart-item');
             if (!itemEl) return;
             const id = itemEl.dataset.id;
             const itemInCart = cart.find(item => item.id == id);
+            if (!itemInCart) return;
 
-            if (target.classList.contains('increase')) {
-                itemInCart.quantity++;
-            } else if (target.classList.contains('decrease')) {
+            if (e.target.classList.contains('increase')) itemInCart.quantity++;
+            else if (e.target.classList.contains('decrease')) {
                 itemInCart.quantity--;
-                if (itemInCart.quantity === 0) {
-                    cart = cart.filter(item => item.id != id);
-                }
-            } else if (target.classList.contains('remove-item')) {
+                if (itemInCart.quantity <= 0) cart = cart.filter(item => item.id != id);
+            } else if (e.target.classList.contains('remove-item')) {
                 cart = cart.filter(item => item.id != id);
             }
             updateCart();
@@ -1040,43 +793,42 @@
                 showNotification('Tu carrito está vacío.', 'warning');
                 return;
             }
-            if (!customerDetails) {
-                showDetailsForm();
-            } else {
-                redirectToWhatsApp();
-            }
+            if (!customerDetails) showDetailsForm();
+            else redirectToWhatsApp();
         }
 
         function redirectToWhatsApp() {
-            if (!customerDetails) {
-                 showNotification('Por favor, completa tus datos de envío.', 'error');
-                 showDetailsForm();
-                 return;
-            }
-             if (cart.length === 0) {
-                showNotification('Tu carrito está vacío.', 'warning');
-                return;
-            }
+            if (!customerDetails) { showNotification('Por favor, completa tus datos de envío.', 'error'); showDetailsForm(); return; }
+            if (cart.length === 0) { showNotification('Tu carrito está vacío.', 'warning'); return; }
             let message = `Hola, mi nombre es ${customerDetails.name}. Quiero confirmar mi pedido:\n\n`;
             message += cart.map(item => `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}`).join('\n');
             message += `\n\nEl total es: $${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}`;
-            message += `\n\n--- MIS DATOS DE ENVÍO ---\n`;
-            message += `Cédula: ${customerDetails.cedula}\n`;
-            message += `Email: ${customerDetails.email}\n`;
-            message += `Dirección: ${customerDetails.direccion}\n`;
-            message += `Agencia: ${customerDetails.agencia}`;
-            
+            message += `\n\n--- MIS DATOS DE ENVÍO ---\nCédula: ${customerDetails.cedula}\nEmail: ${customerDetails.email}\nDirección: ${customerDetails.direccion}\nAgencia: ${customerDetails.agencia}`;
             window.open(`https://wa.me/59895596779?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function updateMetaTags(product = null) {
+            const defaultTitle = 'TechnologiaUY - Tienda Gamer en Uruguay';
+            const defaultDesc = 'La mejor tienda de tecnología y componentes gamer en Uruguay. Envíos rápidos a todo el país desde Rivera.';
+            if (product) {
+                document.title = `${product.name} | TechnologiaUY`;
+                document.querySelector('meta[name="description"]').setAttribute('content', product.description);
+            } else {
+                document.title = defaultTitle;
+                document.querySelector('meta[name="description"]').setAttribute('content', defaultDesc);
+            }
         }
 
         function showDetailsForm(){ detailsOverlay.classList.add('active'); }
         function closeDetailsForm(){ detailsOverlay.classList.remove('active'); }
 
         // --- Event Listeners ---
-        document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCartFromLocalStorage();
             fetchProducts();
             updateCart();
         });
+        window.addEventListener('hashchange', handleRouteChange);
 
         cartBtn.addEventListener('click', () => cartOverlay.classList.add('active'));
         closeCart.addEventListener('click', () => cartOverlay.classList.remove('active'));
@@ -1086,7 +838,7 @@
         userBtn.addEventListener('click', showDetailsForm);
         closeDetails.addEventListener('click', closeDetailsForm);
         shippingForm.addEventListener('submit', saveShippingDetails);
-
     </script>
 </body>
 </html>
+
