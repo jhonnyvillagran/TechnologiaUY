@@ -105,18 +105,6 @@
             box-shadow: var(--shadow-lg);
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: var(--dark);
-            box-shadow: var(--shadow-lg);
-        }
-        
         /* Header */
         .header {
             position: fixed;
@@ -227,14 +215,6 @@
             border: 1px solid var(--dark);
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        
         /* Hero Section */
         .hero {
             height: 100vh;
@@ -428,7 +408,7 @@
 
         .cart-item {
             display: flex;
-            gap: 15px; /* MODIFICADO EN MEDIA QUERY */
+            gap: 15px;
             padding-bottom: 15px;
             margin-bottom: 15px;
             border-bottom: 1px solid rgba(0, 247, 255, 0.1);
@@ -436,8 +416,8 @@
         }
 
         .cart-item-image {
-            width: 80px; /* MODIFICADO EN MEDIA QUERY */
-            height: 80px; /* MODIFICADO EN MEDIA QUERY */
+            width: 80px;
+            height: 80px;
             object-fit: cover;
             border-radius: var(--border-radius);
             flex-shrink: 0;
@@ -502,8 +482,8 @@
             font-weight: 700;
         }
         
-        /* User Auth Overlay */
-        .auth-overlay {
+        /* User Details Overlay */
+        .details-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -519,16 +499,15 @@
             transition: var(--transition);
         }
 
-        .auth-overlay.active {
+        .details-overlay.active {
             opacity: 1;
             visibility: visible;
         }
         
-        /********** CAMBIO PRINCIPAL 1: PANEL DE REGISTRO MÁS COMPACTO **********/
-        .auth-panel {
+        .details-panel {
             background: var(--bg-primary);
             width: 100%;
-            max-width: 420px; /* Reducido de 500px a 420px */
+            max-width: 420px;
             border-radius: var(--border-radius);
             transform: scale(0.8);
             transition: transform 0.3s ease;
@@ -537,11 +516,11 @@
             margin: 20px;
         }
 
-        .auth-overlay.active .auth-panel {
+        .details-overlay.active .details-panel {
             transform: scale(1);
         }
 
-        .auth-header {
+        .details-header {
             padding: 20px;
             background: linear-gradient(90deg, var(--dark), #1a1a2e);
             display: flex;
@@ -549,7 +528,7 @@
             align-items: center;
         }
 
-        .close-auth {
+        .close-details {
             background: none;
             border: none;
             font-size: 2rem;
@@ -557,38 +536,10 @@
             color: white;
         }
 
-        .auth-content {
-            padding: 30px; /* MODIFICADO EN MEDIA QUERY */
+        .details-content {
+            padding: 30px;
             max-height: 80vh;
             overflow-y: auto;
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
-        }
-
-        .auth-tab {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .auth-tab.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
         }
 
         .form-group {
@@ -670,14 +621,10 @@
             .cart { max-width: 100%; }
         }
 
-        /********** CAMBIO PRINCIPAL 2 y 3: RESPONSIVIDAD DEL PANEL Y CARRITO **********/
         @media (max-width: 480px) {
-            /* Hacer panel de registro más adaptable a pantallas chicas */
-            .auth-content {
+            .details-content {
                 padding: 20px;
             }
-
-            /* Hacer ítems del carrito más compactos */
             .cart-item {
                 gap: 10px;
             }
@@ -713,13 +660,9 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
                 </button>
-                <button class="user-btn" id="user-btn">
-                    <i class="fas fa-user"></i>
+                <button class="user-btn" id="user-btn" title="Ingresar datos de envío">
+                    <i class="fas fa-user-edit"></i>
                 </button>
-                <div class="user-info" id="user-info" style="display: none;">
-                    <span class="user-name" id="user-name"></span>
-                    <button class="btn btn-outline" id="logout-btn">Salir</button>
-                </div>
             </div>
         </div>
     </header>
@@ -740,7 +683,7 @@
         <div class="container">
             <h2 class="section-title">Sobre TechnologiaUY</h2>
             <p style="text-align: center; max-width: 800px; margin: 0 auto;">
-                Somos una empresa uruguaya basada en <span class="highlight">Rivera</span> especializada en la importación 
+                Somos una empresa uruguaya basada en <span style="color:var(--primary); font-weight: 600;">Rivera</span> especializada en la importación 
                 y venta de productos tecnológicos de alta calidad. Nuestro compromiso es ofrecer tecnología accesible para todos.
             </p>
         </div>
@@ -769,65 +712,43 @@
                     <strong>Total: $<span id="cart-total">0.00</span></strong>
                 </div>
                 <div class="cart-actions">
-                    <button class="btn btn-primary" id="checkout-btn">Proceder al Pago</button>
+                    <button class="btn btn-primary" id="checkout-btn" style="width:100%;">Proceder al Pago</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Panel de Autenticación -->
-    <div class="auth-overlay" id="auth-overlay">
-        <div class="auth-panel">
-            <div class="auth-header">
-                <h3>Acceso a tu cuenta</h3>
-                <button class="close-auth" id="close-auth">&times;</button>
+    <!-- Panel de Datos de Envío (antes auth-overlay) -->
+    <div class="details-overlay" id="details-overlay">
+        <div class="details-panel">
+            <div class="details-header">
+                <h3>Completa tus Datos de Envío</h3>
+                <button class="close-details" id="close-details">&times;</button>
             </div>
-            <div class="auth-content">
-                <div class="auth-tabs">
-                    <div class="auth-tab active" data-tab="login">Iniciar Sesión</div>
-                    <div class="auth-tab" data-tab="register">Registrarse</div>
-                </div>
-                
-                <!-- Formulario de Inicio de Sesión -->
-                <form class="auth-form active" id="login-form">
+            <div class="details-content">
+                <!-- Formulario Único para Datos de Envío -->
+                <form id="shipping-form">
                     <div class="form-group">
-                        <label for="login-email">Email:</label>
-                        <input type="email" id="login-email" required>
+                        <label for="shipping-name">Nombre Completo:</label>
+                        <input type="text" id="shipping-name" required>
                     </div>
                     <div class="form-group">
-                        <label for="login-password">Contraseña:</label>
-                        <input type="password" id="login-password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</button>
-                </form>
-                
-                <!-- Formulario de Registro -->
-                <form class="auth-form" id="register-form">
-                    <div class="form-group">
-                        <label for="register-name">Nombre Completo:</label>
-                        <input type="text" id="register-name" required>
+                        <label for="shipping-email">Email:</label>
+                        <input type="email" id="shipping-email" required>
                     </div>
                     <div class="form-group">
-                        <label for="register-email">Email:</label>
-                        <input type="email" id="register-email" required>
+                        <label for="shipping-cedula">Cédula de Identidad:</label>
+                        <input type="text" id="shipping-cedula" required>
                     </div>
                     <div class="form-group">
-                        <label for="register-password">Contraseña:</label>
-                        <input type="password" id="register-password" required>
+                        <label for="shipping-direccion">Dirección Completa:</label>
+                        <input type="text" id="shipping-direccion" required>
                     </div>
                     <div class="form-group">
-                        <label for="register-cedula">Cédula de Identidad:</label>
-                        <input type="text" id="register-cedula" required>
+                        <label for="shipping-agencia">Agencia de Envío:</label>
+                        <input type="text" id="shipping-agencia" required>
                     </div>
-                    <div class="form-group">
-                        <label for="register-direccion">Dirección Completa:</label>
-                        <input type="text" id="register-direccion" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-agencia">Agencia de Envío:</label>
-                        <input type="text" id="register-agencia" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Registrarse</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar y Proceder al Pago</button>
                 </form>
             </div>
         </div>
@@ -841,11 +762,11 @@
     </footer>
 
     <script>
-        // ¡¡¡IMPORTANTE!!! PEGA AQUÍ LA URL DE TU SCRIPT DE GOOGLE SHEETS
+        // URL del Script de Google Sheets (YA INTEGRADA)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR7zyKdQpDkjfgIpsF-sxwBJLRj7L0j0GC21AKgFx7tSY_aAwaCZMIL-GdaPCzrhLj/exec';
 
         let products = [];
-        let currentUser = null;
+        let customerDetails = null; // Almacenará los datos del cliente para la sesión actual
         let cart = [];
 
         // DOM Elements
@@ -857,14 +778,9 @@
         const cartTotal = document.getElementById('cart-total');
         const cartCount = document.querySelector('.cart-count');
         const userBtn = document.getElementById('user-btn');
-        const userInfo = document.getElementById('user-info');
-        const userName = document.getElementById('user-name');
-        const logoutBtn = document.getElementById('logout-btn');
-        const authOverlay = document.getElementById('auth-overlay');
-        const closeAuth = document.getElementById('close-auth');
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
+        const detailsOverlay = document.getElementById('details-overlay');
+        const closeDetails = document.getElementById('close-details');
+        const shippingForm = document.getElementById('shipping-form');
         const checkoutBtn = document.getElementById('checkout-btn');
 
         // --- Core Functions ---
@@ -880,50 +796,37 @@
             }
         }
 
-        async function registerUser(e) {
+        async function saveShippingDetails(e) {
             e.preventDefault();
-            const userData = {
-                action: 'registerUser',
-                name: document.getElementById('register-name').value,
-                email: document.getElementById('register-email').value,
-                password: document.getElementById('register-password').value,
-                cedula: document.getElementById('register-cedula').value,
-                direccion: document.getElementById('register-direccion').value,
-                agencia: document.getElementById('register-agencia').value
+            const details = {
+                action: 'registerUser', // La acción en el script sigue siendo registrar un usuario
+                name: document.getElementById('shipping-name').value,
+                email: document.getElementById('shipping-email').value,
+                // No guardamos contraseña en el lado del cliente
+                password: 'NOT_SET', // El script puede ignorar esto o guardarlo, pero no lo usamos
+                cedula: document.getElementById('shipping-cedula').value,
+                direccion: document.getElementById('shipping-direccion').value,
+                agencia: document.getElementById('shipping-agencia').value
             };
-            showNotification('Registrando...', 'warning');
+            
+            showNotification('Guardando tus datos...', 'warning');
             
             try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(userData) });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    currentUser = result.user;
-                    updateUIForUser();
-                    closeAuthForm();
-                    showNotification(`¡Bienvenido, ${currentUser.name}!`, 'success');
-                } else { throw new Error(result.message); }
-            } catch (error) { showNotification(error.message, 'error'); }
-        }
+                // Enviamos los datos a Google Sheets para tener un registro
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(details) });
+                
+                // Guardamos los datos localmente para la compra actual
+                customerDetails = details;
+                
+                showNotification('Datos guardados. Finalizando compra...', 'success');
+                closeDetailsForm();
+                
+                // Procedemos inmediatamente a WhatsApp
+                redirectToWhatsApp();
 
-        async function loginUser(e) {
-            e.preventDefault();
-            const loginData = {
-                action: 'loginUser',
-                email: document.getElementById('login-email').value,
-                password: document.getElementById('login-password').value
-            };
-            showNotification('Iniciando sesión...', 'warning');
-
-            try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(loginData) });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    currentUser = result.user;
-                    updateUIForUser();
-                    closeAuthForm();
-                    showNotification(`¡Hola de nuevo, ${currentUser.name}!`, 'success');
-                } else { throw new Error(result.message); }
-            } catch (error) { showNotification(error.message, 'error'); }
+            } catch (error) { 
+                showNotification('No se pudieron guardar los datos. Inténtalo de nuevo.', 'error');
+            }
         }
         
         // --- Render Functions ---
@@ -1020,19 +923,6 @@
             updateCart();
         }
 
-        function logoutUser() {
-            currentUser = null;
-            updateUIForUser();
-            showNotification('Has cerrado sesión.', 'success');
-        }
-
-        function updateUIForUser() {
-            const isUserLoggedIn = currentUser !== null;
-            userBtn.style.display = isUserLoggedIn ? 'none' : 'flex';
-            userInfo.style.display = isUserLoggedIn ? 'flex' : 'none';
-            if(isUserLoggedIn) userName.textContent = currentUser.name;
-        }
-
         function showNotification(message, type = 'success') {
             const el = document.createElement('div');
             el.className = `notification ${type}`;
@@ -1045,37 +935,48 @@
             }, 3000);
         }
         
-        function redirectToWhatsApp() {
-            if (!currentUser) {
-                showNotification('Por favor, inicia sesión para proceder.', 'warning');
-                showAuthForm();
-                return;
-            }
+        function checkout() {
             if (cart.length === 0) {
                 showNotification('Tu carrito está vacío.', 'warning');
                 return;
             }
-            let message = `Hola, mi nombre es ${currentUser.name}. Quiero confirmar mi pedido:\n\n`;
+            // Si no tenemos los datos del cliente, pedirlos.
+            if (!customerDetails) {
+                showDetailsForm();
+            } else {
+                // Si ya los tenemos, ir directo a WhatsApp.
+                redirectToWhatsApp();
+            }
+        }
+
+        function redirectToWhatsApp() {
+            // Esta función ahora depende de que 'checkout' la llame
+            if (!customerDetails) {
+                 showNotification('Por favor, completa tus datos de envío.', 'error');
+                 showDetailsForm();
+                 return;
+            }
+             if (cart.length === 0) {
+                showNotification('Tu carrito está vacío.', 'warning');
+                return;
+            }
+            let message = `Hola, mi nombre es ${customerDetails.name}. Quiero confirmar mi pedido:\n\n`;
             message += cart.map(item => `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}`).join('\n');
             message += `\n\nEl total es: $${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}`;
-            message += `\n\nMis datos de envío están registrados con el email: ${currentUser.email}`;
+            message += `\n\n--- MIS DATOS DE ENVÍO ---\n`;
+            message += `Cédula: ${customerDetails.cedula}\n`;
+            message += `Email: ${customerDetails.email}\n`;
+            message += `Dirección: ${customerDetails.direccion}\n`;
+            message += `Agencia: ${customerDetails.agencia}`;
             
             window.open(`https://wa.me/59895596779?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        function showAuthForm(){ authOverlay.classList.add('active'); }
-        function closeAuthForm(){ authOverlay.classList.remove('active'); }
-        function switchAuthTab(tabName) {
-            authTabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.toggle('active', f.id === `${tabName}-form`));
-        }
+        function showDetailsForm(){ detailsOverlay.classList.add('active'); }
+        function closeDetailsForm(){ detailsOverlay.classList.remove('active'); }
 
         // --- Event Listeners ---
         document.addEventListener('DOMContentLoaded', () => {
-            if (!SCRIPT_URL || SCRIPT_URL === 'URL_DE_TU_SCRIPT_AQUI') {
-                showNotification('Error: Falta configurar la URL del script.', 'error');
-                return;
-            }
             fetchProducts();
             updateCart();
         });
@@ -1083,13 +984,17 @@
         cartBtn.addEventListener('click', () => cartOverlay.classList.add('active'));
         closeCart.addEventListener('click', () => cartOverlay.classList.remove('active'));
         cartItems.addEventListener('click', handleCartActions);
-        checkoutBtn.addEventListener('click', redirectToWhatsApp);
-        userBtn.addEventListener('click', showAuthForm);
-        closeAuth.addEventListener('click', closeAuthForm);
-        logoutBtn.addEventListener('click', logoutUser);
-        authTabs.forEach(tab => tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab)));
-        loginForm.addEventListener('submit', loginUser);
-        registerForm.addEventListener('submit', registerUser);
+        
+        // El botón de checkout inicia el proceso
+        checkoutBtn.addEventListener('click', checkout);
+        
+        // El icono de usuario también abre el formulario de datos
+        userBtn.addEventListener('click', showDetailsForm);
+        closeDetails.addEventListener('click', closeDetailsForm);
+        
+        // El formulario de envío ahora llama a la función de guardar
+        shippingForm.addEventListener('submit', saveShippingDetails);
+
     </script>
 </body>
 </html>
