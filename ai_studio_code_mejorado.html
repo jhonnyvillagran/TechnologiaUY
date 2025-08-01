@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <title>AroMista - Perfumería Online</title>
+    <meta name="description" content="Descubre tu fragancia perfecta - Perfumes de lujo al mejor precio, entregados directamente a tu puerta. La mejor perfumería online.">
+    <meta name="keywords" content="perfumes, fragancias, perfumería, online, lujo, mejor precio, entrega, aromas, colonias, eau de parfum">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4AF37; --primary-dark: #B8941F; --secondary: #8B4B8C; --accent: #E6B800; --dark: #1A1A1A;
+            --darker: #0F0F0F; --light: #F5F5F5; --success: #228B22; --warning: #DAA520; --danger: #8B0000;
+            --transition: all 0.3s ease; --shadow: 0 0 15px rgba(212, 175, 55, 0.3); --shadow-lg: 0 0 25px rgba(212, 175, 55, 0.5);
+            --border-radius: 8px; --bg-primary: #1A1A1A; --bg-secondary: #2A2A2A; --text-primary: #F5F5F5; --text-secondary: #C0C0C0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text-primary); background-color: var(--bg-primary); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* General View Class */
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .btn { display: inline-block; padding: 12px 24px; border: none; border-radius: var(--border-radius); cursor: pointer; font-weight: 600; transition: var(--transition); text-align: center; font-size: 1rem; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: 0.5s; }
+        .btn:hover::before { left: 100%; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--dark); border: 1px solid var(--primary); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+        .header { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(26, 26, 26, 0.95); box-shadow: var(--shadow); z-index: 1000; padding: 15px 0; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .nav ul { display: flex; gap: 30px; }
+        .nav a { font-weight: 600; position: relative; padding: 5px 0; color: var(--text-primary); transition: color 0.3s; }
+        .nav a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(212, 175, 55, 0.7); }
+        .nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: var(--transition); }
+        .nav a:hover::after { width: 100%; }
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .cart-btn, .user-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; position: relative; color: var(--text-primary); transition: var(--transition); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-btn:hover, .user-btn:hover { color: var(--dark); background: linear-gradient(135deg, var(--primary), var(--primary-dark)); transform: scale(1.1); box-shadow: var(--shadow-lg); }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; font-size: 0.7rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid var(--dark); }
+
+        .main-content { padding-top: 80px; }
+        .hero { height: 100vh; background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.8)), url('perfume-banner.jpg') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; color: white; margin-top: -80px; position: relative; }
+        .hero-content { max-width: 700px; padding: 0 20px; z-index: 2; margin-top: -100px; }
+        .hero-title { font-size: 3rem; margin-bottom: 15px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.7); font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-subtitle { font-size: 1.3rem; margin-bottom: 25px; font-weight: 500; color: var(--light); line-height: 1.4; }
+        
+        /* Banner rotativo de productos destacados */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.7), inset 0 0 15px rgba(212, 175, 55, 0.3); }
+        }
+        @keyframes scanlines {
+            from { background-position: 0 0; }
+            to { background-position: 0 100px; }
+        }
+        .featured-banner {
+            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; height: 160px; 
+            background: rgba(42, 42, 42, 0.9); border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.3); 
+            overflow: hidden; z-index: 3; animation: pulse-glow 4s ease-in-out infinite; transition: var(--transition);
+        }
+        .featured-banner::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+            background-size: 100% 4px; opacity: 0.5; pointer-events: none; animation: scanlines 10s linear infinite;
+        }
+        .banner-container { display: flex; height: 100%; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .banner-slide { min-width: 100%; height: 100%; display: flex; align-items: center; padding: 20px; gap: 25px; }
+        .banner-product-image { width: 110px; height: 110px; object-fit: contain; border-radius: var(--border-radius); flex-shrink: 0; border: 2px solid rgba(212, 175, 55, 0.5); }
+        .banner-product-info { flex: 1; text-align: left;}
+        .banner-product-title { font-size: 1.4rem; font-weight: 600; color: var(--primary); margin-bottom: 5px; text-shadow: 0 0 5px var(--primary); }
+        .banner-product-price { font-size: 1.2rem; color: var(--success); font-weight: 700; }
+        .banner-product-description { font-size: 0.95rem; color: var(--text-secondary); }
+        
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; position: relative; color: var(--text-primary); font-weight: 700; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); padding-top: 80px;}
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        
+        .info-section { padding: 80px 0; background: var(--bg-secondary); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
+        .info-card { background: var(--dark); padding: 30px; border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.2); transition: var(--transition); }
+        .info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .info-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .info-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--light); }
+        .info-card p, .info-card ul { color: var(--text-secondary); line-height: 1.8; }
+        .info-card li { margin-bottom: 5px; }
+
+        .products { padding: 80px 0; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: var(--bg-secondary); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .product-carousel { height: 250px; position: relative; background-color: var(--darker); overflow: hidden; padding: 10px;}
+        .carousel-container { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .carousel-slide { min-width: 100%; height: 100%; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: contain; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 2; }
+        .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+        .carousel-nav { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2; }
+        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; }
+        .carousel-dot.active { background-color: var(--primary); }
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 1.3rem; margin-bottom: 10px; }
+        .product-description { 
+            color: var(--text-secondary); 
+            margin-bottom: 15px; 
+            font-size: 0.9rem; 
+            height: 4.2em; /* Approx 3 lines (font-size * line-height * 3) */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        .product-price { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-top: auto; padding-top: 15px; }
+        
+        /* Product Detail View */
+        #product-detail-view .container { padding: 40px 0; }
+        .product-detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; }
+        .product-detail-title { font-size: 2.8rem; margin-bottom: 15px; color: var(--primary); }
+        .product-detail-price { font-size: 2rem; color: var(--success); font-weight: bold; margin-bottom: 20px; }
+        .product-detail-description { color: var(--text-secondary); margin-bottom: 30px; line-height: 1.7; }
+        .product-detail-description h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 5px;
+        }
+        .product-detail-description p { margin-bottom: 15px; }
+        .product-detail-actions .btn { width: 100%; font-size: 1.2rem; }
+        .back-to-products { display: inline-block; margin-bottom: 30px; color: var(--primary); }
+
+        /* Generic Page View (Terms, Policy, FAQ) */
+        .page-view { padding: 40px 0; }
+        .page-content { background: var(--bg-secondary); padding: 40px; border-radius: var(--border-radius); border: 1px solid rgba(212,175,55,0.2); }
+        .page-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); }
+        .page-content p, .page-content ul { margin-bottom: 15px; line-height: 1.8; color: var(--text-secondary); }
+        .page-content li { margin-left: 20px; list-style: disc; }
+        
+        /* FAQ Styles */
+        .faq-item { margin-bottom: 20px; border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--border-radius); overflow: hidden; }
+        .faq-question { background: var(--dark); padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
+        .faq-question:hover { background: rgba(212, 175, 55, 0.1); }
+        .faq-question h4 { color: var(--primary); font-size: 1.1rem; margin: 0; }
+        .faq-icon { color: var(--primary); transition: transform 0.3s ease; }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: var(--bg-secondary); }
+        .faq-answer.active { padding: 20px; max-height: 200px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        
+        /* Cart & User Details Overlays */
+        .cart-overlay, .details-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .cart-overlay { justify-content: flex-end; }
+        .details-overlay { align-items: center; justify-content: center; }
+        .cart-overlay.active, .details-overlay.active { opacity: 1; visibility: visible; }
+        .cart { background: var(--bg-primary); width: 100%; max-width: 450px; height: 100%; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; box-shadow: -5px 0 25px rgba(212, 175, 55, 0.3); border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-overlay.active .cart { transform: translateX(0); }
+        .cart-header { padding: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; align-items: center; }
+        .close-cart { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-primary); }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); align-items: center; }
+        .cart-item-image { width: 80px; height: 80px; object-fit: contain; border-radius: var(--border-radius); flex-shrink: 0; }
+        .cart-item-details { flex: 1; display: flex; flex-direction: column; }
+        .cart-item-info { display: flex; justify-content: space-between; align-items: flex-start; }
+        .cart-item-title { font-weight: 600; margin-bottom: 5px; }
+        .cart-item-price { color: var(--primary); font-weight: 700; }
+        .remove-item { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; margin-left: 10px; }
+        .cart-item-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .quantity-btn { width: 30px; height: 30px; border: 2px solid; background: var(--bg-secondary); cursor: pointer; border-radius: 50%; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .quantity-btn.decrease { border-color: var(--danger); color: var(--danger); }
+        .quantity-btn.decrease:hover { background: var(--danger); color: white; }
+        .quantity-btn.increase { border-color: var(--success); color: var(--success); }
+        .quantity-btn.increase:hover { background: var(--success); color: var(--dark); }
+        .cart-footer { padding: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-total { font-size: 1.3rem; margin-bottom: 20px; text-align: right; font-weight: 700; }
+        .whatsapp-info { background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; border-radius: var(--border-radius); padding: 15px; margin-bottom: 20px; }
+        .whatsapp-info p { margin: 0; color: var(--text-secondary); }
+        .whatsapp-info strong { color: #25D366; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header .container { flex-direction: column; gap: 15px; }
+            .nav ul { flex-wrap: wrap; justify-content: center; gap: 15px; }
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .product-detail-layout { grid-template-columns: 1fr; }
+            .featured-banner { width: 95%; height: 140px; }
+            .banner-product-info { text-align: center; }
+            .cart { max-width: 100%; }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 480px) {
+            .container { width: 95%; }
+            .products-grid { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 1.8rem; }
+            .section-title { font-size: 2rem; }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            :root { --shadow: 0 0 0 2px var(--primary); --shadow-lg: 0 0 0 3px var(--primary); }
+        }
+
+        .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary); }
+        .placeholder i { font-size: 3rem; margin-bottom: 10px; opacity: 0.5; }
+        .placeholder p { opacity: 0.7; }
+
+        /* Loading States */
+        .loading { opacity: 0.7; pointer-events: none; }
+        .loading::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>AroMista</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#" onclick="showView('main')">Inicio</a></li>
+                    <li><a href="#/faq">FAQ</a></li>
+                    <li><a href="#/terminos">Términos</a></li>
+                    <li><a href="#/privacidad">Privacidad</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="user-btn" id="user-btn" title="Datos de envío">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="cart-btn" id="cart-btn" title="Carrito">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" id="main-container">
+        <!-- Main View -->
+        <div id="main-view" class="view active">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Descubre tu Fragancia Perfecta</h1>
+                    <p class="hero-subtitle">Perfumes de lujo al mejor precio, entregados directamente a tu puerta</p>
+                    <a href="#productos" class="btn btn-primary">Explorar Catálogo</a>
+                </div>
+                
+                <!-- Banner rotativo de productos destacados -->
+                <div class="featured-banner" id="featured-banner">
+                    <div class="banner-container" id="banner-container">
+                        <!-- Los productos destacados se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <div class="container">
+                    <h2 class="section-title">¿Por qué elegir AroMista?</h2>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <i class="fas fa-shipping-fast"></i>
+                            <h3>Envío Rápido</h3>
+                            <p>Entrega en 24-48 horas en toda España</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Calidad Garantizada</h3>
+                            <p>Solo perfumes originales de las mejores marcas</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-heart"></i>
+                            <h3>Atención Personalizada</h3>
+                            <p>Te ayudamos a encontrar tu fragancia ideal</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="products" id="productos">
+                <div class="container">
+                    <h2 class="section-title">Nuestros Perfumes</h2>
+                    <div class="products-grid" id="products-container">
+                        <!-- Los productos se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Product Detail View -->
+        <div id="product-detail-view" class="view">
+            <!-- El contenido se generará dinámicamente -->
+        </div>
+
+        <!-- Terms View -->
+        <div id="terms-view" class="view page-view">
+            <div class="container">
+                <div class="page-content">
+                    <h2 class="section-title">Términos y Condiciones</h2>
+                    <h3>1. Aceptación de los Términos</h3>
+                    <p>Al acceder y utilizar este sitio web, usted acepta estar sujeto a estos términos y condiciones de uso.</p>
+                    
+                    <h3>2. Productos y Precios</h3>
+                    <p>Todos los productos mostrados están sujetos a disponibilidad. Los precios pueden cambiar sin previo aviso.</p>
+                    
+                    <h3>3. Política de Envíos</h3>
+                    <p>Los envíos se realizan a través de servicios de mensajería reconocidos. Los tiempos de entrega son estimados.</p>
+                    
+                    <h3>4. Devoluciones</h3>
+                    <p>Aceptamos devoluciones de productos no utilizados dentro de los 14 días posteriores a la recepción.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy View -->
+        <div id="privacy-view" class="view page-view">
+            <div class="container">
+                <div class="page-content">
+                    <h2 class="section-title">Política de Privacidad</h2>
+                    <h3>Recopilación de Información</h3>
+                    <p>Recopilamos información personal solo cuando es necesario para procesar pedidos y mejorar nuestros servicios.</p>
+                    
+                    <h3>Uso de la Información</h3>
+                    <p>La información personal se utiliza únicamente para:</p>
+                    <ul>
+                        <li>Procesar y enviar pedidos</li>
+                        <li>Comunicarnos con los clientes</li>
+                        <li>Mejorar nuestros productos y servicios</li>
+                    </ul>
+                    
+                    <h3>Protección de Datos</h3>
+                    <p>Implementamos medidas de seguridad para proteger su información personal contra acceso no autorizado.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ View -->
+        <div id="faq-view" class="view page-view">
+            <div class="container">
+                <div class="page-content">
+                    <h2 class="section-title">Preguntas Frecuentes</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cómo puedo realizar un pedido?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Puedes realizar un pedido agregando productos al carrito y contactándonos por WhatsApp para finalizar la compra.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cuáles son los métodos de pago?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Aceptamos transferencias bancarias, Bizum y pago contra reembolso en algunos casos.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Cuánto tiempo tarda el envío?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Los envíos suelen tardar entre 24-48 horas en España peninsular y 3-5 días en islas.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>¿Puedo devolver un producto?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sí, aceptamos devoluciones de productos no utilizados dentro de los 14 días posteriores a la recepción.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay">
+        <div class="cart">
+            <div class="cart-header">
+                <h3>Carrito de Compras</h3>
+                <button class="close-cart" id="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <p class="placeholder">Tu carrito está vacío</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
+                <div class="whatsapp-info">
+                    <p><strong>Para finalizar tu compra:</strong></p>
+                    <p>Contacta por WhatsApp y te ayudaremos con el proceso de pago y envío.</p>
+                </div>
+                <button class="btn btn-primary" id="whatsapp-checkout">
+                    <i class="fab fa-whatsapp"></i> Finalizar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Overlay -->
+    <div class="details-overlay" id="details-overlay">
+        <div class="cart">
+            <div class="cart-header">
+                <h3>Datos de Envío</h3>
+                <button class="close-details" id="close-details">&times;</button>
+            </div>
+            <div class="cart-items">
+                <form id="shipping-form">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary);">Nombre completo:</label>
+                        <input type="text" id="customer-name" style="width: 100%; padding: 10px; border: 1px solid rgba(212,175,55,0.3); border-radius: var(--border-radius); background: var(--bg-secondary); color: var(--text-primary);" required>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary);">Teléfono:</label>
+                        <input type="tel" id="customer-phone" style="width: 100%; padding: 10px; border: 1px solid rgba(212,175,55,0.3); border-radius: var(--border-radius); background: var(--bg-secondary); color: var(--text-primary);" required>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 5px; color: var(--text-primary);">Dirección completa:</label>
+                        <textarea id="customer-address" rows="3" style="width: 100%; padding: 10px; border: 1px solid rgba(212,175,55,0.3); border-radius: var(--border-radius); background: var(--bg-secondary); color: var(--text-primary); resize: vertical;" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="cart-footer">
+                <button class="btn btn-primary" id="save-details">Guardar Datos</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxR7zyKdQpDkjfgIpsF-sxwBJLRj7L0j0GC21AKgFx7tSY_aAwaCZMIL-GdaPCzrhLj/exec';
+
+        let products = [];
+        let customerDetails = null;
+        let cart = [];
+        const activeCarousels = {};
+        let bannerInterval;
+
+        // DOM Elements
+        const mainContainer = document.getElementById('main-container');
+        const views = document.querySelectorAll('.view');
+        const productsContainer = document.getElementById('products-container');
+        const cartBtn = document.getElementById('cart-btn');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const closeCart = document.getElementById('close-cart');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const cartCount = document.querySelector('.cart-count');
+        const userBtn = document.getElementById('user-btn');
+        const detailsOverlay = document.getElementById('details-overlay');
+        const closeDetails = document.getElementById('close-details');
+        const shippingForm = document.getElementById('shipping-form');
+        const checkoutBtn = document.getElementById('whatsapp-checkout');
+        const productDetailView = document.getElementById('product-detail-view');
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            loadCartFromLocalStorage();
+            loadCustomerDetails();
+            updateCart();
+            window.addEventListener('hashchange', handleRouteChange);
+            handleRouteChange();
+        });
+
+        cartBtn.addEventListener('click', () => cartOverlay.classList.add('active'));
+        closeCart.addEventListener('click', () => cartOverlay.classList.remove('active'));
+        userBtn.addEventListener('click', () => detailsOverlay.classList.add('active'));
+        closeDetails.addEventListener('click', () => detailsOverlay.classList.remove('active'));
+
+        document.getElementById('save-details').addEventListener('click', saveCustomerDetails);
+        checkoutBtn.addEventListener('click', initiateWhatsAppCheckout);
+
+        cartOverlay.addEventListener('click', (e) => {
+            if (e.target === cartOverlay) cartOverlay.classList.remove('active');
+        });
+
+        detailsOverlay.addEventListener('click', (e) => {
+            if (e.target === detailsOverlay) detailsOverlay.classList.remove('active');
+        });
+
+        // --- Data Loading Functions ---
+        async function loadProducts() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
+                products = data.map(product => ({
+                    ...product,
+                    // Reorganizar las descripciones en formato más legible
+                    description: formatProductDescription(product.description)
+                }));
+                renderProducts();
+                startFeaturedBanner();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                productsContainer.innerHTML = '<p class="placeholder">Error al cargar productos. Por favor, recarga la página.</p>';
+            }
+        }
+
+        // Función para formatear las descripciones de productos en listas y párrafos cortos
+        function formatProductDescription(description) {
+            if (!description) return 'Descripción no disponible.';
+            
+            // Dividir por párrafos largos y reorganizar
+            let formattedDesc = description
+                // Separar por puntos seguidos y crear párrafos más cortos
+                .replace(/\.\s+/g, '.\n\n')
+                // Identificar y formatear notas olfativas
+                .replace(/Notas de Salida:/gi, '\n**Notas de Salida:**\n• ')
+                .replace(/Notas de Corazón:/gi, '\n**Notas de Corazón:**\n• ')
+                .replace(/Notas de Fondo:/gi, '\n**Notas de Fondo:**\n• ')
+                .replace(/Familia Olfativa:/gi, '\n**Familia Olfativa:**\n• ')
+                .replace(/Subfamilia olfativa:/gi, '\n**Subfamilia Olfativa:**\n• ')
+                // Convertir listas separadas por comas en elementos de lista
+                .replace(/,\s+/g, '\n• ')
+                // Limpiar espacios extra
+                .replace(/\n\s*\n/g, '\n\n')
+                .trim();
+
+            return formattedDesc;
+        }
+
+        function loadCartFromLocalStorage() {
+            const savedCart = localStorage.getItem('aromista_cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+        }
+
+        function saveCartToLocalStorage() {
+            localStorage.setItem('aromista_cart', JSON.stringify(cart));
+        }
+
+        function loadCustomerDetails() {
+            const savedDetails = localStorage.getItem('aromista_customer');
+            if (savedDetails) {
+                customerDetails = JSON.parse(savedDetails);
+                document.getElementById('customer-name').value = customerDetails.name || '';
+                document.getElementById('customer-phone').value = customerDetails.phone || '';
+                document.getElementById('customer-address').value = customerDetails.address || '';
+            }
+        }
+
+        function saveCustomerDetails() {
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+
+            if (!name || !phone || !address) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            customerDetails = { name, phone, address };
+            localStorage.setItem('aromista_customer', JSON.stringify(customerDetails));
+            detailsOverlay.classList.remove('active');
+            alert('Datos guardados correctamente.');
+        }
+
+        // --- Cart Functions ---
+        function addToCart(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id == productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id != productId);
+            updateCart();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id == productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const isActive = faqItem.classList.contains('active');
+            
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-answer').classList.remove('active');
+            });
+            
+            if (!isActive) {
+                faqItem.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+        
+        // --- Routing and View Management ---
+        function handleRouteChange() {
+            const hash = location.hash || '#';
+            views.forEach(view => view.classList.remove('active'));
+            window.scrollTo(0, 0);
+
+            if (hash.startsWith('#/producto/')) {
+                const productId = hash.split('/')[2];
+                renderProductDetail(productId);
+                productDetailView.classList.add('active');
+            } else if (hash === '#/terminos') {
+                document.getElementById('terms-view').classList.add('active');
+            } else if (hash === '#/privacidad') {
+                document.getElementById('privacy-view').classList.add('active');
+            } else if (hash === '#/faq') {
+                document.getElementById('faq-view').classList.add('active');
+            } else {
+                renderProducts(); 
+                document.getElementById('main-view').classList.add('active');
+                updateMetaTags();
+            }
+        }
+
+        // --- Render Functions ---
+        function renderProducts() {
+            productsContainer.innerHTML = '';
+            products.forEach(product => {
+                const productCardLink = document.createElement('a');
+                productCardLink.href = `#/producto/${product.id}`;
+                productCardLink.className = 'product-card';
+                productCardLink.setAttribute('aria-label', `Ver detalles de ${product.name}`);
+
+                let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+                if (product.images && product.images.length > 0 && product.images[0]) {
+                     carouselHTML = `<div class="carousel-container">${product.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${product.name}" loading="lazy"></div>`).join('')}</div>`;
+                }
+
+                // Mostrar descripción formateada pero truncada para la vista de tarjeta
+                const shortDescription = product.description.replace(/\*\*/g, '').replace(/\n•/g, ',').substring(0, 120) + '...';
+
+                productCardLink.innerHTML = `
+                    <div class="product-carousel">${carouselHTML}</div>
+                    <div class="product-info">
+                        <div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-description">${shortDescription}</p>
+                        </div>
+                        <div class="product-price">$${parseFloat(product.price).toFixed(2)}</div>
+                    </div>`;
+                productsContainer.appendChild(productCardLink);
+            });
+        }
+        
+        // Función para formatear descripciones en la vista de detalle
+        function formatDescriptionForDetail(description) {
+            if (!description) return '<p>No hay descripción disponible.</p>';
+            
+            return description
+                // Convertir markdown básico a HTML
+                .replace(/\*\*(.*?)\*\*/g, '<h3>$1</h3>')
+                // Convertir elementos de lista
+                .replace(/\n• /g, '<br>• ')
+                // Convertir saltos de línea dobles en párrafos
+                .split('\n\n')
+                .map(paragraph => {
+                    if (paragraph.includes('<h3>')) {
+                        return paragraph;
+                    } else if (paragraph.includes('• ')) {
+                        return `<p>${paragraph}</p>`;
+                    } else {
+                        return `<p>${paragraph}</p>`;
+                    }
+                })
+                .join('');
+        }
+
+        function renderProductDetail(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) {
+                productDetailView.innerHTML = `<div class="container"><h2 class="section-title">Producto no encontrado</h2><a href="#">Volver a la tienda</a></div>`;
+                return;
+            }
+
+            updateMetaTags(product);
+
+            let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+            if (product.images && product.images.length > 0 && product.images[0]) {
+                carouselHTML = `
+                    <div class="carousel-container" id="carousel-container-${product.id}">
+                        ${product.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${product.name}"></div>`).join('')}
+                    </div>
+                `;
+                if (product.images.length > 1) {
+                    carouselHTML += `
+                        <button class="carousel-btn prev" onclick="changeSlide('${product.id}', -1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-btn next" onclick="changeSlide('${product.id}', 1)"><i class="fas fa-chevron-right"></i></button>
+                        <div class="carousel-nav" id="carousel-nav-${product.id}">
+                            ${product.images.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="currentSlide('${product.id}', ${index})"></div>`).join('')}
+                        </div>
+                    `;
+                }
+            }
+            
+            // Usar la función de formateo mejorada para la descripción
+            const formattedDescription = formatDescriptionForDetail(product.description);
+
+            productDetailView.innerHTML = `
+                <div class="container">
+                     <a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a Productos</a>
+                     <div class="product-detail-layout">
+                        <div class="product-carousel">${carouselHTML}</div>
+                        <div class="product-detail-info">
+                            <h2 class="product-detail-title">${product.name}</h2>
+                            <div class="product-detail-price">$${parseFloat(product.price).toFixed(2)}</div>
+                            <div class="product-detail-description">${formattedDescription}</div>
+                            <div class="product-detail-actions">
+                                <button class="btn btn-primary btn-add-cart-detail" data-id="${product.id}">
+                                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                                </button>
+                            </div>
+                        </div>
+                     </div>
+                </div>`;
+
+            if (product.images && product.images.length > 1) {
+                initializeCarousel(product.id);
+            }
+            
+            document.querySelector('.btn-add-cart-detail').addEventListener('click', (e) => {
+                addToCart(e.target.closest('button').dataset.id);
+            });
+        }
+
+        function updateCart() {
+            saveCartToLocalStorage();
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="placeholder">Tu carrito está vacío</p>';
+                cartTotal.textContent = '0.00';
+                return;
+            }
+            let total = 0;
+            cartItems.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                const itemImage = (item.images && item.images[0]) ? item.images[0] : 'https://via.placeholder.com/80';
+                return `
+                    <div class="cart-item" data-id="${item.id}">
+                        <img src="${itemImage}" class="cart-item-image" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <div class="cart-item-info">
+                                <span class="cart-item-title">${item.name}</span>
+                                <button class="remove-item" title="Eliminar">&times;</button>
+                            </div>
+                             <p class="cart-item-price">$${parseFloat(item.price).toFixed(2)}</p>
+                            <div class="cart-item-actions">
+                                <button class="quantity-btn decrease">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn increase">+</button>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        // --- Carousel, UI & Helper Functions ---
+        function initializeCarousel(productId) {
+            if (activeCarousels[productId]) clearInterval(activeCarousels[productId]);
+            activeCarousels[productId] = setInterval(() => changeSlide(productId, 1), 5000);
+        }
+        function changeSlide(productId, direction) {
+            const container = document.getElementById(`carousel-container-${productId}`);
+            const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
+            if (!container || dots.length === 0) return;
+            let currentIndex = Array.from(dots).findIndex(dot => dot.classList.contains('active'));
+            let nextIndex = (currentIndex + direction + dots.length) % dots.length;
+            currentSlide(productId, nextIndex);
+        }
+        function currentSlide(productId, index) {
+            const container = document.getElementById(`carousel-container-${productId}`);
+            const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
+            if (!container || !dots[index]) return;
+            container.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+        }
+
+        function startFeaturedBanner() {
+            const banner = document.getElementById('featured-banner');
+            const container = document.getElementById('banner-container');
+            if (!banner || !container || products.length === 0) return;
+
+            const featuredProducts = products.slice(0, 3);
+            container.innerHTML = featuredProducts.map(product => {
+                const image = (product.images && product.images[0]) ? product.images[0] : 'https://via.placeholder.com/110';
+                const shortDesc = product.description.replace(/\*\*/g, '').replace(/\n•/g, ',').substring(0, 80) + '...';
+                return `
+                    <div class="banner-slide">
+                        <img src="${image}" alt="${product.name}" class="banner-product-image">
+                        <div class="banner-product-info">
+                            <h3 class="banner-product-title">${product.name}</h3>
+                            <p class="banner-product-description">${shortDesc}</p>
+                            <div class="banner-product-price">$${parseFloat(product.price).toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            let currentBannerIndex = 0;
+            bannerInterval = setInterval(() => {
+                currentBannerIndex = (currentBannerIndex + 1) % featuredProducts.length;
+                container.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+            }, 4000);
+        }
+
+        function updateMetaTags(product = null) {
+            if (product) {
+                document.title = `${product.name} - AroMista`;
+                document.querySelector('meta[name="description"]').content = `${product.name} - ${product.description.substring(0, 150)}...`;
+            } else {
+                document.title = 'AroMista - Perfumería Online';
+                document.querySelector('meta[name="description"]').content = 'Descubre tu fragancia perfecta - Perfumes de lujo al mejor precio, entregados directamente a tu puerta. La mejor perfumería online.';
+            }
+        }
+
+        function showView(viewName) {
+            views.forEach(view => view.classList.remove('active'));
+            document.getElementById(`${viewName}-view`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function initiateWhatsAppCheckout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío.');
+                return;
+            }
+
+            let message = '¡Hola! Me gustaría realizar un pedido:\n\n';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `• ${item.name}\n  Cantidad: ${item.quantity}\n  Precio: $${parseFloat(item.price).toFixed(2)} c/u\n  Subtotal: $${itemTotal.toFixed(2)}\n\n`;
+            });
+
+            message += `*Total: $${total.toFixed(2)}*\n\n`;
+
+            if (customerDetails) {
+                message += `Datos de envío:\n`;
+                message += `Nombre: ${customerDetails.name}\n`;
+                message += `Teléfono: ${customerDetails.phone}\n`;
+                message += `Dirección: ${customerDetails.address}\n\n`;
+            } else {
+                message += `Por favor, solicita mis datos de envío.\n\n`;
+            }
+
+            message += `¡Gracias!`;
+
+            const whatsappNumber = '1234567890'; // Reemplazar con el número real
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        }
+
+        // Event delegation for cart actions
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-item')) {
+                const productId = e.target.closest('.cart-item').dataset.id;
+                removeFromCart(productId);
+            } else if (e.target.classList.contains('quantity-btn')) {
+                const productId = e.target.closest('.cart-item').dataset.id;
+                const change = e.target.classList.contains('increase') ? 1 : -1;
+                updateQuantity(productId, change);
+            }
+        });
+    </script>
+</body>
+</html>
+
