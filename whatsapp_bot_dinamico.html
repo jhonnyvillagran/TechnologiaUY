@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot de WhatsApp - AroMista</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #25D366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chat-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #FFD700;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f0f0f0;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-bubble {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user .message-bubble {
+            background: #25D366;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .option-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .option-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .product-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #25D366;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .send-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            background: #128C7E;
+            transform: scale(1.1);
+        }
+
+        .whatsapp-link {
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .whatsapp-link:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #ffeaea;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="logo">AM</div>
+            <h1>AroMista</h1>
+            <p>Asistente Virtual de Perfumería</p>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message bot">
+                <div class="message-bubble">
+                    ¡Hola! 👋 Soy Sofía, tu asistente personal de AroMista. Estoy aquí para ayudarte a encontrar la fragancia perfecta. ¿En qué puedo ayudarte hoy?
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="selectOption('productos')">Ver Productos Disponibles 🛍️</button>
+                    <button class="option-btn" onclick="selectOption('buscar')">Buscar Perfume Específico 🔍</button>
+                    <button class="option-btn" onclick="selectOption('recomendacion')">Recomendar Fragancia 💡</button>
+                    <button class="option-btn" onclick="selectOption('envios')">Información de Envíos 📦</button>
+                    <button class="option-btn" onclick="selectOption('contacto')">Hablar con un Humano 👨‍💼</button>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <div class="input-group">
+                <input type="text" class="message-input" id="messageInput" placeholder="Escribe tu mensaje...">
+                <button class="send-btn" onclick="sendMessage()">
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatBody = document.getElementById('chatBody');
+        const messageInput = document.getElementById('messageInput');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // URL de la hoja de Google Sheets en formato CSV
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1ZAdJhVgzWDxwbei123px4dkNgoqhV3ksbU4-jchL5eY/edit?usp=drivesdk';
+        
+        let productos = [];
+        let isLoading = false;
+
+        // Cargar productos desde Google Sheets
+        async function cargarProductos() {
+            if (isLoading) return;
+            isLoading = true;
+            
+            try {
+                const response = await fetch(SHEET_URL);
+                const csvText = await response.text();
+                productos = parsearCSV(csvText);
+                console.log('Productos cargados:', productos.length);
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+                addMessage('Lo siento, hay un problema temporal para cargar los productos. Por favor, contáctanos directamente.', false);
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // Parsear CSV a objetos JavaScript
+        function parsearCSV(csvText) {
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            const productos = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim()) {
+                    const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                    if (values.length >= 4) {
+                        productos.push({
+                            id: values[0] || '',
+                            nombre: values[1] || '',
+                            imagenes: values[2] || '',
+                            precio: values[3] || '',
+                            descripcion: values[4] || ''
+                        });
+                    }
+                }
+            }
+            return productos;
+        }
+
+        const responses = {
+            productos: {
+                text: "¡Perfecto! 🌟 Déjame mostrarte nuestros productos más recientes. Actualizamos nuestro catálogo diariamente con las mejores fragancias:",
+                action: "mostrar_productos"
+            },
+            buscar: {
+                text: "🔍 ¡Excelente! Puedo ayudarte a encontrar exactamente lo que buscas. ¿Qué tipo de fragancia tienes en mente? Puedes decirme:\n\n• El nombre del perfume\n• La marca que te gusta\n• El tipo de aroma (fresco, dulce, floral, etc.)\n• Para quién es (hombre/mujer)",
+                options: [
+                    { text: "Ver Todos los Productos 📋", action: "productos" },
+                    { text: "Fragancias Frescas 🌊", action: "buscar_frescas" },
+                    { text: "Fragancias Dulces 🍯", action: "buscar_dulces" },
+                    { text: "Volver al Menú 🏠", action: "menu" }
+                ]
+            },
+            recomendacion: {
+                text: "💡 ¡Me encanta ayudar a encontrar la fragancia perfecta! Para darte la mejor recomendación, cuéntame:\n\n• ¿Es para ti o para regalo?\n• ¿Prefieres aromas frescos, dulces, florales o amaderados?\n• ¿Para qué ocasión la usarías?\n• ¿Tienes alguna fragancia favorita?",
+                options: [
+                    { text: "Para Uso Diario ☀️", action: "recom_diario" },
+                    { text: "Para Ocasiones Especiales ✨", action: "recom_especial" },
+                    { text: "Para Regalo 🎁", action: "recom_regalo" },
+                    { text: "Ver Productos Populares 🔥", action: "productos" }
+                ]
+            },
+            envios: {
+                text: "📦 ¡Excelente pregunta! Te cuento sobre nuestros envíos:\n\n🚚 **Envíos a todo Uruguay**\n💰 **Sin monto mínimo de compra**\n📅 **Enviamos de lunes a sábado**\n⏰ **Pedidos pagos antes de las 16:00 salen el mismo día**\n🏪 **Puedes elegir tu agencia preferida**\n\n¿Te gustaría saber el costo de envío a tu zona?",
+                options: [
+                    { text: "Consultar Costo de Envío 💰", action: "costo_envio" },
+                    { text: "Ver Formas de Pago 💳", action: "pagos" },
+                    { text: "Volver al Menú 🏠", action: "menu" }
+                ]
+            },
+            contacto: {
+                text: "👨‍💼 ¡Por supuesto! Nuestro equipo humano está listo para atenderte personalmente. Te conectaré directamente con uno de nuestros especialistas en fragancias que podrá ayudarte con cualquier consulta específica.",
+                whatsapp: true
+            },
+            menu: {
+                text: "🏠 ¿En qué más puedo ayudarte? Estoy aquí para hacer que encuentres tu fragancia perfecta:",
+                options: [
+                    { text: "Ver Productos Disponibles 🛍️", action: "productos" },
+                    { text: "Buscar Perfume Específico 🔍", action: "buscar" },
+                    { text: "Recomendar Fragancia 💡", action: "recomendacion" },
+                    { text: "Información de Envíos 📦", action: "envios" },
+                    { text: "Hablar con un Humano 👨‍💼", action: "contacto" }
+                ]
+            }
+        };
+
+        function showTyping() {
+            typingIndicator.style.display = 'block';
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.innerHTML = text.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatBody.insertBefore(messageDiv, typingIndicator);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function addProductCards(productos) {
+            const productContainer = document.createElement('div');
+            
+            productos.slice(0, 5).forEach(producto => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-name">${producto.nombre}</div>
+                    <div class="product-price">$${producto.precio}</div>
+                    <div class="product-description">${producto.descripcion.substring(0, 150)}...</div>
+                `;
+                productContainer.appendChild(card);
+            });
+            
+            const lastMessage = chatBody.querySelector('.message.bot:last-of-type');
+            lastMessage.appendChild(productContainer);
+            
+            // Agregar botón para ver más productos
+            if (productos.length > 5) {
+                const moreBtn = document.createElement('button');
+                moreBtn.className = 'option-btn';
+                moreBtn.textContent = `Ver más productos (${productos.length - 5} restantes) 📋`;
+                moreBtn.onclick = () => mostrarMasProductos();
+                
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'options';
+                btnContainer.appendChild(moreBtn);
+                lastMessage.appendChild(btnContainer);
+            }
+        }
+
+        function addOptions(options) {
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option.text;
+                button.onclick = () => selectOption(option.action);
+                optionsDiv.appendChild(button);
+            });
+            
+            const lastMessage = chatBody.querySelector('.message.bot:last-of-type');
+            lastMessage.appendChild(optionsDiv);
+        }
+
+        function addWhatsAppLink(customMessage = '') {
+            const linkDiv = document.createElement('div');
+            linkDiv.style.textAlign = 'center';
+            linkDiv.style.marginTop = '15px';
+            
+            const whatsappNumber = "59895596779"; // Reemplazar con el número real
+            const defaultMessage = "Hola! Me gustaría obtener más información sobre los productos de AroMista.";
+            const message = encodeURIComponent(customMessage || defaultMessage);
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+            
+            const link = document.createElement('a');
+            link.href = whatsappURL;
+            link.target = '_blank';
+            link.className = 'whatsapp-link';
+            link.innerHTML = '💬 Continuar en WhatsApp';
+            
+            linkDiv.appendChild(link);
+            
+            const lastMessage = chatBody.querySelector('.message.bot:last-of-type');
+            lastMessage.appendChild(linkDiv);
+        }
+
+        async function selectOption(option) {
+            const response = responses[option];
+            if (!response && option !== 'productos') return;
+            
+            // Agregar mensaje del usuario
+            const optionText = document.querySelector(`[onclick*="${option}"]`)?.textContent || option;
+            addMessage(optionText, true);
+            
+            // Mostrar indicador de escritura
+            showTyping();
+            
+            // Simular delay de respuesta más humano
+            const delay = Math.random() * 1000 + 1500; // 1.5-2.5 segundos
+            
+            setTimeout(async () => {
+                hideTyping();
+                
+                if (option === 'productos') {
+                    await mostrarProductos();
+                } else if (response) {
+                    addMessage(response.text);
+                    
+                    if (response.action === 'mostrar_productos') {
+                        await mostrarProductos();
+                    } else if (response.whatsapp) {
+                        addWhatsAppLink();
+                    } else if (response.options) {
+                        addOptions(response.options);
+                    }
+                }
+            }, delay);
+        }
+
+        async function mostrarProductos() {
+            if (productos.length === 0) {
+                addMessage('📦 Cargando productos actualizados...', false);
+                await cargarProductos();
+            }
+            
+            if (productos.length > 0) {
+                addProductCards(productos);
+                
+                // Agregar opciones adicionales
+                const options = [
+                    { text: "Consultar Disponibilidad 📞", action: "contacto" },
+                    { text: "Ver Información de Envíos 📦", action: "envios" },
+                    { text: "Volver al Menú 🏠", action: "menu" }
+                ];
+                addOptions(options);
+            } else {
+                addMessage('Lo siento, no pude cargar los productos en este momento. Te conectaré con nuestro equipo para ayudarte directamente.', false);
+                addWhatsAppLink('Hola! No pude ver los productos en el bot, ¿podrían ayudarme con el catálogo actual?');
+            }
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            messageInput.value = '';
+            
+            showTyping();
+            
+            // Respuesta más personalizada para mensajes libres
+            setTimeout(() => {
+                hideTyping();
+                
+                const lowerMessage = message.toLowerCase();
+                let response = '';
+                
+                if (lowerMessage.includes('precio') || lowerMessage.includes('costo')) {
+                    response = 'Todos nuestros perfumes tienen un precio de $450. ¿Te gustaría ver algún producto específico o necesitas información sobre envíos?';
+                } else if (lowerMessage.includes('perfume') || lowerMessage.includes('fragancia')) {
+                    response = '¡Perfecto! Tenemos una gran variedad de fragancias. ¿Te gustaría que te muestre nuestro catálogo actualizado?';
+                    setTimeout(() => {
+                        const options = [
+                            { text: "Ver Productos 🛍️", action: "productos" },
+                            { text: "Buscar Específico 🔍", action: "buscar" }
+                        ];
+                        addOptions(options);
+                    }, 500);
+                } else if (lowerMessage.includes('envio') || lowerMessage.includes('envío')) {
+                    response = 'Te cuento sobre nuestros envíos: enviamos a todo Uruguay sin monto mínimo. Los pedidos pagos antes de las 16:00 salen el mismo día. ¿Necesitas saber el costo para tu zona?';
+                } else {
+                    response = 'Gracias por tu mensaje. Para brindarte la mejor atención personalizada, nuestro equipo especializado podrá ayudarte de manera más específica a través de WhatsApp.';
+                    setTimeout(() => addWhatsAppLink(`Hola! Escribí en el bot: "${message}". ¿Podrían ayudarme?`), 1000);
+                }
+                
+                addMessage(response);
+            }, 2000);
+        }
+
+        // Permitir enviar mensaje con Enter
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Cargar productos al iniciar
+        window.addEventListener('load', function() {
+            chatBody.scrollTop = chatBody.scrollHeight;
+            cargarProductos();
+        });
+    </script>
+</body>
+</html>
+
