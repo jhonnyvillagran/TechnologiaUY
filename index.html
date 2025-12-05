@@ -328,14 +328,14 @@
         .cart-overlay.active, .details-overlay.active { opacity: 1; visibility: visible; }
         
         /* ESTILOS NUEVOS PARA OVERLAY DEL MENÚ */
-        .nav-overlay {
-            position: fixed;
+        .nav-overlay {position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 4999; /* Justo debajo del z-index del menú */
+            background-color: rgba(0, 0, 0, 0.85); /* Fondo mucho más oscuro */
+            backdrop-filter: blur(5px); /* Efecto borroso para ofuscar el fondo */
+            z-index: 4999;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease-in-out;
@@ -484,7 +484,16 @@
         .avatar-option.selected { border-color: var(--primary); transform: scale(1.15); box-shadow: 0 0 15px var(--primary); z-index: 2; }
 
         @media (max-width: 768px) {
-            .nav { position: fixed; top: 0; left: 0; width: 85%; max-width: 320px; height: 100%; background-color: var(--bg-primary); box-shadow: 5px 0 20px rgba(0,0,0,0.5); transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 5000; padding-top: 60px; }
+            .nav { left: 0; 
+                width: 85%; 
+                max-width: 320px; 
+                height: 100%; 
+                background-color: #000000; /* Fondo NEGRO SÓLIDO */
+                box-shadow: 5px 0 20px rgba(0,0,0,0.5); 
+                transform: translateX(-100%); 
+                transition: transform 0.3s ease-in-out; 
+                z-index: 5000; 
+                padding-top: 60px;  }
             .nav.active { transform: translateX(0); }
             .nav ul { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
             .nav li { width: 100%; border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
