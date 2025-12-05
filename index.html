@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AroMista - Perfumería Online</title>
+    <!-- Tus estilos originales resumidos -->
+    <link rel="icon" type="image/png" href="Logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ESTILOS ORIGINALES */
+        :root { --primary: #D4AF37; --dark: #1A1A1A; --bg-secondary: #2A2A2A; --text-primary: #F5F5F5; --border-radius: 8px; }
+        body { font-family: sans-serif; background: #1A1A1A; color: #F5F5F5; margin: 0; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .view { display: none; padding-top: 80px; }
+        .view.active { display: block; }
+        
+        /* Header y Nav */
+        .header { position: fixed; top: 0; width: 100%; background: rgba(26,26,26,0.95); z-index: 1000; padding: 15px 0; }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav ul { display: flex; gap: 20px; list-style: none; }
+        .nav a { color: white; text-decoration: none; font-weight: bold; }
+        
+        /* Mobile Nav */
+        .mobile-menu-btn { display: none; background: none; border: none; color: white; font-size: 1.5rem; }
+        @media(max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #1A1A1A; flex-direction: column; padding: 20px; }
+            .nav.active { display: flex; }
+            .nav ul { flex-direction: column; }
+        }
+
+        /* Productos */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .product-card { background: var(--bg-secondary); border: 1px solid #444; border-radius: 8px; overflow: hidden; }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-info { padding: 15px; }
+
+        /* Reseñas */
+        .review-card { background: var(--bg-secondary); border: 1px solid #D4AF37; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .review-header { display: flex; align-items: center; margin-bottom: 10px; }
+        .review-avatar { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; }
+        
+        /* Formulario */
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; }
+        .btn { background: #D4AF37; color: black; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <img src="Logo.png" alt="Logo" style="height:50px;">
+            <nav class="nav" id="main-nav">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#resenas">Opiniones</a></li> <!-- ENLACE A RESEÑAS -->
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" onclick="document.getElementById('main-nav').classList.toggle('active')">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- INICIO Y PRODUCTOS -->
+    <div id="view-home" class="view active">
+        <div class="container">
+            <h1 style="text-align:center; margin-top:40px;">Catálogo AroMista</h1>
+            <div id="products-container" class="products-grid">
+                <p style="text-align:center;">Cargando productos...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN RESEÑAS -->
+    <div id="view-reviews" class="view">
+        <div class="container">
+            <h1 style="text-align:center; margin-top:40px;">Opiniones de Clientes</h1>
+            
+            <!-- Formulario -->
+            <div style="max-width:500px; margin:0 auto; background:#222; padding:20px; border-radius:8px;">
+                <h3>Deja tu comentario</h3>
+                <form id="review-form">
+                    <input type="text" id="review-nick" placeholder="Tu Nombre" required>
+                    <textarea id="review-msg" placeholder="Tu Opinión" required></textarea>
+                    <button type="submit" class="btn">Publicar</button>
+                </form>
+            </div>
+
+            <!-- Lista de Reseñas -->
+            <div id="reviews-container" style="max-width:800px; margin:30px auto;">
+                <p style="text-align:center;">Cargando opiniones...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // PEGA AQUÍ TU URL (asegúrate que termine en /exec)
+        // ==========================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSkIIFCSnGVHlvNmYYzwxVzE9OOVrO9uHEAzLSpxjQ1qSceCGMoIFBicXeE4v1HBGC/exec';
+        
+        // Router Simple
+        window.addEventListener('hashchange', handleRoute);
+        window.addEventListener('load', () => {
+            handleRoute();
+            loadProducts(); // Cargar productos al inicio
+        });
+
+        function handleRoute() {
+            const hash = location.hash;
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            
+            if (hash === '#resenas') {
+                document.getElementById('view-reviews').classList.add('active');
+                loadReviews();
+            } else {
+                document.getElementById('view-home').classList.add('active');
+            }
+        }
+
+        // Cargar Productos (Lógica Original)
+        async function loadProducts() {
+            try {
+                const res = await fetch(SCRIPT_URL + '?action=getProducts');
+                const products = await res.json();
+                
+                const container = document.getElementById('products-container');
+                if(!products || products.length === 0) {
+                    container.innerHTML = '<p>No hay productos.</p>';
+                    return;
+                }
+
+                container.innerHTML = products.map(p => {
+                    // Manejo de imagen (array o string)
+                    let img = 'https://via.placeholder.com/300';
+                    if(p.images && p.images.length > 0) img = p.images[0];
+                    
+                    return `
+                    <div class="product-card">
+                        <img src="${img}" alt="${p.name}">
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <p>${p.description || ''}</p>
+                            <strong style="color:#D4AF37">$${p.price || 'Consultar'}</strong>
+                        </div>
+                    </div>`;
+                }).join('');
+
+            } catch(e) {
+                console.error(e);
+                document.getElementById('products-container').innerHTML = '<p>Error cargando productos. Verifica la URL.</p>';
+            }
+        }
+
+        // Cargar Reseñas (Nueva Lógica)
+        async function loadReviews() {
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = '<p style="text-align:center;">Cargando...</p>';
+            try {
+                const res = await fetch(SCRIPT_URL + '?action=getReviews');
+                const reviews = await res.json();
+                
+                if(!reviews || reviews.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;">Sé el primero en opinar.</p>';
+                    return;
+                }
+
+                container.innerHTML = reviews.map(r => `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="${r.avatar}" class="review-avatar">
+                            <div>
+                                <strong style="color:#D4AF37">${r.nickname}</strong><br>
+                                <small>${new Date(r.date).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                        <p>${r.comment}</p>
+                    </div>
+                `).join('');
+
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = '<p>Error cargando reseñas.</p>';
+            }
+        }
+
+        // Enviar Reseña
+        document.getElementById('review-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerText = 'Enviando...';
+            btn.disabled = true;
+
+            const nick = document.getElementById('review-nick').value;
+            const msg = document.getElementById('review-msg').value;
+            const avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${nick}`;
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'addReview',
+                        nickname: nick,
+                        comment: msg,
+                        avatar: avatar
+                    })
+                });
+                alert('¡Gracias por tu opinión!');
+                e.target.reset();
+                loadReviews(); // Recargar lista
+            } catch(e) {
+                alert('Error al enviar');
+            } finally {
+                btn.innerText = 'Publicar';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
