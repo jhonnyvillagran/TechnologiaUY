@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AroMista - Perfumería Online</title>
+    <meta name="description" content="Perfumes de lujo al mejor precio en Uruguay.">
+    <link rel="icon" type="image/png" href="Logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4AF37; --primary-dark: #B8941F; --secondary: #8B4B8C; 
+            --dark: #121212; --darker: #0a0a0a; --bg-secondary: #1E1E1E;
+            --text-primary: #F5F5F5; --text-secondary: #B0B0B0;
+            --success: #228B22; --danger: #8B0000;
+            --shadow: 0 4px 20px rgba(0,0,0,0.5);
+            --border-radius: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--dark); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+        /* Botones */
+        .btn { display: inline-block; padding: 12px 25px; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; border: none; transition: 0.3s; text-align: center; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--darker); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        .btn-whatsapp { background: #25D366; color: white; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-whatsapp:hover { background: #20ba5a; }
+
+        /* Header */
+        .header { position: fixed; top: 0; width: 100%; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); z-index: 1000; padding: 15px 0; }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo-img { height: 50px; width: 50px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
+        
+        .nav ul { display: flex; gap: 25px; }
+        .nav a { font-weight: 600; color: var(--text-secondary); }
+        .nav a:hover { color: var(--primary); }
+
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .action-btn { background: none; border: none; color: var(--text-primary); font-size: 1.2rem; cursor: pointer; position: relative; }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: var(--danger); color: white; font-size: 0.7rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* Mobile Menu */
+        .mobile-menu-btn { display: none; font-size: 1.5rem; color: var(--text-primary); background: none; border: none; }
+        .close-nav-btn { display: none; }
+
+        /* === HERO SECTION (SIN IMAGEN, SOLO GRADIENTE Y ORO) === */
+        .hero { 
+            height: 75vh; 
+            /* Gradiente oscuro elegante */
+            background: linear-gradient(135deg, #050505 0%, #1a1a1a 60%, #2A2A2A 100%); 
+            position: relative; 
+            display: flex; align-items: center; justify-content: center; text-align: center; 
+            margin-top: 80px;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        /* Destello Dorado Central */
+        .hero::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero-content { z-index: 2; padding: 20px; }
+        .hero-title { font-size: 4rem; background: linear-gradient(to right, #D4AF37, #F9E076); -webkit-background-clip: text; color: transparent; font-weight: 800; margin-bottom: 15px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .hero-subtitle { font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 30px; letter-spacing: 1px; }
+
+        /* Productos */
+        .products { padding: 60px 0; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+        .product-card { background: var(--bg-secondary); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--border-radius); overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: var(--shadow); }
+        
+        .product-image-container { height: 280px; overflow: hidden; position: relative; background: #000; }
+        .product-image-container img { width: 100%; height: 100%; object-fit: contain; transition: 0.5s; }
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 1.1rem; margin-bottom: 5px; }
+        .product-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .product-price { font-size: 1.3rem; color: var(--primary); font-weight: bold; }
+        .price-ask { font-size: 1rem; color: var(--primary); font-style: italic; }
+
+        /* Sección Reseñas Elegante */
+        .reviews-section { padding: 80px 0; background: #151515; }
+        .review-form-container { 
+            background: rgba(30, 30, 30, 0.95); 
+            padding: 40px; 
+            border-radius: 15px; 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            max-width: 800px; 
+            margin: 0 auto 50px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: var(--primary); margin-bottom: 10px; font-size: 1.1rem; }
+        .form-group input, .form-group textarea { 
+            width: 100%; padding: 15px; background: #252525; border: 1px solid #444; 
+            color: white; border-radius: 8px; font-size: 1rem; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; }
+
+        /* Selector de Avatares DISEÑADOS (Adventurer) */
+        .avatars-grid { 
+            display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; 
+            padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px;
+        }
+        .avatar-option { 
+            width: 80px; height: 80px; border-radius: 50%; 
+            cursor: pointer; border: 3px solid transparent; transition: 0.3s; 
+            background-color: #fff; /* Fondo blanco para resaltar colores */
+            object-fit: cover;
+        }
+        .avatar-option:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        .avatar-option.selected { border-color: var(--primary); transform: scale(1.2); box-shadow: 0 0 20px var(--primary); z-index: 2; }
+
+        /* Grid de Reseñas */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .review-card { background: var(--bg-secondary); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); display: flex; gap: 15px; align-items: flex-start; }
+        .review-avatar { width: 65px; height: 65px; border-radius: 50%; background-color: #fff; border: 2px solid var(--primary); }
+        .review-content h4 { color: var(--primary); margin-bottom: 5px; font-size: 1.1rem; }
+        .review-content small { color: #666; display: block; margin-bottom: 10px; font-size: 0.85rem; }
+        .review-content p { font-style: italic; color: #ddd; line-height: 1.5; font-size: 0.95rem; }
+
+        /* Blog Grid */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .blog-card { background: var(--bg-secondary); border-radius: 10px; overflow: hidden; transition: 0.3s; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+        .blog-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .blog-card img { width: 100%; height: 200px; object-fit: cover; }
+        .blog-content { padding: 20px; }
+        .blog-title { color: var(--primary); font-size: 1.2rem; margin-bottom: 10px; }
+        .blog-excerpt { color: var(--text-secondary); font-size: 0.9rem; }
+        .blog-meta { font-size: 0.8rem; color: #666; margin-bottom: 10px; }
+
+        /* Post individual */
+        .blog-post-full { background: var(--bg-secondary); padding: 40px; border-radius: 10px; max-width: 900px; margin: 0 auto; }
+        .blog-post-full img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-bottom: 30px; }
+        .blog-post-content { line-height: 1.8; font-size: 1.1rem; color: #ddd; }
+        .blog-post-content h3 { color: var(--primary); margin-top: 30px; margin-bottom: 15px; }
+
+        /* Footer */
+        .footer { background: #0a0a0a; padding: 40px 0; text-align: center; border-top: 1px solid #333; margin-top: auto; }
+        .footer-socials a { font-size: 1.5rem; color: #888; margin: 0 15px; }
+        .footer-socials a:hover { color: var(--primary); }
+        .footer-links { margin: 20px 0; }
+        .footer-links a { margin: 0 10px; color: #666; font-size: 0.9rem; }
+
+        /* Utilidades */
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.5s; }
+        .notification { position: fixed; bottom: 20px; right: 20px; background: var(--success); color: white; padding: 15px 25px; border-radius: 8px; transform: translateY(100px); transition: 0.3s; z-index: 3000; }
+        .notification.show { transform: translateY(0); }
+        .whatsapp-fab { position: fixed; bottom: 25px; left: 25px; background: #25D366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        
+        /* Carrito Overlay */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; justify-content: flex-end; }
+        .overlay.active { display: flex; }
+        .cart-panel, .details-panel { background: var(--bg-secondary); width: 100%; max-width: 400px; height: 100%; padding: 20px; display: flex; flex-direction: column; border-left: 1px solid var(--primary); }
+        .details-panel { max-width: 500px; margin: auto; height: auto; border-radius: 10px; border: 1px solid var(--primary); }
+        .cart-items { flex-grow: 1; overflow-y: auto; margin: 20px 0; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .nav { position: fixed; top: 0; left: 0; height: 100%; width: 70%; background: var(--dark); transform: translateX(-100%); transition: 0.3s; padding: 80px 20px; flex-direction: column; z-index: 999; border-right: 1px solid var(--primary); }
+            .nav.active { transform: translateX(0); }
+            .nav ul { flex-direction: column; }
+            .mobile-menu-btn { display: block; }
+            .close-nav-btn { display: block; position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; }
+            .hero-title { font-size: 2.5rem; }
+            .avatars-grid { gap: 10px; }
+            .avatar-option { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo"><img src="Logo.png" alt="AroMista" class="logo-img"></a>
+            <nav class="nav" id="main-nav">
+                <button class="close-nav-btn" id="close-nav-btn">&times;</button>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Catálogo</a></li>
+                    <li><a href="#resenas">Opiniones</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="action-btn" id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+                <button class="action-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-container">
+        
+        <!-- VISTA INICIO + PRODUCTOS -->
+        <div id="main-view" class="view active">
+            <!-- HERO SIN IMAGEN (Solo Gradiente y Oro) -->
+            <section class="hero" id="inicio">
+                <div class="hero-content">
+                    <h1 class="hero-title">AROMISTA</h1>
+                    <p class="hero-subtitle">Fragancias exclusivas al alcance de tu mano.</p>
+                    <a href="#productos" class="btn btn-primary">Ver Catálogo</a>
+                </div>
+            </section>
+
+            <section class="products container" id="productos">
+                <h2 class="section-title">Nuestra Colección</h2>
+                
+                <!-- Buscador -->
+                <div style="max-width: 500px; margin: 0 auto 30px; position: relative;">
+                    <input type="text" id="search-input" placeholder="Buscar perfume..." style="width:100%; padding:12px; border-radius:25px; border:none; background:#333; color:white; padding-left:20px;">
+                    <i class="fas fa-search" style="position:absolute; right:15px; top:12px; color:#888;"></i>
+                </div>
+
+                <div class="products-grid" id="products-container">
+                    <p class="placeholder">Cargando productos...</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- VISTA DETALLE -->
+        <div id="product-detail-view" class="view"></div>
+
+        <!-- VISTA RESEÑAS -->
+        <div id="reviews-view" class="view">
+            <section class="reviews-section">
+                <div class="container">
+                    <h2 class="section-title">Experiencias AroMista</h2>
+                    
+                    <div class="review-form-container">
+                        <h3 class="review-form-title">Comparte tu Opinión</h3>
+                        <form id="review-form">
+                            <div class="form-group">
+                                <label>Tu Nombre / Apodo:</label>
+                                <input type="text" id="review-nickname" required placeholder="Ej: Alex">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Elige un personaje:</label>
+                                <div class="avatars-grid" id="avatars-grid">
+                                    <!-- Se llena con JS -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tu comentario:</label>
+                                <textarea id="review-comment" rows="4" required placeholder="Cuéntanos qué te pareció..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width:100%">Publicar Reseña</button>
+                        </form>
+                    </div>
+
+                    <div id="reviews-container" class="reviews-grid">
+                        <p class="placeholder">Cargando reseñas...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VISTA BLOG -->
+        <div id="blog-view" class="view">
+             <div class="container" style="padding: 100px 0;">
+                <h2 class="section-title">Blog de Fragancias</h2>
+                <div id="blog-container" class="blog-grid"></div> 
+             </div>
+        </div>
+        
+        <!-- VISTA POST INDIVIDUAL -->
+        <div id="blog-post-view" class="view">
+            <div class="container" style="padding-top:100px;">
+                <button class="btn" onclick="location.hash='#/blog'" style="background:#333; color:white; margin-bottom:20px;">&larr; Volver al Blog</button>
+                <div id="blog-post-content" class="blog-post-full"></div>
+            </div>
+        </div>
+
+        <!-- VISTA FAQ -->
+        <div id="faq-view" class="view">
+             <div class="container" style="padding: 100px 0;">
+                <h2 class="section-title">Preguntas Frecuentes</h2>
+                <div class="faq-item"><div class="faq-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'">¿Hacen envíos?</div><div class="faq-answer" style="display:none; padding:15px;">Sí, a todo el país los días Martes, Jueves y Sábados.</div></div>
+                <div class="faq-item"><div class="faq-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'">¿Son originales?</div><div class="faq-answer" style="display:none; padding:15px;">100% originales garantizados.</div></div>
+             </div>
+        </div>
+
+    </main>
+
+    <!-- Carrito Overlay -->
+    <div class="overlay" id="cart-overlay">
+        <div class="cart-panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2>Tu Carrito</h2>
+                <button id="close-cart" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items"></div>
+            <h3 style="text-align:right; margin-bottom:20px;">Total: $<span id="cart-total">0.00</span></h3>
+            <button class="btn btn-whatsapp" id="checkout-btn"><i class="fab fa-whatsapp"></i> Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <!-- Datos Envío Overlay -->
+    <div class="overlay" id="details-overlay" style="align-items:center; justify-content:center;">
+        <div class="details-panel">
+            <h2 style="text-align:center; color:var(--primary); margin-bottom:20px;">Datos de Envío</h2>
+            <form id="shipping-form">
+                <div class="form-group"><input type="text" id="ship-name" placeholder="Nombre Completo" required></div>
+                <div class="form-group"><input type="text" id="ship-cedula" placeholder="Cédula" required></div>
+                <div class="form-group"><input type="text" id="ship-dir" placeholder="Dirección y Ciudad" required></div>
+                <div class="form-group"><input type="text" id="ship-agencia" placeholder="Agencia de preferencia" required></div>
+                <button type="submit" class="btn btn-primary" style="width:100%">Confirmar y Pedir</button>
+                <button type="button" id="close-details" style="background:none; border:none; color:#888; width:100%; margin-top:10px; cursor:pointer;">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Mensaje</div>
+    <a href="https://wa.me/59894991600" target="_blank" class="whatsapp-fab"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        // =========================================================
+        // ¡¡ PEGA AQUÍ TU URL DE NUEVA VERSIÓN DE APPS SCRIPT !!
+        // =========================================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYrWZO2lq9tCSUE1qT3rOabg2lof_q84jXU1ntzh-QOXzPxtyYklFq21ndkCXATWHY/exec';
+        
+        let products = [];
+        let cart = JSON.parse(localStorage.getItem('aromistaCart')) || [];
+        let selectedAvatar = null;
+        const WHATSAPP = '59894991600';
+
+        // Avatares "Adventurer" (Coloridos y bien diseñados)
+        // 7 Hombres y 7 Mujeres
+        const avatars = [
+            // Hombres
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Brian',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Christopher',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Jack',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Liam',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Mason',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Noah',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Ethan',
+
+            // Mujeres
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Sophie',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Jessica',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Annie',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Julia',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Emma',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Olivia',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Ava'
+        ];
+
+        // Blog Data
+        const blogPosts = [
+            { id: 'el-arte-de-aplicar-perfume', title: 'El Arte de Aplicar Perfume', content: 'Descubre los secretos para que tu fragancia favorita te acompañe durante todo el día...', img: 'blog-images/el-arte-de-aplicar-perfume.jpg', full: '<h3>¿Dónde aplicar el perfume?</h3><p>La clave para una fragancia duradera es aplicarla en los "puntos de pulso"...</p>' },
+            { id: 'encontrando-tu-aroma-personal', title: 'Encontrando tu Aroma Personal', content: 'Tu perfume es una extensión de tu personalidad...', img: 'blog-images/encontrando-tu-aroma-personal.jpg', full: '<p>Elegir un perfume puede ser una experiencia muy personal...</p>' },
+            { id: 'niche-vs-designer', title: 'Perfumes Nicho vs. Diseñador', content: 'Exploramos el debate entre las fragancias de nicho y las de diseñador...', img: 'blog-images/niche-vs-designer.jpg', full: '<h3>Perfumes de Diseñador</h3><p>Son las fragancias que encuentras en grandes tiendas...</p>' },
+            { id: 'historia-perfume', title: 'Historia del Perfume', content: 'Un viaje en el tiempo desde el antiguo Egipto...', img: 'blog-images/historia-perfume.jpg', full: '<h3>Orígenes Antiguos</h3><p>La historia del perfume comienza en Mesopotamia...</p>' },
+            { id: 'notas-olfativas', title: 'La Pirámide Olfativa', content: 'Entendiendo las notas de salida, corazón y fondo...', img: 'blog-images/notas-olfativas.jpg', full: '<p>Toda fragancia bien construida se compone de tres tipos de notas...</p>' },
+            { id: 'conservacion-perfume', title: 'Cómo Almacenar tus Perfumes', content: 'Aprende a proteger tus fragancias de la luz y el calor...', img: 'blog-images/conservacion-perfume.jpg', full: '<p>Las moléculas de un perfume son delicadas...</p>' },
+            { id: 'oud-oro-liquido', title: 'Oud: El Oro Líquido', content: 'Descubre el origen del ingrediente más codiciado...', img: 'blog-images/oud-oro-liquido.jpg', full: '<h3>¿Qué es el Oud?</h3><p>El oud es una resina oscura y fragante...</p>' },
+            { id: 'perfumes-arabes', title: 'Perfumería Árabe', content: 'Un mundo de opulencia y tradición...', img: 'blog-images/perfumes-arabes.jpg', full: '<h3>Características Clave</h3><p>La perfumería árabe se distingue por su audacia...</p>' },
+            { id: 'sillage-proyeccion', title: 'Sillage y Proyección', content: 'El aura invisible de tu perfume...', img: 'blog-images/sillage-proyeccion.jpg', full: '<h3>Proyección</h3><p>La distancia a la que se puede oler tu perfume...</p>' },
+            { id: 'unisex-fragancias', title: 'Fragancias Unisex', content: 'Rompiendo barreras de género en la perfumería...', img: 'blog-images/unisex-fragancias.jpg', full: '<h3>Marketing</h3><p>Históricamente, los perfumes no tenían género...</p>' },
+            { id: 'layering-perfumes', title: 'Layering: Combinar Perfumes', content: 'Crea tu aroma único superponiendo fragancias...', img: 'blog-images/layering-perfumes.jpg', full: '<h3>Principios Básicos</h3><p>La experimentación es clave...</p>' },
+            { id: 'perfume-y-memoria', title: 'El Efecto Proust', content: 'Por qué los olores despiertan recuerdos...', img: 'blog-images/perfume-y-memoria.jpg', full: '<h3>Conexión Cerebral</h3><p>El olfato es nuestro sentido más primitivo...</p>' },
+            { id: 'fragancias-gourmand', title: 'Fragancias Gourmand', content: 'Dulce tentación: vainilla, chocolate y caramelo...', img: 'blog-images/fragancias-gourmand.jpg', full: '<h3>Notas Comunes</h3><p>Vainilla, chocolate, café...</p>' },
+            { id: 'perfume-para-ocasion', title: 'El Aroma Adecuado', content: 'Cómo elegir un perfume para cada ocasión...', img: 'blog-images/perfume-para-ocasion.jpg', full: '<h3>Para la Oficina</h3><p>El objetivo es oler bien de forma discreta...</p>' },
+            { id: 'ingredientes-raros', title: 'Ingredientes Raros', content: 'Joyas olfativas: ámbar gris, orris y más...', img: 'blog-images/ingredientes-raros.jpg', full: '<h3>Ámbar Gris</h3><p>Producido por cachalotes...</p>' }
+        ];
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchProducts();
+            updateCartDisplay();
+            renderAvatars();
+            renderBlog();
+            handleRoute();
+        });
+
+        window.addEventListener('hashchange', handleRoute);
+
+        function handleRoute() {
+            const hash = location.hash;
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            window.scrollTo(0,0);
+            document.getElementById('main-nav').classList.remove('active');
+
+            if(hash === '' || hash === '#inicio' || hash === '#productos') {
+                document.getElementById('main-view').classList.add('active');
+            } else if(hash === '#resenas') {
+                document.getElementById('reviews-view').classList.add('active');
+                fetchReviews();
+            } else if(hash === '#blog') {
+                document.getElementById('blog-view').classList.add('active');
+            } else if(hash.startsWith('#/blog/post/')) {
+                const id = hash.split('/')[3];
+                renderBlogPost(id);
+                document.getElementById('blog-post-view').classList.add('active');
+            } else if(hash === '#faq') {
+                document.getElementById('faq-view').classList.add('active');
+            }
+            updateMetaTags();
+        }
+
+        // --- LOGICA PRINCIPAL ---
+        async function fetchProducts() {
+            const container = document.getElementById('products-container');
+            try {
+                const res = await fetch(SCRIPT_URL + '?action=getProducts');
+                const data = await res.json();
+                products = data;
+                renderProducts(products);
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = `<p style="color:red; text-align:center">Error conectando con el servidor. Verifica la URL.</p>`;
+            }
+        }
+
+        function renderProducts(list) {
+            const container = document.getElementById('products-container');
+            if(list.length === 0) { container.innerHTML = '<p>No hay productos.</p>'; return; }
+            
+            container.innerHTML = list.map(p => {
+                let img = 'https://via.placeholder.com/300x300?text=No+Img';
+                if(p.images){
+                   if(Array.isArray(p.images) && p.images.length > 0) img = p.images[0];
+                   else if(typeof p.images === 'string' && p.images.length > 0) img = p.images;
+                }
+                
+                const price = p.price || p.Price || p.precio;
+                const priceDisplay = price ? `$${price}` : '<span class="price-ask">Consultar</span>';
+
+                return `
+                <div class="product-card">
+                    <div class="product-image-container"><img src="${img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Img'"></div>
+                    <div class="product-info">
+                        <div>
+                            <h3 class="product-title">${p.name}</h3>
+                            <div class="product-desc">${p.description || 'Sin descripción'}</div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                            <div class="product-price">${priceDisplay}</div>
+                            ${price ? `<button class="btn btn-primary" onclick="addToCart('${p.id}')"><i class="fas fa-cart-plus"></i></button>` : 
+                            `<a href="https://wa.me/${WHATSAPP}?text=Me interesa ${p.name}" target="_blank" class="btn btn-whatsapp" style="width:auto; margin:0; padding:8px 15px;"><i class="fab fa-whatsapp"></i></a>`}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+            renderProducts(filtered);
+        });
+
+        // --- RESEÑAS ---
+        function renderAvatars() {
+            const grid = document.getElementById('avatars-grid');
+            grid.innerHTML = avatars.map(url => `
+                <img src="${url}" class="avatar-option" onclick="selectAvatar(this, '${url}')">
+            `).join('');
+        }
+
+        function selectAvatar(el, url) {
+            document.querySelectorAll('.avatar-option').forEach(img => img.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedAvatar = url;
+        }
+
+        async function fetchReviews() {
+            const container = document.getElementById('reviews-container');
+            try {
+                const res = await fetch(SCRIPT_URL + '?action=getReviews');
+                const data = await res.json();
+                if(!data || data.length === 0) { container.innerHTML = '<p style="text-align:center">Sé el primero en opinar.</p>'; return; }
+                
+                container.innerHTML = data.map(r => `
+                    <div class="review-card">
+                        <img src="${r.avatar}" class="review-avatar">
+                        <div class="review-content">
+                            <h4>${r.nickname}</h4>
+                            <small>${new Date(r.date).toLocaleDateString()}</small>
+                            <p>"${r.comment}"</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch(e) { container.innerHTML = '<p>Error cargando reseñas.</p>'; }
+        }
+
+        document.getElementById('review-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!selectedAvatar) { showNotif('Elige un personaje', 'error'); return; }
+            
+            const btn = e.target.querySelector('button');
+            btn.innerText = 'Enviando...'; btn.disabled = true;
+
+            const data = {
+                action: 'addReview',
+                nickname: document.getElementById('review-nickname').value,
+                comment: document.getElementById('review-comment').value,
+                avatar: selectedAvatar
+            };
+
+            try {
+                await fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify(data) });
+                showNotif('¡Reseña publicada!');
+                e.target.reset();
+                selectedAvatar = null;
+                document.querySelectorAll('.avatar-option').forEach(x => x.classList.remove('selected'));
+                fetchReviews();
+            } catch(e) { showNotif('Error al enviar', 'error'); }
+            finally { btn.innerText = 'Publicar Reseña'; btn.disabled = false; }
+        });
+
+        // --- BLOG ---
+        function renderBlog() {
+            const container = document.getElementById('blog-container');
+            if(!container) return;
+            container.innerHTML = blogPosts.map(b => `
+                <div class="blog-card" onclick="location.hash='#/blog/post/${b.id}'">
+                    <img src="${b.img}" alt="${b.title}" onerror="this.src='https://via.placeholder.com/400x200'">
+                    <div class="blog-content">
+                        <h3 class="blog-title">${b.title}</h3>
+                        <p class="blog-excerpt">${b.content}</p>
+                        <span style="color:var(--primary); font-size:0.9rem; margin-top:10px; display:block;">Leer más &rarr;</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderBlogPost(id) {
+            const post = blogPosts.find(x => x.id === id);
+            const container = document.getElementById('blog-post-content');
+            if (!post) { container.innerHTML = '<p>Artículo no encontrado</p>'; return; }
+            
+            container.innerHTML = `
+                <h1 style="color:var(--primary); margin-bottom:20px;">${post.title}</h1>
+                <img src="${post.img}" style="width:100%; border-radius:10px; margin-bottom:20px;">
+                <div class="blog-post-content">${post.full}</div>
+            `;
+        }
+
+        // --- CARRITO ---
+        function addToCart(id) {
+            const p = products.find(x => x.id == id);
+            const exist = cart.find(x => x.id == id);
+            if(exist) exist.qty++; else cart.push({...p, qty:1});
+            updateCartDisplay();
+            showNotif('Agregado al carrito');
+        }
+
+        function updateCartDisplay() {
+            localStorage.setItem('aromistaCart', JSON.stringify(cart));
+            document.querySelector('.cart-count').innerText = cart.reduce((a,b)=>a+b.qty,0);
+            
+            const container = document.getElementById('cart-items');
+            let total = 0;
+            container.innerHTML = cart.map((c, i) => {
+                const p = c.price || c.Price || 0;
+                total += p * c.qty;
+                return `
+                <div class="cart-item">
+                    <div><strong>${c.name}</strong> x${c.qty}</div>
+                    <div>$${p*c.qty} <span style="color:red; cursor:pointer; margin-left:10px;" onclick="removeCart(${i})">&times;</span></div>
+                </div>`;
+            }).join('');
+            document.getElementById('cart-total').innerText = total.toFixed(2);
+        }
+
+        function removeCart(i) { cart.splice(i,1); updateCartDisplay(); }
+        
+        // --- UI UTILS ---
+        document.getElementById('cart-btn').onclick = () => document.getElementById('cart-overlay').classList.add('active');
+        document.getElementById('close-cart').onclick = () => document.getElementById('cart-overlay').classList.remove('active');
+        
+        document.getElementById('checkout-btn').onclick = () => {
+            if(cart.length === 0) return showNotif('Carrito vacío', 'error');
+            document.getElementById('cart-overlay').classList.remove('active');
+            document.getElementById('details-overlay').classList.add('active');
+        };
+
+        document.getElementById('close-details').onclick = () => document.getElementById('details-overlay').classList.remove('active');
+
+        document.getElementById('shipping-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('ship-name').value;
+            const cedula = document.getElementById('ship-cedula').value;
+            const dir = document.getElementById('ship-dir').value;
+            const agencia = document.getElementById('ship-agencia').value;
+
+            let msg = `Hola AroMista, soy ${name}. Quiero pedir:\n\n`;
+            cart.forEach(c => msg += `- ${c.name} (x${c.qty})\n`);
+            msg += `\nDatos de envío:\nC.I: ${cedula}\nDir: ${dir}\nAgencia: ${agencia}`;
+            
+            // Guardar en Sheets (Opcional)
+            fetch(SCRIPT_URL, { method:'POST', body:JSON.stringify({ action:'registerUser', name, cedula, direccion:dir, agencia, email:'-' }) });
+
+            window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+            cart = []; updateCartDisplay();
+            document.getElementById('details-overlay').classList.remove('active');
+        });
+
+        document.getElementById('mobile-menu-btn').onclick = () => document.getElementById('main-nav').classList.add('active');
+        document.getElementById('close-nav-btn').onclick = () => document.getElementById('main-nav').classList.remove('active');
+
+        function showNotif(txt, type='success') {
+            const n = document.getElementById('notification');
+            n.innerText = txt;
+            n.style.background = type === 'error' ? 'var(--danger)' : 'var(--success)';
+            n.classList.add('show');
+            setTimeout(() => n.classList.remove('show'), 3000);
+        }
+
+        // Esta es la función que faltaba
+        function updateMetaTags() { document.title = "AroMista - Perfumería Online"; }
+    </script>
+</body>
+</html>
