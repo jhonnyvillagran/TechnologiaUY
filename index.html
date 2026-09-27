@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Metadata de Alta Conversión -->
+    <title>AroMista | Perfumes Originales y Fragancias Exclusivas en Uruguay</title>
+    <meta name="description" content="Descubre tu fragancia ideal en AroMista. Perfumería 100% original en Uruguay. Fragancias de diseñador y árabes al mejor precio, pagos cómodos en cuotas y envíos rápidos a todo el país.">
+    <meta name="keywords" content="perfumes originales uruguay, fragancias exclusivas, perfumes arabes montevideo, perfumes de diseñador, comprar perfumes cuotas uruguay, aromista, dac, mirtrans">
+    <meta name="author" content="AroMista">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph para Redes Sociales y WhatsApp -->
+    <meta property="og:title" content="AroMista | El Arte de la Perfumería Original">
+    <meta property="og:description" content="Fragancias exclusivas y de diseñador al mejor precio de Uruguay. Pagos con tarjeta en cuotas y envíos a todo el país.">
+    <meta property="og:image" content="Logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_UY">
+    
+    <!-- Favicon Links -->
+    <link rel="icon" type="image/png" href="Logo.png">
+    <link rel="apple-touch-icon" href="Logo.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4AF37; --primary-dark: #B8941F; --primary-light: #F5E08E;
+            --secondary: #8B4B8C; --accent: #E6B800; --dark: #161616;
+            --darker: #0D0D0D; --light: #F5F5F5; --success: #228B22; --warning: #DAA520; --danger: #8B0000;
+            --transition: all 0.3s ease; --shadow: 0 0 15px rgba(212, 175, 55, 0.25); --shadow-lg: 0 0 25px rgba(212, 175, 55, 0.45);
+            --border-radius: 8px; --bg-primary: #121212; --bg-secondary: #1E1E1E; --text-primary: #F5F5F5; --text-secondary: #C0C0C0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; line-height: 1.6; color: var(--text-primary); background-color: var(--bg-primary); overflow-x: hidden; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.45s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn { display: inline-block; padding: 13px 28px; border: none; border-radius: var(--border-radius); cursor: pointer; font-weight: 600; transition: var(--transition); text-align: center; font-size: 1rem; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent); transition: 0.5s; }
+        .btn:hover::before { left: 100%; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-light), var(--primary-dark)); color: #0D0D0D; border: 1px solid var(--primary); font-weight: 700; letter-spacing: 0.5px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        
+        .btn-whatsapp-inquiry {
+            background: linear-gradient(135deg, #25D366, #1DA851); 
+            color: white;
+            border: 1px solid #25D366;
+            margin-top: 15px; 
+            box-shadow: var(--shadow); 
+        }
+        .btn-whatsapp-inquiry:hover {
+            transform: translateY(-2px); 
+            box-shadow: var(--shadow-lg); 
+            background: linear-gradient(135deg, #1DA851, #25D366); 
+        }
+        .btn-whatsapp-inquiry i { margin-right: 8px; }
+
+        /* ESTILOS DE STOCK Y AGOTADO */
+        .stock-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(18, 18, 18, 0.9);
+            border: 1px solid var(--primary);
+            color: var(--primary-light);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            z-index: 5;
+            backdrop-filter: blur(4px);
+        }
+        .stock-badge.out-of-stock {
+            background: rgba(220, 20, 60, 0.95);
+            border-color: #ff4d4d;
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 0 12px rgba(255, 77, 77, 0.6);
+        }
+        .product-card.is-sold-out {
+            opacity: 0.72;
+        }
+        .btn-sold-out {
+            background: #252525 !important;
+            color: #ff6b6b !important;
+            border: 1px solid #ff4d4d !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+        .btn-sold-out::before { display: none !important; }
+
+        .header { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            background-color: rgba(18, 18, 18, 0.98); 
+            box-shadow: var(--shadow); 
+            z-index: 6000;
+            padding: 12px 0; 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); 
+        }
+        .header .container { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .logo-img { height: 50px; width: auto; object-fit: contain; }
+        .nav ul { display: flex; gap: 26px; align-items: center; }
+        .nav a { font-weight: 600; position: relative; padding: 6px 0; color: var(--text-primary); transition: color 0.3s; font-size: 0.98rem; }
+        .nav a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(212, 175, 55, 0.7); }
+        .nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: var(--transition); }
+        .nav a:hover::after { width: 100%; }
+        
+        .nav .dropdown { position: relative; display: inline-block; }
+        .nav .dropdown .dropbtn { cursor: pointer; }
+        .nav .dropdown .dropbtn i { margin-left: 5px; font-size: 0.8em; transition: transform 0.3s ease; }
+        .nav .dropdown-content { display: none; position: absolute; background-color: var(--bg-secondary); min-width: 190px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 10; border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.25); margin-top: 10px; overflow: hidden; }
+        .nav .dropdown-content a { color: var(--text-secondary); padding: 12px 18px; display: block; font-weight: 500; font-size: 0.92rem; }
+        .nav .dropdown-content a:hover { background-color: var(--dark); color: var(--primary); }
+        .nav .dropdown-content a::after { display: none; }
+        .nav .dropdown:hover .dropdown-content { display: block; animation: fadeIn 0.3s ease; }
+        .nav .dropdown:hover .dropbtn i { transform: rotate(180deg); }
+
+        .header-actions { display: flex; gap: 12px; align-items: center; }
+        .cart-btn, .user-btn { background: none; border: none; font-size: 1.25rem; cursor: pointer; position: relative; color: var(--text-primary); transition: var(--transition); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-btn:hover, .user-btn:hover { color: var(--dark); background: linear-gradient(135deg, var(--primary), var(--primary-dark)); transform: scale(1.08); box-shadow: var(--shadow-lg); }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: var(--primary); color: #0D0D0D; font-size: 0.72rem; width: 19px; height: 19px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; border: 1px solid var(--dark); }
+        
+        .search-form { position: relative; display: flex; align-items: center; }
+        .search-input {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 20px;
+            height: 38px;
+            width: 38px;
+            padding-left: 18px;
+            padding-right: 38px;
+            color: var(--text-primary);
+            outline: none;
+            cursor: pointer;
+            transition: width 0.35s ease-in-out;
+        }
+        .search-input:focus { width: 210px; cursor: text; box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3); }
+        .search-btn { background: none; border: none; color: var(--text-primary); font-size: 1.05rem; position: absolute; right: 0; top: 50%; transform: translateY(-50%); padding: 10px; cursor: pointer; z-index: 2; }
+
+        #search-suggestions {
+            display: none; position: absolute; top: calc(100% + 6px); left: 0; width: 210px; background-color: var(--bg-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: var(--border-radius); max-height: 250px; overflow-y: auto; z-index: 7000; box-shadow: var(--shadow);
+        }
+        #search-suggestions.visible { display: block; }
+        .suggestion-item { padding: 11px 16px; cursor: pointer; color: var(--text-secondary); font-size: 0.9rem; transition: all 0.2s ease; border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover { background-color: rgba(212, 175, 55, 0.12); color: var(--primary); }
+
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; z-index: 6010; padding: 6px; }
+        .close-nav-btn { display: none; }
+
+        .menu-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 4000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .menu-backdrop.active { display: block; opacity: 1; }
+
+        .main-content { padding-top: 76px; }
+        
+        .hero { 
+            min-height: calc(100vh - 76px);
+            padding: 70px 0 60px;
+            background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.12) 0%, rgba(18, 18, 18, 0.98) 75%), #121212;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            color: white; 
+            position: relative; 
+        }
+        .hero-content { max-width: 820px; padding: 0 20px; z-index: 2; margin: 0 auto; }
+        .hero-badge { display: inline-block; padding: 6px 18px; border-radius: 20px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.4); color: var(--primary-light); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 22px; }
+        .hero-title { font-size: 3.5rem; margin-bottom: 16px; letter-spacing: 2px; font-weight: 800; background: linear-gradient(90deg, #FFFFFF 10%, var(--primary-light) 50%, var(--primary) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 25px rgba(212, 175, 55, 0.4); }
+        .hero-subtitle { font-size: 1.25rem; margin-bottom: 30px; font-weight: 400; color: #E5E5E5; line-height: 1.6; }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.25), inset 0 0 10px rgba(212, 175, 55, 0.15); }
+            50% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.55), inset 0 0 15px rgba(212, 175, 55, 0.25); }
+        }
+        
+        .featured-banner {
+            position: relative; 
+            width: 90%; 
+            max-width: 880px; 
+            height: 145px;
+            margin: 45px auto 0 auto; 
+            background: rgba(26, 26, 26, 0.95); 
+            border-radius: var(--border-radius); 
+            border: 1px solid rgba(212, 175, 55, 0.35); 
+            overflow: hidden; 
+            z-index: 3; 
+            animation: pulse-glow 4s ease-in-out infinite; 
+            transition: var(--transition);
+        }
+        .banner-container { display: flex; height: 100%; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .banner-slide { min-width: 100%; height: 100%; display: flex; align-items: center; padding: 18px 24px; gap: 25px; }
+        .banner-product-image { width: 105px; height: 105px; object-fit: cover; border-radius: var(--border-radius); flex-shrink: 0; border: 2px solid rgba(212, 175, 55, 0.4); background-color: var(--darker); }
+        .banner-product-info { flex: 1; text-align: left; }
+        .banner-product-title { font-size: 1.3rem; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+        .banner-product-price { font-size: 1.2rem; color: #4ade80; font-weight: 700; }
+        .banner-product-description { font-size: 0.88rem; color: var(--text-secondary); }
+        
+        .section-title { text-align: center; font-size: 2.3rem; margin-bottom: 35px; position: relative; color: var(--text-primary); font-weight: 700; text-shadow: 0 0 12px rgba(212, 175, 55, 0.35); padding-top: 70px; }
+        .section-title::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); width: 65px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        
+        .store-info-section { padding: 65px 0; }
+        .info-section { padding: 65px 0; background: var(--bg-secondary); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px; text-align: center; }
+        .info-card { background: var(--dark); padding: 35px 25px; border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.25); transition: var(--transition); }
+        .info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--primary); }
+        .info-card i { font-size: 2.3rem; color: var(--primary); margin-bottom: 16px; }
+        .info-card h3 { font-size: 1.35rem; margin-bottom: 10px; color: var(--light); }
+        .info-card p { color: var(--text-secondary); line-height: 1.7; font-size: 0.98rem; }
+
+        .about { padding: 65px 0; background: var(--bg-secondary); }
+        .about-content { text-align: center; max-width: 820px; margin: 0 auto; color: var(--text-secondary); line-height: 1.85; font-size: 1.05rem; }
+        .about-content p { margin-bottom: 18px; }
+        .about-content span { color: var(--primary); font-weight: 600; }
+
+        .products { padding: 65px 0; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px; }
+        .product-card { background: var(--bg-secondary); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column; position: relative; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: rgba(212, 175, 55, 0.45); }
+
+        .product-carousel { height: 290px; position: relative; background-color: var(--darker); overflow: hidden; }
+        .carousel-container { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .carousel-slide { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .carousel-slide::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(15px); transform: scale(1.2); opacity: 0.7; z-index: 1; background-image: var(--bg-img); }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 2; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.6); color: var(--primary); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; z-index: 2; }
+        .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+        .carousel-nav { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2; }
+        .carousel-dot { width: 9px; height: 9px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; }
+        .carousel-dot.active { background-color: var(--primary); }
+        
+        .product-info { padding: 22px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 1.25rem; margin-bottom: 8px; font-weight: 600; color: #FFFFFF; }
+        .product-description { color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem; height: 4.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+        .product-price { font-size: 1.45rem; font-weight: 700; color: var(--primary); margin-top: auto; padding-top: 12px; }
+        .price-inquiry-text { font-size: 1.15rem; font-weight: 600; text-align: center; padding: 10px 0; margin-top: auto; color: var(--primary); letter-spacing: 0.03em; }
+
+        #product-detail-view .container { padding: 40px 0; }
+        #product-detail-view .product-carousel { height: 470px; }
+        .product-detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; }
+        .product-detail-title { font-size: 2.5rem; margin-bottom: 12px; color: var(--primary); }
+        .product-detail-price { font-size: 2rem; font-weight: bold; margin-bottom: 18px; color: #4ade80; }
+        .product-detail-price.price-inquiry-text { font-size: 1.7rem; color: var(--primary); }
+        .product-detail-description { color: var(--text-secondary); margin-bottom: 28px; line-height: 1.8; font-size: 1.05rem; }
+        .product-detail-actions .btn { width: 100%; font-size: 1.15rem; }
+        .back-to-products { display: inline-block; margin-bottom: 25px; color: var(--primary); font-weight: 600; }
+
+        .page-view { padding: 40px 0; }
+        .page-content { background: var(--bg-secondary); padding: 40px; border-radius: var(--border-radius); border: 1px solid rgba(212,175,55,0.25); }
+        .page-content h3 { font-size: 1.45rem; margin-bottom: 12px; color: var(--primary); }
+        .page-content p, .page-content ul { margin-bottom: 16px; line-height: 1.8; color: var(--text-secondary); font-size: 1rem; }
+        .page-content li { margin-left: 20px; list-style: disc; margin-bottom: 8px; }
+        
+        .faq-item { margin-bottom: 18px; border: 1px solid rgba(212, 175, 55, 0.25); border-radius: var(--border-radius); overflow: hidden; }
+        .faq-question { background: var(--dark); padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
+        .faq-question:hover { background: rgba(212, 175, 55, 0.12); }
+        .faq-question h4 { color: var(--primary); font-size: 1.1rem; margin: 0; font-weight: 600; }
+        .faq-icon { color: var(--primary); transition: transform 0.3s ease; }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: var(--bg-secondary); }
+        .faq-answer.active { padding: 20px; max-height: 600px; overflow-y: auto; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        
+        .cart-overlay, .details-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: flex; z-index: 7000; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .cart-overlay { justify-content: flex-end; }
+        .details-overlay { align-items: center; justify-content: center; }
+        .cart-overlay.active, .details-overlay.active { opacity: 1; visibility: visible; }
+        .cart { background: var(--bg-primary); width: 100%; max-width: 460px; height: 100%; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; box-shadow: -5px 0 25px rgba(0,0,0,0.8); border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-overlay.active .cart { transform: translateX(0); }
+        .cart-header { padding: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; align-items: center; }
+        .close-cart { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-primary); }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.15); align-items: center; }
+        .cart-item-image { width: 75px; height: 75px; object-fit: cover; border-radius: var(--border-radius); flex-shrink: 0; }
+        .cart-item-details { flex: 1; display: flex; flex-direction: column; }
+        .cart-item-info { display: flex; justify-content: space-between; align-items: flex-start; }
+        .cart-item-title { font-weight: 600; margin-bottom: 5px; font-size: 0.95rem; }
+        .cart-item-price { color: var(--primary); font-weight: 700; }
+        .remove-item { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.1rem; margin-left: 10px; }
+        .cart-item-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        .quantity-btn { width: 28px; height: 28px; border: 2px solid; background: var(--bg-secondary); cursor: pointer; border-radius: 50%; color: white; font-weight: bold; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .quantity-btn.decrease { border-color: var(--danger); color: var(--danger); }
+        .quantity-btn.increase { border-color: #4ade80; color: #4ade80; }
+        .cart-footer { padding: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); background: var(--bg-secondary); }
+        .cart-total { font-size: 1.35rem; margin-bottom: 15px; text-align: right; font-weight: 700; }
+        
+        .payment-comfort-box {
+            background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: var(--border-radius); padding: 12px; margin-bottom: 16px; text-align: center;
+        }
+        .payment-comfort-box p { color: #E5E5E5; font-size: 0.88rem; margin: 0; line-height: 1.5; }
+        .payment-comfort-box i { color: var(--primary); margin-right: 6px; }
+
+        .details-panel { background: var(--bg-primary); width: 100%; max-width: 440px; border-radius: var(--border-radius); transform: scale(0.85); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.85); border: 1px solid rgba(212, 175, 55, 0.4); margin: 20px; }
+        .details-overlay.active .details-panel { transform: scale(1); }
+        .details-header { padding: 18px 22px; background: var(--dark); border-bottom: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; align-items: center; }
+        .details-header h3 { font-size: 1.25rem; color: var(--primary); }
+        .close-details { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: white; }
+        .details-content { padding: 24px; max-height: 80vh; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.92rem; color: #E0E0E0; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 14px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: var(--border-radius); background: var(--bg-secondary); color: var(--text-primary); font-size: 0.95rem; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); }
+
+        .footer { background: var(--darker); padding: 45px 0 25px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.3); }
+        .footer-links { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); transition: color 0.3s; font-size: 0.95rem; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-socials { margin-bottom: 22px; display: flex; justify-content: center; gap: 25px; }
+        .footer-socials a { font-size: 1.6rem; color: var(--text-secondary); transition: var(--transition); }
+        .footer-socials a:hover { color: var(--primary); transform: translateY(-3px); }
+
+        .notification { position: fixed; bottom: 20px; right: 20px; background-color: var(--success); color: white; padding: 14px 22px; border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0,0,0,0.4); z-index: 8000; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
+        .notification.show { opacity: 1; transform: translateY(0); }
+        .notification.error { background-color: var(--danger); color: white; }
+        .notification.warning { background-color: var(--warning); color: var(--dark); }
+
+        .placeholder { color: #888; text-align: center; padding: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+        
+        .whatsapp-fab { position: fixed; bottom: 25px; left: 25px; z-index: 1001; }
+        .whatsapp-fab a { display: flex; align-items: center; justify-content: center; background-color: #25D366; color: white; width: 56px; height: 56px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-size: 2.2rem; transition: all 0.3s ease; }
+        .whatsapp-fab a:hover { transform: scale(1.1); }
+        .whatsapp-fab .tooltip { position: absolute; left: 70px; top: 50%; transform: translateY(-50%); background-color: var(--darker); color: var(--light); padding: 8px 14px; border-radius: var(--border-radius); white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; border: 1px solid rgba(212, 175, 55, 0.4); font-size: 0.9rem; }
+        .whatsapp-fab:hover .tooltip { opacity: 1; visibility: visible; }
+
+        #curiosity-card-container { position: fixed; z-index: 1002; opacity: 0; transform: scale(0.9); transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; pointer-events: none; }
+        #curiosity-card-container.visible { opacity: 1; transform: scale(1); }
+        .curiosity-card { background-color: var(--darker); color: var(--text-secondary); padding: 15px; border-radius: var(--border-radius); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); border: 1px solid rgba(212, 175, 55, 0.35); width: 250px; font-size: 0.9rem; line-height: 1.4; font-style: italic; }
+        .curiosity-card::before { content: "\f0eb"; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--primary); margin-right: 8px; }
+
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 40px 0; }
+        .review-card { background: var(--bg-secondary); border-radius: var(--border-radius); padding: 25px; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: var(--shadow); transition: var(--transition); display: flex; flex-direction: column; }
+        .review-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .review-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .review-avatar { width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; border: 2px solid var(--primary); background: var(--dark); object-fit: cover; }
+        .review-meta { display: flex; flex-direction: column; }
+        .review-author { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .review-date { font-size: 0.8rem; color: var(--text-secondary); }
+        .review-text { color: var(--text-primary); font-style: italic; line-height: 1.6; flex-grow: 1; position: relative; }
+        .review-form-container { background: rgba(26, 26, 26, 0.95); padding: 30px; border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .review-form-title { text-align: center; color: var(--primary); margin-bottom: 20px; }
+        .avatars-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .avatar-option { width: 65px; height: 65px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.3s; background-color: #fff; object-fit: cover; }
+        .avatar-option:hover { transform: scale(1.1); box-shadow: 0 0 10px var(--primary); }
+        .avatar-option.selected { border-color: var(--primary); transform: scale(1.15); box-shadow: 0 0 15px var(--primary); }
+
+        @media (max-width: 768px) {
+            .nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 82%;
+                max-width: 320px;
+                height: 100vh;
+                background-color: #0E0E0E !important;
+                border-right: 1px solid rgba(212, 175, 55, 0.4);
+                box-shadow: 12px 0 40px rgba(0, 0, 0, 0.98);
+                transform: translateX(-100%);
+                transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+                z-index: 6500 !important;
+                padding-top: 75px;
+                overflow-y: auto;
+            }
+            .nav.active { 
+                transform: translateX(0) !important; 
+                display: block !important;
+                visibility: visible !important;
+            }
+            .nav ul { display: flex; flex-direction: column; align-items: flex-start; gap: 0; width: 100%; }
+            .nav li { width: 100%; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
+            .nav li:first-child { border-top: 1px solid rgba(212, 175, 55, 0.15); }
+            .nav a { padding: 18px 25px; display: block; width: 100%; font-size: 1.05rem; color: #FFFFFF; }
+            .nav a::after { display: none; }
+            .nav .dropdown-content { display: none; position: static; background-color: #171717; box-shadow: none; border: none; border-radius: 0; width: 100%; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+            .nav .dropdown.active .dropdown-content { display: block; max-height: 500px; }
+            .nav .dropdown.active .dropbtn i { transform: rotate(180deg); }
+            .nav .dropdown-content a { padding-left: 45px; color: var(--primary); font-size: 0.95em; background: #141414; }
+            .mobile-menu-btn { display: block; }
+            .close-nav-btn { display: block; position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 2.2rem; color: var(--primary); cursor: pointer; z-index: 6600; }
+            .search-input:focus { width: 170px; }
+            #search-suggestions { width: 170px; }
+            .hero-title { font-size: 2.6rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .featured-banner { width: 95%; height: 140px; margin-top: 35px; }
+            .banner-slide { padding: 12px; gap: 15px; }
+            .banner-product-image { width: 90px; height: 90px; }
+            .banner-product-title { font-size: 1.05rem; }
+            .banner-product-price { font-size: 1rem; }
+            .banner-product-description { font-size: 0.8rem; }
+            .section-title { font-size: 1.9rem; padding-top: 50px; }
+            .product-detail-layout { grid-template-columns: 1fr; gap: 20px; }
+            #product-detail-view .product-carousel { height: 360px; }
+            .cart { max-width: 100%; }
+            .details-panel { margin: 10px; max-width: calc(100% - 20px); }
+            .reviews-grid { grid-template-columns: 1fr; }
+        }
+        
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding-top: 30px; }
+        .blog-card { background: var(--bg-secondary); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column; text-decoration: none; }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .blog-card-image { height: 220px; width: 100%; object-fit: cover; }
+        .blog-card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .blog-card-title { font-size: 1.35rem; color: var(--text-primary); margin-bottom: 10px; }
+        .blog-card-meta { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 15px; }
+        .blog-card-meta span { color: var(--primary); }
+        .blog-card-summary { color: var(--text-secondary); font-size: 0.95rem; flex-grow: 1; line-height: 1.7; }
+        .blog-card-cta { display: inline-block; margin-top: 20px; font-weight: 600; color: var(--primary); align-self: flex-start; }
+        .blog-card-cta:hover { text-decoration: underline; }
+        .blog-post-header { text-align: center; margin-bottom: 30px; }
+        .blog-post-title { font-size: 2.6rem; color: var(--primary); margin-bottom: 15px; }
+        .blog-post-meta { font-size: 1rem; color: var(--text-secondary); }
+        .blog-post-image { width: 100%; max-height: 500px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 40px; }
+        .blog-post-content { color: var(--text-secondary); line-height: 1.9; font-size: 1.1rem; }
+        .blog-post-content h3 { color: var(--primary); font-size: 1.7rem; margin-top: 35px; margin-bottom: 15px; }
+        .blog-post-content p { margin-bottom: 18px; }
+        .blog-post-content ul { list-style: disc; padding-left: 25px; margin-bottom: 20px; }
+        .blog-post-content li { margin-bottom: 8px; }
+        .blog-post-intro { font-size: 1.2rem; color: var(--text-secondary); font-style: italic; text-align: center; margin: 20px auto 40px; max-width: 800px; line-height: 1.7; }
+        .image-attribution { text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-top: -30px; margin-bottom: 30px; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="menu-backdrop" id="menu-backdrop"></div>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="#inicio">
+                    <img src="Logo.png" alt="AroMista Logo" class="logo-img" onerror="if(this.src.indexOf('Logo.png')!==-1){this.src='logo.png';}">
+                </a>
+            </div>
+            <nav class="nav" id="main-nav">
+                <button class="close-nav-btn" id="close-nav-btn" aria-label="Cerrar Menú">&times;</button>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#productos" class="dropbtn">Colección <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a class="dropdown-item" href="#/productos/arabes">Árabes</a>
+                            <a class="dropdown-item" href="#/productos/diseno">Diseño</a>
+                            <a class="dropdown-item" href="#/productos/hombres">Hombres</a>
+                            <a class="dropdown-item" href="#/productos/mujeres">Mujeres</a>
+                            <a class="dropdown-item" href="#productos">Ver Todo el Catálogo</a>
+                        </div>
+                    </li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#/blog">Blog</a></li>
+                    <li><a href="#/resenas">Opiniones</a></li>
+                    <li><a href="#/faq">Preguntas Frecuentes</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <form class="search-form" id="search-form" role="search" onsubmit="event.preventDefault();">
+                    <input type="search" id="search-input" class="search-input" placeholder="Buscar perfume..." autocomplete="off">
+                    <button class="search-btn" id="search-btn" type="submit" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div id="search-suggestions"></div>
+                </form>
+                
+                <button class="user-btn" id="user-btn" aria-label="Datos de envío">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="cart-btn" id="cart-btn" aria-label="Carrito de compras">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content" id="main-container">
+        <div id="main-view" class="view active">
+            <section class="hero" id="inicio">
+                <div class="hero-content">
+                    <span class="hero-badge">Perfumería Original • Uruguay</span>
+                    <h1 class="hero-title">AroMista</h1>
+                    <p class="hero-subtitle">El arte de la perfumería original al alcance de tus sentidos. Fragancias exclusivas y de diseñador al mejor precio de Uruguay, con envíos garantizados directo a tu puerta.</p>
+                    <a href="#productos" class="btn btn-primary">Explorar Colección</a>
+                </div>
+                
+                <div class="featured-banner" id="featured-banner">
+                    <div class="banner-container" id="banner-container"></div>
+                </div>
+            </section>
+            
+            <section class="store-info-section">
+                <div class="container">
+                    <h2 class="section-title">La Experiencia AroMista</h2>
+                    <div class="about-content">
+                        <p>
+                            En <strong>AroMista</strong> nos apasiona la excelencia olfativa. Conectamos directamente con los principales importadores y distribuidores oficiales de fragancias para ofrecerte productos 100% auténticos, cerrados de fábrica y a precios verdaderamente convenientes.
+                        </p>
+                        <p>
+                            Para que disfrutes de tu aroma preferido con total rapidez, seguridad y tranquilidad:<br>
+                            <strong style="color: var(--primary); font-size: 1.15rem;">🚚 Lunes a Viernes → Despachamos todos los pedidos confirmados por la agencia de tu elección.</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <div class="container">
+                     <div class="info-grid">
+                        <div class="info-card">
+                             <i class="fas fa-credit-card"></i>
+                             <h3>Pagos Cómodos y en Cuotas</h3>
+                             <p>Aboná con total comodidad y tranquilidad. Podés pagar con tus tarjetas de crédito preferidas en cuotas, tarjetas de débito o dinero en cuenta mediante nuestra pasarela de pagos protegida.</p>
+                        </div>
+                        <div class="info-card">
+                             <i class="fas fa-shipping-fast"></i>
+                             <h3>Envíos a Todo el País</h3>
+                             <p>Despachamos de Lunes a Viernes por DAC, Mirtrans, Correo Uruguayo, UES, Turil, Nuñez o la agencia que elijas. Tu paquete viaja asegurado con número de rastreo directo a tu teléfono.</p>
+                        </div>
+                        <div class="info-card">
+                             <i class="fas fa-headset"></i>
+                             <h3>Atención Personalizada</h3>
+                             <p><strong>Lunes a Viernes:</strong> 09:30 a 18:30 hs.<br>¿Buscás una recomendación o querés consultar por una fragancia especial? Te asesoramos en tiempo real para que tu elección sea perfecta.</p>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <section class="about" id="nosotros">
+                <div class="container">
+                    <h2 class="section-title">Sobre AroMista</h2>
+                    <div class="about-content">
+                        <p>
+                            Somos una casa uruguaya de perfumería online, inspirada por la distinción y el encanto de los aromas auténticos. Nuestra misión es acercarte <span>perfumes originales</span> y de alta gama en todo Uruguay, combinando precios convenientes con un trato cálido, honesto y personalizado.
+                        </p>
+                        <p>
+                            Creemos en la confianza y en la transparencia. Por eso cuidamos cada detalle: desde la curaduría de cada lote hasta el embalaje protegido y la entrega puntual en tus manos.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="products" id="productos">
+                <div class="container">
+                    <h2 class="section-title">Nuestra Colección de Fragancias</h2>
+                    <div class="products-grid" id="products-container"></div>
+                </div>
+            </section>
+        </div>
+
+        <div id="product-detail-view" class="view"></div>
+        
+        <div id="faq-view" class="view">
+            <h2 class="section-title">📦 Preguntas Frecuentes – AroMista</h2>
+            <div class="container page-view">
+                <a href="#productos" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la Colección</a>
+                <div class="page-content">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>💳 ¿Qué medios de pago puedo utilizar?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Podés abonar de forma cómoda y protegida mediante nuestra plataforma en línea con tarjetas de crédito (en cuotas), tarjetas de débito o fondos disponibles. El proceso es muy sencillo, intuitivo y sin demoras.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>📍 ¿A qué zonas realizan envíos y qué días despachan?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Realizamos despachos de <strong>Lunes a Viernes</strong> a todo el territorio uruguayo. Podés elegir la agencia de tu mayor preferencia (DAC, Mirtrans, Correo Uruguayo, UES, Turil, Nuñez, etc.). Te enviamos el comprobante con número de rastreo apenas se realiza el despacho.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>💯 ¿Las fragancias son 100% originales?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sí, absolutamente. Trabajamos de forma directa con importadores y distribuidores autorizados en Uruguay. Cada producto se entrega con su precinto y caja original sellada de fábrica, garantizando autenticidad total.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h4>🛒 ¿Cómo finalizo mi compra en la tienda?</h4>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>El proceso es súper ágil:</p>
+                            <ul style="list-style: disc; padding-left: 20px;">
+                                <li style="margin-bottom: 10px;"><strong>Fragancias con precio en catálogo:</strong> Las agregás al carrito, completás tus datos de entrega y abonás con tu tarjeta o medio preferido con total comodidad.</li>
+                                <li><strong>Fragancias de consulta:</strong> Si una fragancia figura con la opción "Consultar Precio", podés presionar el botón directo de WhatsApp para consultar su cotización y disponibilidad inmediata con nuestro equipo.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="terms-view" class="view">
+            <h2 class="section-title">Términos y Condiciones</h2>
+            <div class="container page-view">
+                <a href="#productos" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a>
+                <div class="page-content">
+                    <h3>1. Compromiso de Calidad</h3>
+                    <p>Al acceder y realizar un pedido en AroMista, accedes a un servicio de perfumería fina enfocado en la transparencia, la seriedad y el respeto por el cliente.</p>
+                    
+                    <h3>2. Productos y Autenticidad</h3>
+                    <p>Garantizamos que el 100% de las fragancias ofrecidas son originales y provienen de importadores oficiales. Los precios están expresados en Pesos Uruguayos (UYU).</p>
+                    
+                    <h3>3. Pagos</h3>
+                    <p>Los pagos se procesan de forma electrónica y segura a través de nuestra pasarela en línea, permitiendo abonar con tarjetas de crédito en cuotas, tarjetas de débito o fondos disponibles.</p>
+                    
+                    <h3>4. Envíos y Entregas</h3>
+                    <p>Despachamos de Lunes a Viernes a todo Uruguay a través de agencias autorizadas en plaza. El cliente recibe su código de seguimiento para monitorear el viaje de su paquete.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="privacy-view" class="view">
+            <h2 class="section-title">Política de Privacidad</h2>
+            <div class="container page-view">
+                <a href="#productos" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a>
+                <div class="page-content">
+                     <h3>1. Información de Envío</h3>
+                     <p>Los datos solicitados al momento de ordenar (Nombre, Cédula de Identidad, Dirección de Entrega y Agencia de preferencia) son utilizados pura y exclusivamente para coordinar el correcto despacho y facturación de tu pedido.</p>
+                     
+                     <h3>2. Confidencialidad</h3>
+                     <p>En AroMista no comercializamos ni compartimos tu información personal con terceros. Tus datos se utilizan únicamente con fines logísticos y para brindarte soporte directo durante tu compra.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="blog-view" class="view"></div>
+        <div id="blog-post-view" class="view"></div>
+
+        <div id="reviews-view" class="view">
+            <section class="store-info-section">
+                <div class="container">
+                    <h2 class="section-title">Experiencias AroMista</h2>
+                    <p class="about-content">Tu opinión nos impulsa a seguir brindando lo mejor. ¡Comparte tu reseña con la comunidad de amantes de las fragancias!</p>
+                    
+                    <div class="review-form-container">
+                        <h3 class="review-form-title">Dejanos tu comentario</h3>
+                        <form id="review-form">
+                            <div class="form-group">
+                                <label for="review-nickname">Tu Nombre o Apodo:</label>
+                                <input type="text" id="review-nickname" placeholder="Ej: Valentina o PerfumeLover" required maxlength="25">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Elige tu avatar:</label>
+                                <div id="avatars-grid" class="avatars-grid"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="review-comment">Tu Opinión:</label>
+                                <textarea id="review-comment" rows="5" placeholder="¿Qué te pareció la fragancia y la atención recibida?" required maxlength="300"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.15rem; padding: 14px;">Publicar Comentario</button>
+                        </form>
+                    </div>
+
+                    <div id="reviews-container" class="reviews-grid">
+                        <p class="placeholder">Cargando opiniones...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- CARRITO DE COMPRAS -->
+    <div class="cart-overlay" id="cart-overlay">
+        <div class="cart">
+            <div class="cart-header">
+                <h3>Tu Carrito</h3>
+                <button class="close-cart" id="close-cart" aria-label="Cerrar Carrito">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-footer">
+                <div class="payment-comfort-box">
+                    <p><i class="fas fa-credit-card"></i> Pagos cómodos y protegidos con tarjetas de crédito en cuotas y débito.</p>
+                </div>
+                <div class="cart-total"><strong>Total: $<span id="cart-total">0.00</span></strong></div>
+                <div class="cart-actions">
+                    <button class="btn btn-primary" id="checkout-btn" style="width:100%;">Continuar con el Pago Seguro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE DATOS DE ENVÍO -->
+    <div class="details-overlay" id="details-overlay">
+        <div class="details-panel">
+            <div class="details-header">
+                <h3>Datos de Entrega y Facturación</h3>
+                <button class="close-details" id="close-details" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="details-content">
+                <form id="shipping-form">
+                    <div class="form-group">
+                        <label for="shipping-name">Nombre y Apellido:</label>
+                        <input type="text" id="shipping-name" placeholder="Ej: María Rodríguez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-email">Correo Electrónico:</label>
+                        <input type="email" id="shipping-email" placeholder="Para enviarte el comprobante" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-cedula">Cédula de Identidad:</label>
+                        <input type="text" id="shipping-cedula" placeholder="Requerida para la guía de envío" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-direccion">Dirección Completa o Localidad:</label>
+                        <input type="text" id="shipping-direccion" placeholder="Calle, número de puerta, apto o ciudad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-agencia">Agencia de Envío Preferida:</label>
+                        <input type="text" id="shipping-agencia" placeholder="Ej: DAC, Mirtrans, Correo Uruguayo, Turil, UES..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Confirmar y Continuar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/bejotashop?igsh=MXR0aW9qdXJiOTBoeA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram de AroMista">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61555812042353" target="_blank" rel="noopener noreferrer" aria-label="Facebook de AroMista">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="#/terminos">Términos y Condiciones</a>
+                <a href="#/privacidad">Política de Privacidad</a>
+                <a href="#/faq">Preguntas Frecuentes</a>
+                <a href="#/resenas">Opiniones</a>
+            </div>
+            <p>© 2026 AroMista • Perfumería Original. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <div class="whatsapp-fab">
+        <a href="https://wa.me/59892447127?text=Hola%20AroMista%2C%20quisiera%20recibir%20asesoramiento%20sobre%20sus%20fragancias." target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <span class="tooltip">¿Tienes dudas? ¡Escríbenos!</span>
+    </div>
+
+    <div id="curiosity-card-container">
+        <div class="curiosity-card">
+            <p class="card-text"></p>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsTNoRLk2TPAlS9Uj5BjERUqrdk7lUjmDEEUK4CIYPct2Lxz4gpxB1sskTNs6Np4s/exec';
+        const WHATSAPP_NUMBER = '59892447127';
+
+        let rawProducts = [];
+        let products = [];
+        let customerDetails = null;
+        let cart = [];
+        const activeCarousels = {};
+        let bannerInterval;
+        let isLoadingProducts = true; 
+        let selectedAvatarUrl = null;
+
+        // LOS 15 ARTÍCULOS COMPLETOS DEL BLOG
+        const blogPosts = [
+            { id: 'el-arte-de-aplicar-perfume', title: 'El Arte de Aplicar Perfume: Consejos para una Duración Máxima', author: 'Elena Rivera', imageUrl: 'blog-images/el-arte-de-aplicar-perfume.jpg', imageCredit: 'AroMista', summary: 'Descubre los secretos para que tu fragancia favorita te acompañe durante todo el día. Desde los puntos de pulso hasta la hidratación, te lo contamos todo.', intro: 'Aplicar un perfume es más que un simple rocío; es un ritual que, si se hace correctamente, puede transformar tu presencia y la longevidad de tu aroma preferido.', content: `<h3>¿Dónde aplicar el perfume? Los Puntos Clave</h3><p>La clave para una fragancia duradera es aplicarla en los "puntos de pulso". Estas son áreas donde la sangre fluye más cerca de la piel, generando calor y difundiendo el aroma de manera más efectiva. Los puntos clásicos incluyen:</p><ul><li>Las muñecas (¡pero no las frotes!).</li><li>Detrás de las orejas.</li><li>En la base del cuello.</li><li>En el pliegue interior de los codos.</li></ul><p>Un truco profesional es rociar un poco en tu cabello o en un pañuelo. La fragancia se adherirá a las fibras y dejará una estela sutil y elegante a tu paso.</p><h3>El Secreto Mejor Guardado: La Hidratación</h3><p>La piel hidratada retiene el perfume mucho mejor que la piel seca. Antes de aplicar tu fragancia, asegúrate de usar una loción o crema hidratante sin aroma en los puntos de pulso. Esto crea una base a la que las moléculas del perfume pueden adherirse, prolongando su vida útil significativamente.</p><h3>Menos es Más</h3><p>Recuerda que el objetivo es crear un aura agradable, no abrumar. Con un perfume de calidad, un par de pulverizaciones en los puntos estratégicos es más que suficiente. Permite que la fragancia se asiente y evolucione en tu piel durante unos minutos antes de decidir si necesitas más.</p>` },
+            { id: 'encontrando-tu-aroma-personal', title: 'Encontrando tu Aroma Personal: Una Guía para Descubrir tu Perfume Ideal', author: 'Marco Bianchi', imageUrl: 'blog-images/encontrando-tu-aroma-personal.jpg', imageCredit: 'AroMista', summary: 'Tu perfume es una extensión de tu personalidad. Te guiamos a través de las familias olfativas para que encuentres esa fragancia que habla por ti.', intro: 'En un mundo saturado de aromas, encontrar uno que te represente verdaderamente es un viaje de autodescubrimiento. No se trata solo de oler bien, sino de sentirte tú mismo.', content: `<p>Elegir un perfume puede ser una experiencia muy personal y, a veces, abrumadora. La clave está en entender las "familias olfativas", que son como los géneros en la música. Cada una tiene un carácter distintivo.</p><h3>Las Principales Familias Olfativas</h3><ul><li><strong>Cítrica:</strong> Fresca, ligera y energizante. Ideal para el día a día y climas cálidos. Piensa en limón, bergamota y naranja.</li><li><strong>Floral:</strong> La familia más grande y popular. Desde un suave jazmín hasta una rosa intensa. Romántica y femenina por excelencia.</li><li><strong>Amaderada:</strong> Cálida, seca y elegante. Notas como el sándalo, el cedro y el vetiver evocan naturaleza y sofisticación. Muy común en fragancias masculinas.</li><li><strong>Oriental (o Ambarada):</strong> Rica, especiada y sensual. Ingredientes como la vainilla, el incienso y el almizcle crean aromas opulentos y misteriosos.</li><li><strong>Fougère:</strong> "Helecho" en francés. Es una mezcla fresca y aromática de lavanda, musgo de roble y cumarina. Clásica y viril.</li><li><strong>Chypre:</strong> Un contraste sofisticado entre notas cítricas frescas y una base profunda de musgo de roble. Elegante y atemporal.</li></ul><h3>Cómo Probar un Perfume</h3><p>Nunca decidas una fragancia basándote solo en cómo huele en el papel secante. Pruébala en tu piel, preferiblemente en la muñeca. Espera al menos 15-20 minutos para permitir que las notas de salida se evaporen y las notas de corazón y fondo, el verdadero carácter del perfume, se revelen.</p>` },
+            { id: 'niche-vs-designer', title: 'Perfumes Nicho vs. Diseñador: ¿Cuál es la Diferencia Real?', author: 'Isabella Rossi', imageUrl: 'blog-images/niche-vs-designer.jpg', imageCredit: 'AroMista', summary: 'Exploramos el debate entre las fragancias de nicho, artísticas y exclusivas, y las de diseñador, populares y accesibles. Descubre cuál se adapta mejor a ti.', intro: 'El mundo de la perfumería se divide en dos grandes reinos: el accesible y conocido mundo de los diseñadores, y el exclusivo y artístico universo de los perfumes nicho. Entender sus diferencias es clave para refinar tu gusto olfativo.', content: `<h3>Perfumes de Diseñador</h3><p>Son las fragancias que encuentras en grandes tiendas departamentales, creadas por casas de moda como Chanel, Dior o Gucci. Su objetivo es apelar a un público amplio. Generalmente son más seguros, versátiles y siguen las tendencias del mercado. Suelen tener una excelente calidad, pero están diseñados para gustar a la mayoría.</p><h3>Perfumes Nicho</h3><p>Son creados por casas perfumistas cuyo único enfoque es la creación de fragancias, como Creed, Byredo o Le Labo. No siguen tendencias; las crean. Utilizan ingredientes de altísima calidad, a menudo raros o en concentraciones más altas. Son más atrevidos, artísticos y cuentan una historia. Su distribución es limitada y su precio, generalmente, más elevado.</p><h3>¿Cuál Elegir?</h3><p>No hay una respuesta correcta. Si buscas una fragancia agradable, versátil y que genere cumplidos, el mundo del diseñador tiene opciones fantásticas. Si, por otro lado, buscas un aroma único que sea una declaración de intenciones, que te rete y te haga sentir exclusivo, explorar la perfumería nicho es una aventura que vale la pena.</p>` },
+            { id: 'historia-perfume', title: 'Un Viaje en el Tiempo: La Fascinante Historia del Perfume', author: 'Dr. Alistair Finch', imageUrl: 'blog-images/historia-perfume.jpg', imageCredit: 'AroMista', summary: 'Desde los rituales sagrados del antiguo Egipto hasta la opulencia de la corte francesa y la industria moderna. Descubre el increíble viaje de las fragancias a través de los siglos.', intro: 'El perfume no es una invención moderna. Su historia es tan antigua como la civilización misma, un hilo aromático que conecta imperios, rituales y la eterna búsqueda humana de la belleza.', content: `<h3>Orígenes Antiguos</h3><p>La historia del perfume comienza en Mesopotamia y el antiguo Egipto, donde resinas como el incienso y la mirra se quemaban en ceremonias religiosas para conectar con los dioses. Los egipcios fueron los primeros en incorporar la fragancia en la cultura personal, creando ungüentos y bálsamos aromáticos para la vida y la muerte.</p><h3>El Mundo Clásico y la Edad Media</h3><p>Griegos y romanos perfeccionaron el arte, asociando fragancias específicas con diferentes dioses y usándolas profusamente en sus famosos baños. Aunque su uso decayó en Europa durante la Edad Media, los árabes preservaron y refinaron las técnicas de destilación, introduciendo nuevos ingredientes y sentando las bases de la perfumería moderna.</p><h3>El Renacimiento y la Corte Francesa</h3><p>Con el Renacimiento, el perfume volvió a florecer en Europa, especialmente en Francia. La corte de Luis XV fue apodada "la corte perfumada" debido al uso extravagante de aromas para enmascarar la falta de higiene. Grasse, en el sur de Francia, se convirtió en la capital mundial del perfume gracias a sus vastos campos de flores.</p><h3>La Era Moderna</h3><p>El siglo XIX y la química sintética revolucionaron la industria, permitiendo la creación de nuevas moléculas y haciendo el perfume accesible para las masas. Hoy, la perfumería es una forma de arte global, una industria multimillonaria que sigue innovando y cautivando nuestros sentidos.</p>` },
+            { id: 'notas-olfativas', title: 'La Pirámide Olfativa: Entendiendo las Notas de un Perfume', author: 'Sophie Dubois', imageUrl: 'blog-images/notas-olfativas.jpg', imageCredit: 'AroMista', summary: '¿Notas de salida, corazón y fondo? Desglosamos la estructura de una fragancia para que entiendas cómo evoluciona en tu piel y por qué cambia con el tiempo.', intro: 'Un perfume no es una fragancia plana y estática; es una composición musical que se desarrolla en tres actos. Conocer su estructura, la pirámide olfativa, es el secreto para apreciarlo en su totalidad.', content: `<p>Toda fragancia bien construida se compone de tres tipos de "notas" que se evaporan a diferentes velocidades, creando una experiencia olfativa dinámica.</p><h3>Notas de Salida (La Primera Impresión)</h3><p>Son las que percibes inmediatamente después de aplicar el perfume. Son las moléculas más ligeras y volátiles, diseñadas para atraer y capturar tu atención. Suelen ser notas frescas como cítricos (bergamota, limón), hierbas (lavanda) o frutas ligeras. Duran entre 5 y 15 minutos.</p><h3>Notas de Corazón (El Alma del Perfume)</h3><p>Una vez que las notas de salida se disipan, emerge el corazón de la fragancia. Estas notas forman el cuerpo principal del perfume y determinan su familia olfativa. Suelen ser florales (rosa, jazmín), especiadas (canela, nuez moscada) o frutales más densas. Comienzan a aparecer después de 10-20 minutos y pueden durar varias horas.</p><h3>Notas de Fondo (El Recuerdo Duradero)</h3><p>Son las notas más pesadas y densas, las que anclan la fragancia y le dan profundidad y longevidad. Se evaporan muy lentamente y son las que permanecen en tu piel al final del día. Ingredientes como el sándalo, el pachulí, el ámbar, el almizcle y la vainilla son notas de fondo clásicas. Pueden durar 6 horas o más.</p>` },
+            { id: 'conservacion-perfume', title: 'Cómo Almacenar tus Perfumes para Preservar su Magia', author: 'Javier Núñez', imageUrl: 'blog-images/conservacion-perfume.jpg', imageCredit: 'AroMista', summary: 'Un perfume es una inversión y una obra de arte. Aprende a proteger tus fragancias de sus peores enemigos: la luz, el calor y la humedad.', intro: '¿Guardas tus perfumes en el baño o en el alféizar de una ventana? Podrías estar acortando su vida sin saberlo. Proteger tu colección es más fácil de lo que piensas.', content: `<p>Las moléculas de un perfume son delicadas y pueden degradarse con el tiempo si no se almacenan correctamente, alterando su aroma y reduciendo su potencia. Sigue estos sencillos consejos para mantener tus fragancias en perfecto estado.</p><h3>Los Tres Enemigos del Perfume</h3><ul><li><strong>Luz:</strong> La luz solar directa es el enemigo número uno. Los rayos UV pueden descomponer la estructura química del perfume. Guarda siempre tus frascos en un lugar oscuro.</li><li><strong>Calor:</strong> Las fluctuaciones de temperatura "cocinan" la fragancia y aceleran su degradación. Evita lugares cerca de radiadores o aparatos electrónicos.</li><li><strong>Humedad:</strong> El vapor y la humedad, típicos del cuarto de baño, pueden afectar la composición del perfume e incluso dañar la etiqueta y el atomizador.</li></ul><h3>El Lugar Perfecto</h3><p>El mejor lugar para guardar tus perfumes es un sitio <strong>fresco, oscuro y seco</strong>. Un armario en tu dormitorio, un cajón o incluso su propia caja original son opciones ideales. Mantenerlos en sus cajas no solo los protege de la luz, sino que también ayuda a mantener una temperatura más estable.</p><h3>¿Y la Nevera?</h3><p>Aunque algunas personas guardan sus perfumes en la nevera, no es recomendable para la mayoría de las fragancias. El frío extremo puede ser tan perjudicial como el calor. La única excepción podrían ser las aguas de colonia muy ligeras en verano, pero como regla general, evítalo.</p>` },
+            { id: 'oud-oro-liquido', title: 'Oud: El Misterio del Oro Líquido de la Perfumería', author: 'Aisha Al-Jamil', imageUrl: 'blog-images/oud-oro-liquido.jpg', imageCredit: 'AroMista', summary: 'Descubre el origen, el aroma y el estatus de culto del oud (madera de agar), uno de los ingredientes más lujosos y codiciados del mundo.', intro: 'Profundo, complejo y embriagador. El oud es más que un ingrediente; es una experiencia olfativa que evoca lujo, espiritualidad y una rica herencia cultural de Oriente Medio.', content: `<h3>¿Qué es el Oud?</h3><p>El oud, también conocido como madera de agar, es una resina oscura y fragante que se forma en el corazón del árbol de Aquilaria cuando es infectado por un tipo particular de moho. Como mecanismo de defensa, el árbol produce esta resina densa, que con el tiempo se satura y se vuelve increíblemente aromática. Este proceso es extremadamente raro, lo que hace que el oud natural sea más caro que el oro por gramo.</p><h3>¿A qué Huele?</h3><p>Describir el oud es un desafío. Es un aroma multifacético: amaderado, ahumado, animal, a veces con toques dulces, medicinales o incluso a cuero. Su complejidad es lo que lo hace tan cautivador. En la perfumería, aporta una profundidad, calidez y longevidad incomparables a una composición.</p><h3>El Oud en la Perfumería Moderna</h3><p>Tradicionalmente usado en Oriente Medio en forma de aceite puro (attar) o quemado como incienso (bakhoor), el oud ha conquistado la perfumería occidental en las últimas dos décadas. Muchas fragancias de lujo ahora presentan el oud como nota principal, aunque a menudo se utilizan recreaciones sintéticas de alta calidad para hacerlo más accesible y sostenible.</p>` },
+            { id: 'perfumes-arabes', title: 'Perfumería Árabe: Un Mundo de Opulencia y Tradición', author: 'Karim Nader', imageUrl: 'blog-images/perfumes-arabes.jpg', imageCredit: 'AroMista', summary: 'Explora la rica cultura de la perfumería árabe, caracterizada por su intensidad, longevidad y el uso de ingredientes preciosos como el oud, el ámbar y el almizcle.', intro: 'Mucho antes de que París se convirtiera en un epicentro de la fragancia, el mundo árabe ya había dominado el arte de la perfumería, tratándolo no como un accesorio, sino como una parte esencial de la vida diaria y la hospitalidad.', content: `<h3>Características Clave</h3><p>La perfumería árabe se distingue por su audacia y su estela (sillage) potente. A diferencia de las fragancias occidentales, a menudo más ligeras, los perfumes árabes están diseñados para durar y dejar una impresión memorable. Se basan en ingredientes ricos y profundos:</p><ul><li><strong>Oud (Madera de Agar):</strong> La joya de la corona, con su aroma complejo y amaderado.</li><li><strong>Ámbar:</strong> Una nota cálida, resinosa y dulce que aporta una sensualidad increíble.</li><li><strong>Almizcle (Musk):</strong> Originalmente de origen animal, ahora sintético, proporciona una base limpia pero sensual y duradera.</li><li><strong>Rosa de Taif:</strong> Una variedad de rosa intensamente aromática y lujosa cultivada en Arabia Saudita.</li><li><strong>Incienso y Especias:</strong> Notas como el azafrán, el cardamomo y el incienso añaden un toque exótico y místico.</li></ul><h3>El Arte del Layering</h3><p>Una de las tradiciones más importantes en la cultura árabe es el "layering" o la superposición de fragancias. No es raro usar un aceite perfumado (attar) en la piel, seguido de una fragancia en spray sobre la ropa y, finalmente, pasar la ropa y el cabello por el humo de un incienso (bakhoor). Esto crea una firma olfativa única e increíblemente duradera.</p>` },
+            { id: 'sillage-proyeccion', title: 'Sillage y Proyección: El Aura Invisible de tu Perfume', author: 'Lucas Vidal', imageUrl: 'blog-images/sillage-proyeccion.jpg', imageCredit: 'AroMista', summary: '¿Alguna vez has notado la estela de aroma que alguien deja al pasar? Eso es el sillage. Aclaramos los términos clave que definen el rendimiento de una fragancia.', intro: 'Más allá de cómo huele un perfume, su "rendimiento" es crucial. Dos conceptos, a menudo confundidos, definen cómo los demás perciben tu fragancia: la proyección y el sillage.', content: `<h3>Proyección: La Burbuja Olfativa</h3><p>La proyección se refiere a la distancia a la que se puede oler tu perfume desde tu cuerpo. Es tu "burbuja" personal de aroma. Una fragancia de alta proyección se puede oler a varios metros de distancia, mientras que una de baja proyección es más íntima y solo la perciben quienes están muy cerca de ti. La proyección suele ser más fuerte durante las primeras 1-2 horas de aplicación.</p><h3>Sillage: La Estela Aromática</h3><p>Sillage (pronunciado "see-yazh") es una palabra francesa que significa "estela". Se refiere al rastro de aroma que dejas a tu paso. No se trata de la distancia, sino del rastro que queda en el aire. Un perfume puede tener una proyección moderada pero un sillage excelente, dejando una nube memorable por donde caminas.</p><h3>Longevidad: La Duración</h3><p>Este es el término más sencillo: es simplemente el tiempo que la fragancia permanece detectable en tu piel. La longevidad depende de la concentración del perfume (Parfum > EDP > EDT > EDC) y de las notas de fondo utilizadas, ya que son las que más tardan en evaporarse.</p>` },
+            { id: 'unisex-fragancias', title: 'Rompiendo Barreras: El Auge de las Fragancias Unisex', author: 'Alex Chen', imageUrl: 'blog-images/unisex-fragancias.jpg', imageCredit: 'AroMista', summary: 'La idea de fragancias "para él" y "para ella" es cada vez más obsoleta. Exploramos el movimiento hacia los aromas sin género y por qué el buen olor no entiende de etiquetas.', intro: '¿Quién decidió que las flores son femeninas y las maderas masculinas? La perfumería moderna está desafiando estas convenciones, centrándose en la calidad y la emoción del aroma, sin importar para quién fue inicialmente comercializado.', content: `<h3>Una Construcción de Marketing</h3><p>Históricamente, los perfumes no tenían género. Hombres y mujeres en la antigüedad usaban los mismos aceites y resinas. La división estricta entre fragancias masculinas y femeninas es en gran parte una construcción de marketing del siglo XX para segmentar el mercado y vender más productos.</p><h3>¿Qué Define a una Fragancia Unisex?</h3><p>Las fragancias unisex (o sin género) suelen centrarse en notas que son universalmente atractivas y que no se inclinan fuertemente hacia los extremos tradicionales. Ingredientes como los cítricos, las maderas ligeras, el té verde, el vetiver, el iris y ciertas especias son comunes en estas composiciones. El objetivo es crear un aroma que funcione en armonía con la química de la piel de cualquier persona.</p><h3>La Única Regla: Úsalo si te Gusta</h3><p>El auge de la perfumería nicho ha sido un gran impulsor de este movimiento. Las casas nicho venden arte olfativo, no roles de género. La conclusión es simple: si un perfume te huele bien y te hace sentir bien, es para ti. No dejes que una etiqueta en la caja te impida descubrir tu próxima fragancia favorita.</p>` },
+            { id: 'layering-perfumes', title: 'Layering: Cómo Combinar Perfumes para Crear tu Aroma Único', author: 'Gabriela Montes', imageUrl: 'blog-images/layering-perfumes.jpg', imageCredit: 'AroMista', summary: '¿Por qué oler como los demás? El arte del "layering" o superposición de fragancias te permite convertirte en tu propio perfumista. Te damos las claves para empezar.', intro: 'Si buscas una firma olfativa que sea 100% tuya, el layering es la respuesta. Esta técnica, popular en Oriente Medio, te invita a jugar y experimentar con tu colección de perfumes.', content: `<h3>Principios Básicos del Layering</h3><p>Aunque la experimentación es clave, hay algunas pautas que pueden ayudarte a obtener mejores resultados:</p><ul><li><strong>De lo más intenso a lo más ligero:</strong> Aplica primero la fragancia más pesada y potente. Deja que se asiente durante unos minutos y luego aplica la más ligera encima. Esto evita que el perfume más fuerte abrume por completo al más sutil.</li><li><strong>Busca un Hilo Conductor:</strong> Combina fragancias que compartan una nota en común (por ejemplo, dos perfumes que tengan vainilla o jazmín) para crear una transición más armoniosa.</li><li><strong>Contraste con Cuidado:</strong> También puedes jugar con los opuestos. Una fragancia amaderada profunda puede ser elevada con un toque cítrico brillante. Una fragancia floral puede ganar complejidad con una base especiada.</li></ul><h3>Ideas para Empezar</h3><ul><li><strong>Vainilla + Amaderado:</strong> Una combinación clásica que crea un aroma cálido, cremoso y sofisticado.</li><li><strong>Cítrico + Floral Blanco:</strong> Perfecto para el verano, resulta en una fragancia chispeante, limpia y elegante.</li><li><strong>Rosa + Oud:</strong> Un dúo icónico de la perfumería oriental. Sensual, opulento y misterioso.</li></ul><p>No tengas miedo de experimentar. Aplica las fragancias en diferentes partes del cuerpo o una sobre la otra. ¡El objetivo es crear algo que te encante!</p>` },
+            { id: 'perfume-y-memoria', title: 'El Efecto Proust: Por Qué los Olores Despiertan Recuerdos Tan Vívidos', author: 'Dr. Kenji Tanaka', imageUrl: 'blog-images/perfume-y-memoria.jpg', imageCredit: 'AroMista', summary: 'Un aroma puede transportarte instantáneamente a un momento, un lugar o una persona del pasado. Exploramos la poderosa conexión neurológica entre el olfato y la memoria.', intro: 'El olfato es nuestro sentido más primitivo y, quizás, el más emocional. A diferencia de la vista o el oído, los olores viajan directamente a los centros de memoria y emoción del cerebro, creando un vínculo inquebrantable.', content: `<h3>La Autopista Directa al Cerebro</h3><p>Cuando olemos algo, las señales de los receptores olfativos en nuestra nariz viajan al bulbo olfatorio. Este está directamente conectado con el sistema límbico, que incluye la amígdala (centro de las emociones) y el hipocampo (centro del aprendizaje y la memoria). Ningún otro sentido tiene una conexión tan directa.</p><h3>¿Qué es el Fenómeno de Proust?</h3><p>Este término proviene de la novela de Marcel Proust "En busca del tiempo perdido", donde el narrador experimenta una avalancha de recuerdos de la infancia al oler una magdalena mojada en té. Describe perfectamente la capacidad de un olor para desencadenar una memoria autobiográfica involuntaria, detallada y cargada de emoción.</p><h3>Creando Nuevos Anclajes Olfativos</h3><p>Puedes usar este fenómeno a tu favor. Usa una fragancia específica solo para ocasiones especiales, como vacaciones o celebraciones. Con el tiempo, ese aroma se convertirá en un ancla para esos recuerdos felices. Rociarlo te transportará de vuelta a esos momentos, convirtiendo tu perfume en una máquina del tiempo personal.</p>` },
+            { id: 'fragancias-gourmand', title: 'Dulce Tentación: El Delicioso Mundo de las Fragancias Gourmand', author: 'Clara Delacroix', imageUrl: 'blog-images/fragancias-gourmand.jpg', imageCredit: 'AroMista', summary: 'Si te encantan los aromas a vainilla, chocolate, café o caramelo, perteneces al club de los gourmand. Descubre por qué estas fragancias comestibles son tan adictivas.', intro: 'La perfumería no solo imita a la naturaleza, sino también a la confitería. Las fragancias gourmand son un festín para los sentidos, evocando confort, calidez y una irresistible sensación de placer.', content: `<h3>El Nacimiento de un Género</h3><p>El punto de inflexión para la familia gourmand fue el lanzamiento de Angel de Thierry Mugler en 1992. Su audaz combinación de pachulí con notas de algodón de azúcar, caramelo y chocolate rompió todas las reglas y creó una nueva categoría olfativa. Demostró que los perfumes podían oler, literalmente, para comérselos.</p><h3>Notas Comunes en Perfumes Gourmand</h3><p>Esta familia olfativa se inspira directamente en el mundo de los postres y las bebidas. Algunas de las notas más populares son:</p><ul><li><strong>Vainilla:</strong> La reina indiscutible. Puede ser dulce, ahumada, cremosa o especiada.</li><li><strong>Chocolate y Cacao:</strong> Aporta una riqueza oscura y aterciopelada.</li><li><strong>Café:</strong> Intenso y tostado, añade una energía estimulante.</li><li><strong>Caramelo y Praliné:</strong> Notas azucaradas y mantecosas que evocan dulzura y nostalgia.</li><li><strong>Frutos Secos:</strong> La almendra y la avellana aportan una faceta cremosa y tostada.</li><li><strong>Frutas Confitadas:</strong> Cereza, higo o ciruela añaden una dulzura jugosa y madura.</li></ul><h3>¿Por Qué nos Gustan Tanto?</h3><p>Los aromas dulces están profundamente ligados a nuestras primeras experiencias de confort y recompensa. Huelen a hogar, a celebración y a seguridad. Un perfume gourmand es como un abrazo en una botella, lo que los hace increíblemente reconfortantes y populares, especialmente en climas fríos.</p>` },
+            { id: 'perfume-para-ocasion', title: 'El Aroma Adecuado: Cómo Elegir un Perfume para Cada Ocasión', author: 'Ana Sofia Valente', imageUrl: 'blog-images/perfume-para-ocasion.jpg', imageCredit: 'AroMista', summary: 'Al igual que eliges tu ropa, tu fragancia debe adaptarse al momento. Te damos consejos para seleccionar el perfume perfecto para la oficina, una cita o un evento formal.', intro: 'Tu colección de fragancias es un guardarropa olfativo. Tener diferentes opciones te permite expresar distintas facetas de tu personalidad y adaptarte al entorno con elegancia y acierto.', content: `<h3>Para la Oficina o el Trabajo</h3><p>El objetivo es oler bien de una manera discreta y profesional. Opta por fragancias limpias, frescas y con una proyección moderada. Los aromas cítricos, acuáticos, de té verde o maderas ligeras son excelentes opciones. Evita perfumes demasiado dulces, especiados o potentes que puedan resultar invasivos en un espacio cerrado.</p><h3>Para una Cita Romántica</h3><p>Aquí puedes ser un poco más audaz. Busca fragancias cálidas, sensuales y atractivas. Las notas como la vainilla, el ámbar, el sándalo, el jazmín o un toque de especias como la canela son perfectas. Quieres una fragancia que invite a la cercanía, no una que se anuncie desde el otro lado de la habitación.</p><h3>Para Eventos Formales (Bodas, Galas)</h3><p>Es el momento de sacar tus fragancias más elegantes y sofisticadas. Los aromas Chipre, florales complejos, amaderados profundos o con un toque de incienso funcionan de maravilla. Busca una fragancia con buena longevidad para que te acompañe durante todo el evento. Es una oportunidad para usar algo memorable y con clase.</p><h3>Para el Día a Día y Ocasiones Casuales</h3><p>La versatilidad es clave. Las fragancias florales-frutales, amaderadas-aromáticas o cítricas son tus mejores aliadas. Quieres algo fácil de llevar, que te levante el ánimo y que se sienta como una segunda piel. ¡Aquí es donde tu perfume firma puede brillar!</p>` },
+            { id: 'ingredientes-raros', title: 'Joyas Olfativas: Los Ingredientes Más Raros y Lujosos', author: 'Julien Perrault', imageUrl: 'blog-images/ingredientes-raros.jpg', imageCredit: 'AroMista', summary: 'Detrás de los perfumes más exclusivos se esconden ingredientes cuya rareza y dificultad de obtención los convierten en auténticos tesoros líquidos.', intro: 'En la alta perfumería, ciertos materiales trascienden el mero aroma para convertirse en leyendas. Su escasez, su origen y su complejidad los elevan a un estatus casi mítico.', content: `<h3>Ámbar Gris</h3><p>A menudo malinterpretado, el ámbar gris no proviene directamente de las ballenas. Es una secreción biliar producida por los cachalotes que, tras ser expulsada, flota en el océano durante años. El sol y el agua salada la curan, transformándola en una sustancia cerosa con un aroma único: salado, dulce, animal y marino. Es increíblemente raro y se utiliza como fijador de lujo, aportando una dimensión inigualable a la fragancia.</p><h3>Absoluto de Raíz de Lirio (Orris)</h3><p>Proviene de los rizomas de ciertas especies de iris. El proceso es extremadamente largo y laborioso. Los rizomas deben secarse y envejecer durante al menos tres años antes de poder extraer su aceite. El resultado es un aroma empolvado, amaderado y con facetas de violeta. Es uno de los ingredientes más caros de la perfumería, superando el precio del oro.</p><h3>Almizcle de Ciervo Natural</h3><p>Históricamente, el almizcle (musk) se obtenía de una glándula del ciervo almizclero del Himalaya. Su aroma es increíblemente potente, animal y sensual, y actúa como un fijador sin igual. Debido a la crueldad animal y al peligro de extinción de la especie, su uso está prohibido y ha sido reemplazado por almizcles sintéticos de alta calidad, que imitan su efecto de manera ética.</p>` }
+        ];
+        
+        const productCardCarouselsState = {};
+        const views = document.querySelectorAll('.view');
+        const productsContainer = document.getElementById('products-container');
+        const cartBtn = document.getElementById('cart-btn');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const closeCart = document.getElementById('close-cart');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const cartCount = document.querySelector('.cart-count');
+        const userBtn = document.getElementById('user-btn');
+        const detailsOverlay = document.getElementById('details-overlay');
+        const closeDetails = document.getElementById('close-details');
+        const shippingForm = document.getElementById('shipping-form');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const productDetailView = document.getElementById('product-detail-view');
+        const bannerContainer = document.getElementById('banner-container');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+        const closeNavBtn = document.getElementById('close-nav-btn');
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        const searchInput = document.getElementById('search-input');
+        const searchForm = document.getElementById('search-form');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const reviewForm = document.getElementById('review-form');
+        const reviewsContainer = document.getElementById('reviews-container');
+        const avatarsGrid = document.getElementById('avatars-grid');
+
+        // LOS 14 AVATARES ORIGINALES
+        const avatarOptions = [
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Brian', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Christopher',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Jack', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Liam',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Mason', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Noah',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Ethan', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Sophie',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Jessica', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Annie',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Julia', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Emma',
+            'https://api.dicebear.com/9.x/adventurer/svg?seed=Olivia', 'https://api.dicebear.com/9.x/adventurer/svg?seed=Ava'
+        ];
+
+        function renderAvatarSelection() {
+            if (!avatarsGrid) return;
+            avatarsGrid.innerHTML = avatarOptions.map(url => `<img src="${url}" class="avatar-option" onclick="selectAvatar(this, '${url}')" alt="Avatar">`).join('');
+        }
+
+        function selectAvatar(imgElement, url) {
+            document.querySelectorAll('.avatar-option').forEach(img => img.classList.remove('selected'));
+            imgElement.classList.add('selected');
+            selectedAvatarUrl = url;
+        }
+
+        async function fetchReviews() {
+            try {
+                reviewsContainer.innerHTML = '<p class="placeholder">Cargando comentarios...</p>';
+                const response = await fetch(`${SCRIPT_URL}?action=getReviews`);
+                if (!response.ok) throw new Error('Error al cargar reseñas');
+                const reviews = await response.json();
+                renderReviews(reviews);
+                if (avatarsGrid.innerHTML === '') renderAvatarSelection();
+            } catch (error) {
+                reviewsContainer.innerHTML = '<p class="placeholder">Aún no hay reseñas. ¡Sé el primero en compartir tu experiencia!</p>';
+            }
+        }
+
+        function renderReviews(reviews) {
+            if (!reviews || reviews.length === 0) {
+                reviewsContainer.innerHTML = '<p class="placeholder">Aún no hay reseñas. ¡Sé el primero en compartir tu experiencia!</p>';
+                return;
+            }
+            reviewsContainer.innerHTML = reviews.map(review => {
+                let dateStr = "Fecha reciente";
+                try {
+                    const dateObj = new Date(review.date);
+                    if (!isNaN(dateObj)) {
+                        dateStr = dateObj.toLocaleDateString('es-UY', { year: 'numeric', month: 'long', day: 'numeric' });
+                    }
+                } catch(e) {}
+                
+                return `
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="${review.avatar}" alt="Avatar" class="review-avatar">
+                        <div class="review-meta">
+                            <span class="review-author">${review.nickname}</span>
+                            <span class="review-date">${dateStr}</span>
+                        </div>
+                    </div>
+                    <div class="review-text">${review.comment}</div>
+                </div>`;
+            }).join('');
+        }
+
+        async function handleReviewSubmit(e) {
+            e.preventDefault();
+            if (!selectedAvatarUrl) {
+                showNotification('Por favor, selecciona un personaje.', 'warning');
+                return;
+            }
+            const submitBtn = reviewForm.querySelector('button');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            const data = { action: 'addReview', nickname: document.getElementById('review-nickname').value, comment: document.getElementById('review-comment').value, avatar: selectedAvatarUrl };
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
+                showNotification('¡Muchas gracias por tu comentario!', 'success');
+                reviewForm.reset();
+                selectedAvatarUrl = null;
+                document.querySelectorAll('.avatar-option').forEach(img => img.classList.remove('selected'));
+                fetchReviews();
+            } catch (error) {
+                showNotification('Error al enviar el comentario.', 'error');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        function getPrice(item) {
+            const priceValue = item.price || item.Price || item.precio;
+            if (priceValue === null || priceValue === undefined || priceValue === '') return 0;
+            if (typeof priceValue === 'number') return priceValue;
+            if (typeof priceValue === 'string') {
+                const cleanString = priceValue.replace(/[^0-9,.]/g, '').replace(',', '.');
+                const numericValue = parseFloat(cleanString);
+                return isNaN(numericValue) ? 0 : numericValue;
+            }
+            return 0;
+        }
+
+        function getStock(item) {
+            if (!item) return 999;
+            const stockVal = (item.stock !== undefined) ? item.stock : 
+                             (item.Stock !== undefined) ? item.Stock : 
+                             (item.cantidad !== undefined) ? item.cantidad : item.Cantidad;
+            
+            if (stockVal === undefined || stockVal === null) return 999;
+            const str = stockVal.toString().trim();
+            if (str === '') return 999; 
+            const num = parseInt(str, 10);
+            return isNaN(num) ? 999 : num;
+        }
+
+        function findProductById(id) {
+            if (id === undefined || id === null) return null;
+            const cleanId = id.toString().trim();
+            return rawProducts.find(p => p && p.id !== undefined && p.id.toString().trim() === cleanId) || null;
+        }
+
+        function saveCartToLocalStorage() { localStorage.setItem('aromistaCart', JSON.stringify(cart)); }
+        
+        function loadCartFromLocalStorage() { 
+            const saved = localStorage.getItem('aromistaCart') || localStorage.getItem('bjshopCart'); 
+            if (saved) {
+                try { cart = JSON.parse(saved); } catch(e) { cart = []; }
+            }
+        }
+        
+        async function fetchProducts() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const data = await response.json();
+                if (data.status === 'error') throw new Error(data.message);
+                rawProducts = Array.isArray(data) ? data : [];
+                
+                rawProducts.forEach(p => {
+                    if (p.images && Array.isArray(p.images)) {
+                        p.images = p.images.map(url => {
+                            if (typeof url === 'string' && url.includes('drive.google.com/file/d/')) {
+                                const id = url.split('/d/')[1].split('/')[0];
+                                return `https://drive.google.com/uc?export=view&id=${id}`;
+                            }
+                            return url;
+                        }).filter(Boolean);
+                    }
+                });
+
+                products = rawProducts;
+
+                cart.forEach(cItem => {
+                    const prod = findProductById(cItem.id);
+                    if (prod) {
+                        cItem.Stock = prod.Stock;
+                        cItem.stock = prod.stock;
+                    }
+                });
+
+                isLoadingProducts = false;
+                handleRouteChange();
+                initializeFeaturedBanner();
+                updateCart();
+            } catch (error) {
+                console.error("Error al cargar productos:", error);
+                showNotification('Error al conectar con el catálogo.', 'error');
+                if (productsContainer) productsContainer.innerHTML = "<p class='placeholder' style='grid-column: 1 / -1;'>No pudimos cargar las fragancias en este momento. Por favor, reintenta en breve.</p>";
+                isLoadingProducts = false;
+            }
+        }
+
+        async function saveShippingDetails(e) {
+            e.preventDefault();
+            const details = { 
+                action: 'registerUser', 
+                name: document.getElementById('shipping-name').value, 
+                email: document.getElementById('shipping-email').value, 
+                cedula: document.getElementById('shipping-cedula').value, 
+                direccion: document.getElementById('shipping-direccion').value, 
+                agencia: document.getElementById('shipping-agencia').value 
+            };
+            showNotification('Guardando tus datos...', 'warning');
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(details) });
+                customerDetails = details;
+                showNotification('Datos de entrega guardados.', 'success');
+                closeDetailsForm();
+                proceedToPayment();
+            } catch (error) { 
+                showNotification('No se pudieron guardar los datos.', 'error');
+            }
+        }
+        
+        function initializeFeaturedBanner() {
+            if (products.length === 0 || !bannerContainer) return;
+            const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+            const inStock = products.filter(p => getStock(p) > 0 && p.images && p.images.length > 0 && p.images[0]);
+            const featured = shuffle(inStock).slice(0, 10);
+            
+            if (featured.length === 0) {
+                document.getElementById('featured-banner').style.display = 'none';
+                return;
+            }
+            bannerContainer.innerHTML = featured.map(p => {
+                const price = getPrice(p);
+                const priceHTML = price > 0 ? `<div class="banner-product-price">$${price.toFixed(2)}</div>` : `<div class="banner-product-price" style="font-size: 1rem; color: var(--primary-light);">Consultar Precio</div>`;
+                const imgUrl = p.images[0];
+                return `<a href="#/producto/${p.id}" class="banner-slide"><img src="${imgUrl}" class="banner-product-image" alt="${p.name}" onerror="this.src='Logo.png';"><div class="banner-product-info"><div class="banner-product-title">${p.name.trim()}</div>${priceHTML}<div class="banner-product-description">${(p.description || '').substring(0, 50)}...</div></div></a>`;
+            }).join('');
+            let idx = 0;
+            if (bannerInterval) clearInterval(bannerInterval);
+            if (featured.length > 1) {
+                 bannerInterval = setInterval(() => { idx = (idx + 1) % featured.length; bannerContainer.style.transform = `translateX(-${idx * 100}%)`; }, 4000);
+            }
+        }
+        
+        function toggleFAQ(el) { const item = el.parentElement; item.classList.toggle('active'); item.querySelector('.faq-answer').classList.toggle('active'); }
+        
+        function openMobileMenu() {
+            mainNav.classList.add('active');
+            menuBackdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mainNav.classList.remove('active');
+            menuBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function handleRouteChange() {
+            const hash = location.hash || '#';
+            views.forEach(v => v.classList.remove('active'));
+            window.scrollTo(0, 0);
+            if (hash.startsWith('#/producto/')) {
+                renderProductDetail(hash.split('/')[2]);
+                document.getElementById('product-detail-view').classList.add('active');
+            } else if (hash.startsWith('#/productos/')) {
+                renderProducts(null, hash.split('/')[2]); 
+                document.getElementById('main-view').classList.add('active');
+                setTimeout(() => document.getElementById('productos').scrollIntoView({ behavior: 'smooth' }), 100);
+            } else if (hash === '#/terminos') { document.getElementById('terms-view').classList.add('active');
+            } else if (hash === '#/privacidad') { document.getElementById('privacy-view').classList.add('active');
+            } else if (hash === '#/faq') { document.getElementById('faq-view').classList.add('active');
+            } else if (hash === '#/blog') {
+                renderBlogList();
+                document.getElementById('blog-view').classList.add('active');
+            } else if (hash.startsWith('#/blog/post/')) {
+                renderBlogPost(hash.split('/')[3]);
+                document.getElementById('blog-post-view').classList.add('active');
+            } else if (hash === '#/resenas') {
+                document.getElementById('reviews-view').classList.add('active');
+                fetchReviews();
+                renderAvatarSelection();
+            } else {
+                renderProducts(); 
+                document.getElementById('main-view').classList.add('active');
+                updateMetaTags();
+            }
+            closeMobileMenu();
+        }
+
+        function renderBlogList() {
+            const view = document.getElementById('blog-view');
+            view.innerHTML = `<div class="container"><h2 class="section-title">Blog de Perfumes</h2><div class="blog-grid">${blogPosts.map(p => `<a href="#/blog/post/${p.id}" class="blog-card"><img src="${p.imageUrl}" alt="${p.title}" class="blog-card-image"><div class="blog-card-content"><h3 class="blog-card-title">${p.title}</h3><div class="blog-card-meta">Por <span>${p.author}</span></div><p class="blog-card-summary">${p.summary}</p><span class="blog-card-cta">Leer más <i class="fas fa-arrow-right"></i></span></div></a>`).join('')}</div></div>`;
+        }
+
+        function renderBlogPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            const view = document.getElementById('blog-post-view');
+            if (!post) {
+                view.innerHTML = `<h2 class="section-title">Artículo no encontrado</h2><div class="container page-view"><a href="#/blog" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver al Blog</a></div>`;
+                return;
+            }
+            view.innerHTML = `
+                <div class="container page-view">
+                    <a href="#/blog" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver al Blog</a>
+                    <p class="blog-post-intro">${post.intro}</p>
+                    <div class="page-content">
+                        <article>
+                            <header class="blog-post-header">
+                                <h2 class="blog-post-title">${post.title}</h2>
+                                <p class="blog-post-meta">Publicado por ${post.author}</p>
+                            </header>
+                            <img src="${post.imageUrl}" alt="${post.title}" class="blog-post-image">
+                            <p class="image-attribution">Fotografía por: ${post.imageCredit}</p>
+                            <div class="blog-post-content">${post.content}</div>
+                        </article>
+                    </div>
+                </div>`;
+        }
+        
+        function showSuggestions() {
+            const q = searchInput.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+            searchSuggestions.innerHTML = '';
+            if (q.length < 2) { searchSuggestions.classList.remove('visible'); return; }
+            const words = q.split(' ').filter(Boolean);
+            const results = products.filter(p => words.every(w => p.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(w))).slice(0, 7);
+            if (results.length > 0) {
+                results.forEach(p => {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.textContent = p.name;
+                    item.onclick = () => { searchInput.value = p.name; searchSuggestions.classList.remove('visible'); searchInput.focus(); };
+                    searchSuggestions.appendChild(item);
+                });
+                searchSuggestions.classList.add('visible');
+            } else {
+                searchSuggestions.classList.remove('visible');
+            }
+        }
+
+        function handleSearch() {
+            searchSuggestions.classList.remove('visible');
+            const q = searchInput.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+            if (!q) { handleRouteChange(); return; }
+            if (!document.getElementById('main-view').classList.contains('active')) {
+                views.forEach(v => v.classList.remove('active'));
+                document.getElementById('main-view').classList.add('active');
+            }
+            const words = q.split(' ').filter(Boolean);
+            const results = products.filter(p => words.every(w => p.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(w)));
+            renderProducts(results);
+            document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function initializeProductCardCarousels() {
+            document.querySelectorAll('#products-container .carousel-container').forEach(c => {
+                const id = c.dataset.productId;
+                if (productCardCarouselsState[id]?.intervalId) clearInterval(productCardCarouselsState[id].intervalId);
+                const slides = c.querySelectorAll('.carousel-slide');
+                if (slides.length > 1) {
+                    productCardCarouselsState[id] = { currentIndex: 0, totalSlides: slides.length, intervalId: setInterval(() => {
+                        const state = productCardCarouselsState[id];
+                        state.currentIndex = (state.currentIndex + 1) % state.totalSlides;
+                        c.style.transform = `translateX(-${state.currentIndex * 100}%)`;
+                    }, 5000) };
+                }
+            });
+        }
+        
+        function renderProducts(productsToUse = null, category = null) {
+            if (isLoadingProducts) { productsContainer.innerHTML = `<p class="placeholder" style="grid-column: 1 / -1;">Cargando fragancias originales...</p>`; return; }
+            if (!products || products.length === 0) { productsContainer.innerHTML = `<p class="placeholder" style="grid-column: 1 / -1;">No hay fragancias disponibles en este momento.</p>`; return; }
+            let toRender = productsToUse;
+            if (!toRender) {
+                if (category) {
+                    let slug = category.replace(/-/g, ' ');
+                    if (slug === 'hombres') slug = 'hombre'; if (slug === 'mujeres') slug = 'mujer'; if (slug === 'arabes') slug = 'arabe';
+                    toRender = products.filter(p => p.Categoría?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(',').map(c => c.trim()).some(pc => pc.includes(slug)));
+                } else {
+                    toRender = products;
+                }
+            }
+            if (toRender.length === 0) { productsContainer.innerHTML = `<p class="placeholder" style="grid-column: 1 / -1;">No hay fragancias disponibles en esta categoría.</p>`; return; }
+            
+            productsContainer.innerHTML = toRender.map(p => {
+                const price = getPrice(p);
+                const stockQty = getStock(p);
+                const isOutOfStock = (stockQty <= 0);
+
+                let priceHTML = price > 0 ? `<div class="product-price">$${price.toFixed(2)}</div>` : `<div class="product-price price-inquiry-text">Consultar Precio</div>`;
+                if (isOutOfStock) {
+                    priceHTML = `<div class="product-price" style="color: #ff6b6b; font-size: 1.15rem;"><i class="fas fa-times-circle"></i> Agotado</div>`;
+                }
+
+                const carouselHTML = p.images && p.images.length > 0 && p.images[0] ? `<div class="carousel-container" data-product-id="${p.id}">${p.images.map(img => `<div class="carousel-slide" style="--bg-img: url('${img}')"><img src="${img}" alt="${p.name}" loading="lazy"></div>`).join('')}</div>` : `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+                
+                let stockBadge = '';
+                if (isOutOfStock) {
+                    stockBadge = `<span class="stock-badge out-of-stock">Agotado</span>`;
+                } else if (stockQty < 999 && stockQty <= 3) {
+                    stockBadge = `<span class="stock-badge">¡Últimas ${stockQty} un.!</span>`;
+                }
+
+                return `<a href="#/producto/${p.id}" class="product-card ${isOutOfStock ? 'is-sold-out' : ''}" aria-label="Ver detalles de ${p.name}">${stockBadge}<div class="product-carousel">${carouselHTML}</div><div class="product-info"><div><h3 class="product-title">${p.name.trim()}</h3><p class="product-description">${p.description}</p></div>${priceHTML}</div></a>`;
+            }).join('');
+            initializeProductCardCarousels();
+        }
+        
+        function renderProductDetail(id) {
+            const p = findProductById(id);
+            if (!p) { productDetailView.innerHTML = `<div class="container"><h2 class="section-title">Fragancia no disponible</h2><a href="#productos" class="back-to-products">Volver al catálogo</a></div>`; return; }
+            updateMetaTags(p);
+
+            let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+            if (p.images && p.images.length > 0 && p.images[0]) {
+                carouselHTML = `<div class="carousel-container" id="carousel-container-${p.id}">${p.images.map(img => `<div class="carousel-slide" style="--bg-img: url('${img}')"><img src="${img}" alt="${p.name}"></div>`).join('')}</div>`;
+                if (p.images.length > 1) {
+                    carouselHTML += `<button class="carousel-btn prev" onclick="changeSlide('${p.id}', -1)"><i class="fas fa-chevron-left"></i></button><button class="carousel-btn next" onclick="changeSlide('${p.id}', 1)"><i class="fas fa-chevron-right"></i></button><div class="carousel-nav" id="carousel-nav-${p.id}">${p.images.map((_, i) => `<div class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="currentSlide('${p.id}', ${i})"></div>`).join('')}</div>`;
+                }
+            }
+
+            const price = getPrice(p);
+            const stockQty = getStock(p);
+            const isOutOfStock = (stockQty <= 0);
+
+            let priceHTML = price > 0 ? `<div class="product-detail-price">$${price.toFixed(2)}</div>` : `<div class="product-detail-price price-inquiry-text">Consultar Precio</div>`;
+            let btnHTML = '';
+
+            if (isOutOfStock) {
+                priceHTML = `<div class="product-detail-price" style="color: #ff6b6b;"><i class="fas fa-ban"></i> Sin Stock Disponible</div>`;
+                const msgRepo = encodeURIComponent(`Hola AroMista, veo que la fragancia ${p.name.trim()} está agotada. ¿Cuándo volverán a tener stock?`);
+                btnHTML = `
+                    <button class="btn btn-sold-out" disabled><i class="fas fa-times-circle"></i> Producto Agotado</button>
+                    <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${msgRepo}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-inquiry" style="margin-top:12px;"><i class="fab fa-whatsapp"></i> Consultar próxima reposición</a>
+                `;
+            } else if (price > 0) {
+                btnHTML = `<button class="btn btn-primary btn-add-cart-detail" data-id="${p.id}"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>`;
+            } else {
+                const msg = encodeURIComponent(`Hola AroMista, me interesa la fragancia ${p.name.trim()} y quisiera consultar su cotización y disponibilidad.`);
+                btnHTML = `<a href="https://wa.me/${WHATSAPP_NUMBER}?text=${msg}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-inquiry"><i class="fab fa-whatsapp"></i> Consultar por WhatsApp</a>`;
+            }
+
+            productDetailView.innerHTML = `<div class="container"><a href="#productos" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver al Catálogo</a><div class="product-detail-layout"><div class="product-carousel">${carouselHTML}</div><div class="product-detail-info"><h2 class="product-detail-title">${p.name.trim()}</h2>${priceHTML}<p class="product-detail-description">${(p.description || '').replace(/\n/g, '<br>')}</p><div class="product-detail-actions">${btnHTML}</div></div></div></div>`;
+            
+            if (p.images && p.images.length > 1) initializeCarousel(p.id);
+            if (!isOutOfStock && price > 0) {
+                document.querySelector('.btn-add-cart-detail').onclick = e => addToCart(e.target.closest('button').dataset.id);
+            }
+        }
+
+        function updateCart() {
+            saveCartToLocalStorage();
+            cartCount.textContent = cart.reduce((s, i) => s + i.quantity, 0);
+            if (cart.length === 0) { cartItems.innerHTML = '<p class="placeholder">Tu carrito está vacío</p>'; cartTotal.textContent = '0.00'; return; }
+            cartItems.innerHTML = cart.map(item => {
+                const img = (item.images && item.images[0]) ? item.images[0] : 'Logo.png';
+                return `<div class="cart-item" data-id="${item.id}"><img src="${img}" class="cart-item-image" alt="${item.name}"><div class="cart-item-details"><div class="cart-item-info"><span class="cart-item-title">${item.name.trim()}</span><button class="remove-item" title="Eliminar">&times;</button></div><p class="cart-item-price">$${getPrice(item).toFixed(2)}</p><div class="cart-item-actions"><button class="quantity-btn decrease">-</button><span>${item.quantity}</span><button class="quantity-btn increase">+</button></div></div></div>`;
+            }).join('');
+            cartTotal.textContent = cart.reduce((t, i) => t + getPrice(i) * i.quantity, 0).toFixed(2);
+        }
+
+        function initializeCarousel(id) { if (activeCarousels[id]) clearInterval(activeCarousels[id]); activeCarousels[id] = setInterval(() => changeSlide(id, 1), 5000); }
+        function changeSlide(id, dir) { const dots = document.querySelectorAll(`#carousel-nav-${id} .carousel-dot`); if (dots.length === 0) return; let idx = Array.from(dots).findIndex(d => d.classList.contains('active')); currentSlide(id, (idx + dir + dots.length) % dots.length); }
+        function currentSlide(id, idx) { const c = document.getElementById(`carousel-container-${id}`); const dots = document.querySelectorAll(`#carousel-nav-${id} .carousel-dot`); if (!c || !dots[idx]) return; c.style.transform = `translateX(-${idx * 100}%)`; dots.forEach(d => d.classList.remove('active')); dots[idx].classList.add('active'); initializeCarousel(id); }
+
+        function addToCart(id) {
+            const p = findProductById(id); 
+            if (!p) return;
+            if (getPrice(p) === 0) { showNotification(`Esta fragancia se gestiona por consulta directa.`, 'warning'); return; }
+            
+            const maxStock = getStock(p);
+            if (maxStock <= 0) {
+                showNotification('Este producto se encuentra agotado.', 'error');
+                return;
+            }
+
+            const cleanId = id.toString().trim();
+            const item = cart.find(i => i.id.toString().trim() === cleanId);
+            
+            if (item) {
+                if (item.quantity >= maxStock) {
+                    showNotification(`Has alcanzado el límite disponible (${maxStock} un.) de esta fragancia.`, 'warning');
+                    return;
+                }
+                item.quantity++;
+            } else {
+                cart.push({ ...p, quantity: 1 });
+            }
+            updateCart();
+            showNotification(`${p.name.trim()} agregado al carrito`, 'success');
+        }
+
+        function handleCartActions(e) {
+            const itemEl = e.target.closest('.cart-item'); 
+            if (!itemEl) return;
+            const id = itemEl.dataset.id;
+            const cleanId = id.toString().trim();
+            const item = cart.find(i => i.id.toString().trim() === cleanId); 
+            if (!item) return;
+
+            const originalProd = findProductById(cleanId);
+            const maxStock = originalProd ? getStock(originalProd) : getStock(item);
+
+            if (e.target.classList.contains('increase')) {
+                if (item.quantity >= maxStock) {
+                    showNotification(`No hay más de ${maxStock} unidades disponibles de esta fragancia.`, 'warning');
+                    return;
+                }
+                item.quantity++;
+            } else if (e.target.classList.contains('decrease')) { 
+                item.quantity--; 
+                if (item.quantity <= 0) cart = cart.filter(i => i.id.toString().trim() !== cleanId); 
+            } else if (e.target.classList.contains('remove-item')) {
+                cart = cart.filter(i => i.id.toString().trim() !== cleanId);
+            }
+            updateCart();
+        }
+
+        function showNotification(msg, type = 'success') {
+            const el = document.createElement('div'); el.className = `notification ${type}`; el.innerHTML = `<span>${msg}</span>`;
+            document.body.appendChild(el);
+            setTimeout(() => el.classList.add('show'), 10);
+            setTimeout(() => { el.classList.remove('show'); setTimeout(() => { if (el.parentElement) el.parentElement.removeChild(el); }, 300); }, 3000);
+        }
+        
+        function checkout() {
+            if (cart.length === 0) { showNotification('Tu carrito está vacío.', 'warning'); return; }
+            const itemsWithPrice = cart.filter(i => getPrice(i) > 0);
+            if (itemsWithPrice.length === 0) {
+                const msg = encodeURIComponent(`Hola AroMista, quisiera consultar por las siguientes fragancias de mi selección: ${cart.map(i => i.name.trim()).join(', ')}.`);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+                return;
+            }
+            if (!customerDetails) showDetailsForm(); else proceedToPayment();
+        }
+
+        async function proceedToPayment() {
+            if (!customerDetails) { showNotification('Por favor, ingresa tus datos de entrega.', 'warning'); showDetailsForm(); return; }
+            if (cart.length === 0) { showNotification('Tu carrito está vacío.', 'warning'); return; }
+            
+            for (const cItem of cart) {
+                const prod = findProductById(cItem.id);
+                const maxStk = prod ? getStock(prod) : 999;
+                if (maxStk < 999 && cItem.quantity > maxStk) {
+                    showNotification(`Solo quedan ${maxStk} unidades de ${cItem.name.trim()}. Ajusta tu carrito.`, 'error');
+                    return;
+                }
+            }
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        action: 'reduceStock',
+                        items: cart.map(i => ({ id: i.id, quantity: i.quantity }))
+                    })
+                });
+            } catch(e) {
+                console.error("Error al descontar stock en Google Sheets:", e);
+            }
+
+            cart.forEach(cItem => {
+                const prod = findProductById(cItem.id);
+                if (prod) {
+                    const current = getStock(prod);
+                    if (current !== 999) {
+                        const remaining = Math.max(0, current - cItem.quantity);
+                        prod.stock = remaining;
+                        prod.Stock = remaining;
+                    }
+                }
+            });
+            products = rawProducts;
+            renderProducts();
+
+            let msg = `¡Hola AroMista! Mi nombre es ${customerDetails.name}.\nQuisiera confirmar mi pedido:\n\n`;
+            const withPrice = cart.filter(i => getPrice(i) > 0);
+            const noPrice = cart.filter(i => getPrice(i) === 0);
+            if (withPrice.length > 0) {
+                msg += "Fragancias seleccionadas:\n" + withPrice.map(i => `• ${i.name.trim()} (x${i.quantity}) - $${(getPrice(i) * i.quantity).toFixed(2)}`).join('\n');
+                const total = withPrice.reduce((s, i) => s + getPrice(i) * i.quantity, 0);
+                msg += `\n\nTotal a abonar: $${total.toFixed(2)}`;
+            }
+            if (noPrice.length > 0) {
+                msg += (withPrice.length > 0 ? "\n\n" : "") + "Consultar además por:\n" + noPrice.map(i => `• ${i.name.trim()} (x${i.quantity})`).join('\n');
+            }
+            msg += `\n\n--- DATOS PARA EL ENVÍO ---\nCédula: ${customerDetails.cedula}\nDirección: ${customerDetails.direccion}\nAgencia de entrega: ${customerDetails.agencia}\nEmail: ${customerDetails.email}`;
+            
+            cart = [];
+            updateCart();
+            if (cartOverlay.classList.contains('active')) cartOverlay.classList.remove('active');
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function showDetailsForm(){ detailsOverlay.classList.add('active'); }
+        function closeDetailsForm(){ detailsOverlay.classList.remove('active'); }
+
+        function updateMetaTags(p = null) {
+            const defaultTitle = 'AroMista | Perfumes Originales y Fragancias Exclusivas en Uruguay';
+            const defaultDesc = 'Descubre tu fragancia ideal en AroMista. Perfumes 100% originales de diseñador y árabes al mejor precio en Uruguay. Pagos cómodos en cuotas y envíos a todo el país.';
+            document.title = p ? `${p.name.trim()} | AroMista` : defaultTitle;
+            document.querySelector('meta[name="description"]')?.setAttribute('content', p ? p.description || defaultDesc : defaultDesc);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => { 
+            loadCartFromLocalStorage(); 
+            fetchProducts(); 
+            updateCart(); 
+            renderAvatarSelection(); 
+        });
+        
+        window.addEventListener('hashchange', () => { 
+            if (searchInput.value) searchInput.value = ''; 
+            handleRouteChange(); 
+        });
+
+        cartBtn.addEventListener('click', () => cartOverlay.classList.add('active'));
+        closeCart.addEventListener('click', () => cartOverlay.classList.remove('active'));
+        cartItems.addEventListener('click', handleCartActions);
+        checkoutBtn.addEventListener('click', checkout);
+        userBtn.addEventListener('click', showDetailsForm);
+        closeDetails.addEventListener('click', closeDetailsForm);
+        shippingForm.addEventListener('submit', saveShippingDetails);
+        reviewForm.addEventListener('submit', handleReviewSubmit);
+        searchForm.addEventListener('submit', handleSearch);
+        searchInput.addEventListener('input', showSuggestions);
+        document.addEventListener('click', e => { if (!searchForm.contains(e.target)) searchSuggestions.classList.remove('visible'); });
+        
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        closeNavBtn.addEventListener('click', closeMobileMenu);
+        menuBackdrop.addEventListener('click', closeMobileMenu);
+
+        document.querySelectorAll('.nav .dropdown .dropbtn').forEach(btn => {
+            btn.addEventListener('click', e => { 
+                if (window.innerWidth <= 768) { 
+                    e.preventDefault(); 
+                    btn.parentElement.classList.toggle('active'); 
+                } 
+            });
+        });
+
+        const curiosityFacts = [
+            "La palabra 'perfume' viene del latín 'per fumum', que significa 'a través del humo'.",
+            "El ámbar gris, un ingrediente legendario, cura naturalmente en el océano durante años creando un aroma inimitable.",
+            "La piel de cada persona posee un pH único, por eso una misma fragancia evoluciona de manera diferente en cada persona.",
+            "Guardar tus fragancias en un lugar fresco y protegido de la luz solar preserva sus aceites intactos por muchos años.",
+            "El 'Sillage' es la hermosa estela olfativa que dejas en el aire al caminar.",
+            "La ciudad de Grasse en la Costa Azul francesa es reconocida mundialmente como la capital histórica del perfume.",
+            "El olfato es el sentido con mayor capacidad de evocar recuerdos y emociones vivas de forma instantánea.",
+            "El oud, resina aromática de Aquilaria, es una de las materias primas más preciadas y complejas de la alta perfumería."
+        ];
+        const curiosityCardContainer = document.getElementById('curiosity-card-container');
+        const curiosityCardText = curiosityCardContainer.querySelector('.card-text');
+        let lastFactIndex = -1;
+
+        function showRandomFact() {
+            let idx; do { idx = Math.floor(Math.random() * curiosityFacts.length); } while (idx === lastFactIndex && curiosityFacts.length > 1);
+            curiosityCardText.textContent = curiosityFacts[idx]; lastFactIndex = idx;
+            const pos = [ { top: '95px', left: '20px' }, { top: '95px', right: '20px' }, { bottom: '95px', left: '20px' }, { bottom: '95px', right: '20px' } ];
+            const randomPos = pos[Math.floor(Math.random() * pos.length)];
+            Object.assign(curiosityCardContainer.style, { top: 'auto', bottom: 'auto', left: 'auto', right: 'auto', ...randomPos });
+            curiosityCardContainer.classList.add('visible');
+            setTimeout(() => curiosityCardContainer.classList.remove('visible'), 8000);
+        }
+
+        window.addEventListener('load', () => { 
+            if (curiosityFacts.length > 0) { 
+                setTimeout(showRandomFact, 5000); 
+                setInterval(showRandomFact, 20000); 
+            } 
+        });
+    </script>
+</body>
+</html>
